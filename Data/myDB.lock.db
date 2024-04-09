@@ -1,0 +1,6 @@
+#FileLock
+#Wed Apr 10 00:12:30 HKT 2024
+hostName=MickeyTKC
+id=18ec3a1e488288c0153a5587b381bd62fa880a0000d
+method=file
+server=192.168.0.10\:52001
