@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class TicketUser {
+public class User {
     @Id
     private String username;
 
@@ -17,9 +17,9 @@ public class TicketUser {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
 
-    public TicketUser() {}
+    public User() {}
 
-    public TicketUser(String username, String password, String[] roles) {
+    public User(String username, String password, String[] roles) {
         this.username = username;
         this.password = "{noop}" + password;
         for (String role : roles) {
