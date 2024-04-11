@@ -1,5 +1,7 @@
 package hkmu.comps380f.model;
 
+import jakarta.persistence.OneToMany;
+
 public class User {
     private String id;
     private String password;
@@ -7,6 +9,8 @@ public class User {
     private String email;
     private String address;
     private String userRole;
+    @OneToMany(mappedBy = "user")
+    private Comment comment;
 
     public String getId() {
         return id;
@@ -54,5 +58,13 @@ public class User {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }

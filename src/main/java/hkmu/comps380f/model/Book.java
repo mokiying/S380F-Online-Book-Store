@@ -1,7 +1,8 @@
 package hkmu.comps380f.model;
 
-import java.util.Collection;
-import java.util.Map;
+import jakarta.persistence.OneToMany;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Book {
@@ -11,6 +12,9 @@ public class Book {
     private double price;
     private String description;
     private boolean available;
+
+    @OneToMany(mappedBy = "book")
+    private List<Comment> comments = new ArrayList<>();
     private Map<String, Attachment> attachments = new ConcurrentHashMap<>();
 
     // getter setter
@@ -67,4 +71,12 @@ public class Book {
     public Collection<Attachment> getAttachments() { return this.attachments.values(); }
     public void addAttachment(Attachment attachment) { this.attachments.put(attachment.getId(), attachment); }
     public int getNumberOfAttachments() { return this.attachments.size(); }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

@@ -2,13 +2,16 @@ package hkmu.comps380f.model;
 
 
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 public class Comment {
 
     @Id
     private long id;
-    private String bookId;
-    private String userId;
+    @ManyToOne
+    private Book book;
+    @ManyToOne
+    private User user;
     private String content;
 
     public long getId() {
@@ -19,20 +22,20 @@ public class Comment {
         this.id = id;
     }
 
-    public String getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getContent() {
