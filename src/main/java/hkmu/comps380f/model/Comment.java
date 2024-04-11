@@ -1,16 +1,21 @@
 package hkmu.comps380f.model;
 
+
+import jakarta.persistence.Id;
+
 public class Comment {
-    private String id;
+
+    @Id
+    private long id;
     private String bookId;
     private String userId;
     private String content;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
