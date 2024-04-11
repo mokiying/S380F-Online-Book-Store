@@ -1,15 +1,16 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Entity
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userId;
     private LocalDateTime dateTime;

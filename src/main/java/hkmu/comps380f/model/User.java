@@ -1,8 +1,10 @@
 package hkmu.comps380f.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+@Entity
 public class User {
     private String id;
     private String password;

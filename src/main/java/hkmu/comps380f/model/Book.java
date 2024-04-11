@@ -1,11 +1,14 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Entity
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String author;

@@ -1,16 +1,20 @@
 package hkmu.comps380f.model;
 
 
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
+@Entity
 public class Comment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     private Book book;
+    @Column(name = "userId", insertable=false, updatable=false)
+    private long userId;
     @ManyToOne
+    @JoinColumn(name = "userId")
     private User user;
     private String content;
 
