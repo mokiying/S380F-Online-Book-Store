@@ -1,6 +1,7 @@
 package hkmu.comps380f.model;
 
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 public class User {
     private String id;
@@ -11,6 +12,10 @@ public class User {
     private String userRole;
     @OneToMany(mappedBy = "user")
     private Comment comment;
+    @OneToOne
+    private Favourite favourite;
+    @OneToOne
+    private Cart cart;
 
     public String getId() {
         return id;
@@ -66,5 +71,21 @@ public class User {
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public Favourite getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Favourite favourite) {
+        this.favourite = favourite;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }
