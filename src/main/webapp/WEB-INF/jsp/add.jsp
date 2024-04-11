@@ -14,9 +14,10 @@
     <form:input type="number" step="0.01" path="price"/><br/><br/>
     <form:label path="description">Description</form:label><br/>
     <form:textarea path="description" rows="5" cols="30"/><br/><br/>
-    <form:checkbox path="available" label="Available"/><br/><br/>
+    <form:label path="availability">Availability</form:label><br/>
+    <form:input type="number" step="1" path="availability"/><br/><br/>
     <b>Attachments</b><br/>
-    <input type="file" name="attachments" multiple="multiple"/><br/><br/>
+    <input type="file" name="attachments" multiple="multiple" accept="image/png, image/gif, image/jpeg"/><br/><br/>
     <input type="submit" value="Submit"/>
 </form:form>
 </body>

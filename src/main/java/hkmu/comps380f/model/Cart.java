@@ -1,18 +1,13 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 public class Cart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+
     private User user;
-    @OneToMany(mappedBy = "cart")
     private List<BookItem> bookItems = new ArrayList<>();
 
     public long getId() {

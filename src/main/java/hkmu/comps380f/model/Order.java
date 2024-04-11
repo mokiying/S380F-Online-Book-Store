@@ -1,23 +1,18 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.*;
 
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Entity
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userId;
     private LocalDateTime dateTime;
     private String state;
     private int totalNum;
     private Double totalPrice;
-    @OneToMany(mappedBy = "order")
     private List<BookItem> bookItems = new ArrayList<>();
     //{ [bookId, name, author, price, qty] }
 

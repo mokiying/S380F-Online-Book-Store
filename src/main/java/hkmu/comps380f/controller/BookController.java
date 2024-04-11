@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +45,7 @@ public class BookController {
         private String author;
         private double price;
         private String description;
-        private boolean available;
+        private int availability;
         private List<MultipartFile> attachments;
 
         public String getName() {
@@ -79,12 +80,12 @@ public class BookController {
             this.description = description;
         }
 
-        public boolean isAvailable() {
-            return available;
+        public int getAvailability() {
+            return availability;
         }
 
-        public void setAvailable(boolean available) {
-            this.available = available;
+        public void setAvailability(int availability) {
+            this.availability = availability;
         }
 
         public List<MultipartFile> getAttachments() {
@@ -104,7 +105,7 @@ public class BookController {
         book.setAuthor(form.getAuthor());
         book.setPrice(form.getPrice());
         book.setDescription(form.getDescription());
-        book.setAvailable(form.isAvailable());
+        book.setAvailability(form.getAvailability());
 
         for (MultipartFile filePart : form.getAttachments()) {
             Attachment attachment = new Attachment();
@@ -127,12 +128,20 @@ public class BookController {
         if (book == null) {
             return "redirect:/book/list";
         }
-        Attachment attachment = book.getAttachment("cover");
-        byte[] imageBytes = attachment.getContents();
-        String imageData = Base64.getEncoder().encodeToString(imageBytes);
-        model.addAttribute("imageData", imageData);
+        // book Data
         model.addAttribute("bookId", bookId);
         model.addAttribute("book", book);
+        // cover image
+        Attachment attachment = book.getAttachment("cover");
+        String imageData = "";
+        if (attachment!=null) {
+            byte[] imageBytes = attachment.getContents();
+            imageData = Base64.getEncoder().encodeToString(imageBytes);
+        }
+        model.addAttribute("imageData", imageData);
+        // comments
+        Map<Integer, Comment> comments = book.getComments();
+        model.addAttribute("comments", comments);
         return "view";
     }
 
@@ -147,5 +156,39 @@ public class BookController {
                         attachment.getMimeContentType(), attachment.getContents());
         }
         return new RedirectView("/book/list", true);
+    }
+
+    @GetMapping("/view/{bookId}/comment/add")
+    public ModelAndView addComment() {
+        return new ModelAndView("addComment", "commentForm", new CommentForm());
+    }
+    public static class CommentForm {
+        private String username;
+        private String content;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+    @PostMapping("/view/{bookId}/comment/add")
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException {
+        Book book = bookDB.get(bookId);
+        Comment comment = new Comment();
+        comment.setUsername(form.getUsername());
+        comment.setContent(form.getContent());
+        book.addComment(comment);
+        return new RedirectView("/book/view/" + book.getId(), true);
     }
 }

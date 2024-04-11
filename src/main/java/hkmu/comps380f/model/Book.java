@@ -1,23 +1,17 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.*;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Entity
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String author;
     private double price;
     private String description;
-    private boolean available;
+    private int availability;
 
-    @OneToMany(mappedBy = "book")
-    private List<Comment> comments = new ArrayList<>();
+    private Map<Integer, Comment> comments = new ConcurrentHashMap<>();
     private Map<String, Attachment> attachments = new ConcurrentHashMap<>();
 
     // getter setter
@@ -61,12 +55,12 @@ public class Book {
         this.description = description;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public int getAvailability() {
+        return availability;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setAvailability(int availability) {
+        this.availability = availability;
     }
 
     public Attachment getAttachment(String name) { return this.attachments.get(name); }
@@ -75,11 +69,20 @@ public class Book {
     public void addAttachment(Attachment attachment) { this.attachments.put(attachment.getId(), attachment); }
     public int getNumberOfAttachments() { return this.attachments.size(); }
 
-    public List<Comment> getComments() {
+    public Map<Integer, Comment> getComments() {
         return comments;
     }
+    public void addComment(Comment comment) { this.comments.put(this.comments.size(),comment); }
+    public Comment getcomment(int i) { return this.comments.get(i); }
+    public void setComment(int i, Comment comment){
+        this.comments.put(i,comment);
+    }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Map<Integer, Comment> comments) {
         this.comments = comments;
+    }
+
+    public void setAttachments(Map<String, Attachment> attachments) {
+        this.attachments = attachments;
     }
 }

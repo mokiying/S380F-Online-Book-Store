@@ -1,15 +1,7 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.*;
-
-
-@Entity
 public class BookItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne
     private Book book;
     private int quantity;
 

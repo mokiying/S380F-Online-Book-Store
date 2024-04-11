@@ -1,22 +1,12 @@
 package hkmu.comps380f.model;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 public class Favourite {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
     private User user;
-    @OneToMany(mappedBy = "favourite", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
     private List<BookItem> bookItems = new ArrayList<>();
 
     public long getId() {
