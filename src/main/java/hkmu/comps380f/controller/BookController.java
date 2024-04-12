@@ -1,7 +1,10 @@
 package hkmu.comps380f.controller;
 
+import hkmu.comps380f.dao.BookService;
+import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.model.*;
 import hkmu.comps380f.view.DownloadingView;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,10 +32,11 @@ public class BookController {
     private synchronized long getNextBookId() {
         return this.BOOK_ID_SEQUENCE++;
     }
-    private Map<Long, Book> bookDB = new ConcurrentHashMap<>();
+    @Resource
+    private BookService bService;
     @GetMapping(value = {"", "/list"})
     public String list(ModelMap model) {
-        model.addAttribute("bookDB", bookDB);
+        model.addAttribute("bookDB", bService.get());
         return "list";
     }
 
@@ -99,32 +103,21 @@ public class BookController {
 
     @PostMapping("/create")
     public View create(Form form) throws IOException {
-        Book book = new Book();
-        book.setId(this.getNextBookId());
-        book.setName(form.getName());
-        book.setAuthor(form.getAuthor());
-        book.setPrice(form.getPrice());
-        book.setDescription(form.getDescription());
-        book.setAvailability(form.getAvailability());
-
-        for (MultipartFile filePart : form.getAttachments()) {
-            Attachment attachment = new Attachment();
-            attachment.setId("cover");
-            attachment.setName(filePart.getOriginalFilename());
-            attachment.setMimeContentType(filePart.getContentType());
-            attachment.setContents(filePart.getBytes());
-            if (attachment.getName() != null && attachment.getName().length() > 0
-                    && attachment.getContents() != null && attachment.getContents().length > 0)
-                book.addAttachment(attachment);
-        }
-        this.bookDB.put(book.getId(), book);
-        return new RedirectView("/book/view/" + book.getId(), true);
+        long bookId = bService.createBook(
+                form.getName(),
+                form.getAuthor(),
+                form.getPrice(),
+                form.getDescription(),
+                form.getAvailability(),
+                form.getAttachments()
+        );
+        return new RedirectView("/book/view/" + bookId, true);
     }
 
     @GetMapping("/view/{bookId}")
     public String view(@PathVariable("bookId") long bookId,
-                       ModelMap model) {
-        Book book = this.bookDB.get(bookId);
+                       ModelMap model) throws BookNotFound {
+        Book book = bService.getBook(bookId);
         if (book == null) {
             return "redirect:/book/list";
         }
@@ -147,8 +140,8 @@ public class BookController {
 
     @GetMapping("/{bookId}/attachment/{attachment:.+}")
     public View download(@PathVariable("bookId") long bookId,
-                         @PathVariable("attachment") String AttachmentId) {
-        Book book = this.bookDB.get(bookId);
+                         @PathVariable("attachment") String AttachmentId) throws BookNotFound {
+        Book book = bService.getBook(bookId);
         if (book != null) {
             Attachment attachment = book.getAttachments().get(0);
             if (attachment != null)
@@ -159,8 +152,8 @@ public class BookController {
     }
 
     @GetMapping("/view/{bookId}/comment/add")
-    public ModelAndView addComment(@PathVariable("bookId") long bookId, ModelMap model) {
-        Book book = bookDB.get(bookId);
+    public ModelAndView addComment(@PathVariable("bookId") long bookId, ModelMap model) throws BookNotFound {
+        Book book = bService.getBook(bookId);
         model.addAttribute("bookId", bookId);
         model.addAttribute("book", book);
         return new ModelAndView("addComment", "commentForm", new CommentForm());
@@ -195,13 +188,15 @@ public class BookController {
         }
     }
     @PostMapping("/view/{bookId}/comment/add")
-    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException {
-        Book book = bookDB.get(bookId);
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException, BookNotFound{
+        Book book = bService.getBook(bookId);
+        /*
         Comment comment = new Comment();
         comment.setUsername(form.getUsername());
         comment.setBookId(bookId);
         comment.setContent(form.getContent());
         book.addComment(comment);
+         */
         return new RedirectView("/book/view/" + book.getId(), true);
     }
 }
