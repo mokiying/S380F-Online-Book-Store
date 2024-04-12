@@ -132,7 +132,7 @@ public class BookController {
         model.addAttribute("bookId", bookId);
         model.addAttribute("book", book);
         // cover image
-        Attachment attachment = book.getAttachment("cover");
+        Attachment attachment = book.getAttachments().get(0);
         String imageData = "";
         if (attachment!=null) {
             byte[] imageBytes = attachment.getContents();
@@ -140,7 +140,7 @@ public class BookController {
         }
         model.addAttribute("imageData", imageData);
         // comments
-        Map<Integer, Comment> comments = book.getComments();
+        Map<Integer, Comment> comments = new HashMap<>(); //book.getComments();
         model.addAttribute("comments", comments);
         return "view";
     }
@@ -150,7 +150,7 @@ public class BookController {
                          @PathVariable("attachment") String AttachmentId) {
         Book book = this.bookDB.get(bookId);
         if (book != null) {
-            Attachment attachment = book.getAttachment(AttachmentId);
+            Attachment attachment = book.getAttachments().get(0);
             if (attachment != null)
                 return new DownloadingView(attachment.getName(),
                         attachment.getMimeContentType(), attachment.getContents());

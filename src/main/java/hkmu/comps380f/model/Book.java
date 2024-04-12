@@ -1,6 +1,9 @@
 package hkmu.comps380f.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,13 +18,12 @@ public class Book {
     private String description;
     private int availability;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @MapKeyColumn(name = "comment_id")
-    private Map<Integer, Comment> comments = new ConcurrentHashMap<>();
+    //private Map<Integer, Comment> comments = new ConcurrentHashMap<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @MapKeyColumn(name = "attachment_name")
-    private Map<String, Attachment> attachments = new ConcurrentHashMap<>();
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private ArrayList<Attachment> attachments = new ArrayList<>();
 
     // getter setter
 
@@ -73,22 +75,24 @@ public class Book {
         this.availability = availability;
     }
 
-    public Attachment getAttachment(String name) {
-        return this.attachments.get(name);
+
+    public ArrayList<Attachment> getAttachments() {
+        return attachments;
     }
 
-    public Collection<Attachment> getAttachments() {
-        return this.attachments.values();
+    public void setAttachments(ArrayList<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
-    public void addAttachment(Attachment attachment) {
-        this.attachments.put(attachment.getName(), attachment);
+    public void deleteAttachment(Attachment attachment) {
+        attachment.setBook(null);
+        this.attachments.remove(attachment);
     }
 
     public int getNumberOfAttachments() {
         return this.attachments.size();
     }
-
+    /*
     public Map<Integer, Comment> getComments() {
         return comments;
     }
@@ -111,5 +115,5 @@ public class Book {
 
     public void setAttachments(Map<String, Attachment> attachments) {
         this.attachments = attachments;
-    }
+    }*/
 }
