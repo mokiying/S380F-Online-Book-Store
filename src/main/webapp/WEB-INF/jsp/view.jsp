@@ -10,10 +10,10 @@
 <b>Availability - <c:out value="${book.availability}" /></b><br/><br/>
 
 <c:if test="${book.numberOfAttachments > 0}">
-    <h3>Attachments:</h3>
+    <h3>Cover:</h3>
     <c:forEach items="${book.attachments}" var="attachment" varStatus="status">
         <a href="<c:url value='/book/${book.id}/attachment/${attachment.id}' />">
-            Attachment #${status.index + 1}
+            <img style="max-width:600px;" src="data:image/jpeg;base64,${imageData}" />
         </a>
         <br/>
     </c:forEach>
