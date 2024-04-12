@@ -164,7 +164,16 @@ public class BookController {
     }
     public static class CommentForm {
         private String username;
+        private long bookId;
         private String content;
+
+        public long getBookId() {
+            return bookId;
+        }
+
+        public void setBookId(long bookId) {
+            this.bookId = bookId;
+        }
 
         public String getUsername() {
             return username;
@@ -183,10 +192,13 @@ public class BookController {
         }
     }
     @PostMapping("/view/{bookId}/comment/add")
-    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException {
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form, ModelMap model) throws IOException {
         Book book = bookDB.get(bookId);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("book", book);
         Comment comment = new Comment();
         comment.setUsername(form.getUsername());
+        comment.setBookId(bookId);
         comment.setContent(form.getContent());
         book.addComment(comment);
         return new RedirectView("/book/view/" + book.getId(), true);
