@@ -26,8 +26,6 @@ public class Attachment {
     private Book book;
 
     // Getters and Setters of id, name, mimeContentType, contents
-
-
     public UUID getId() {
         return id;
     }

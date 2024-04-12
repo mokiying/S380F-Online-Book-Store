@@ -11,11 +11,30 @@
         <i>There are no Books in the system.</i>
     </c:when>
     <c:otherwise>
-        <c:forEach items="${bookDB}" var="entry">
-            Book  ${entry.key}:
-            <a href="<c:url value="/book/view/${entry.key}" />">
-                <c:out value="${entry.value.name}"/></a>
-        </c:forEach>
+        <table border="1">
+            <caption>Books</caption>
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${bookDB}" var="entry">
+                    <tr>
+                        <td>${entry.name}</td>
+                        <td>${entry.author}</td>
+                        <td>${entry.price}</td>
+                        <td><a href="<c:url value="/book/view/${entry.id}" />">
+                            Details
+                        </a></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+
     </c:otherwise>
 </c:choose>
 </body>

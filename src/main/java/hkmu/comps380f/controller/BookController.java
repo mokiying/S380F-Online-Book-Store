@@ -125,9 +125,9 @@ public class BookController {
         model.addAttribute("bookId", bookId);
         model.addAttribute("book", book);
         // cover image
-        Attachment attachment = book.getAttachments().get(0);
         String imageData = "";
-        if (attachment!=null) {
+        if (book.getAttachments().size() > 0) {
+            Attachment attachment = book.getAttachments().get(0);
             byte[] imageBytes = attachment.getContents();
             imageData = Base64.getEncoder().encodeToString(imageBytes);
         }

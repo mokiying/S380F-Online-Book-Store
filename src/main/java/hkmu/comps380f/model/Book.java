@@ -17,15 +17,10 @@ public class Book {
     private double price;
     private String description;
     private int availability;
-
-    //private Map<Integer, Comment> comments = new ConcurrentHashMap<>();
-
     @OneToMany(mappedBy = "book", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private ArrayList<Attachment> attachments = new ArrayList<>();
-
-    // getter setter
+    private List<Attachment> attachments = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -76,11 +71,11 @@ public class Book {
     }
 
 
-    public ArrayList<Attachment> getAttachments() {
+    public List<Attachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(ArrayList<Attachment> attachments) {
+    public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
 
@@ -89,31 +84,7 @@ public class Book {
         this.attachments.remove(attachment);
     }
 
-    public int getNumberOfAttachments() {
+    public int numberOfAttachments(){
         return this.attachments.size();
     }
-    /*
-    public Map<Integer, Comment> getComments() {
-        return comments;
-    }
-
-    public void addComment(Comment comment) {
-        this.comments.put(this.comments.size(), comment);
-    }
-
-    public Comment getComment(int i) {
-        return this.comments.get(i);
-    }
-
-    public void setComment(int i, Comment comment) {
-        this.comments.put(i, comment);
-    }
-
-    public void setComments(Map<Integer, Comment> comments) {
-        this.comments = comments;
-    }
-
-    public void setAttachments(Map<String, Attachment> attachments) {
-        this.attachments = attachments;
-    }*/
 }

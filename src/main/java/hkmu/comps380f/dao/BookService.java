@@ -93,7 +93,7 @@ public class BookService {
                 book.getAttachments().add(attachment);
             }
         }
-        Book savedTicket = bRepo.save(book);
-        return savedTicket.getId();
+        Book savedBook = bRepo.save(book);
+        return savedBook.getId();
     }
 }
