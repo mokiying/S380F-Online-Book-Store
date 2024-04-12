@@ -159,7 +159,10 @@ public class BookController {
     }
 
     @GetMapping("/view/{bookId}/comment/add")
-    public ModelAndView addComment() {
+    public ModelAndView addComment(@PathVariable("bookId") long bookId, ModelMap model) {
+        Book book = bookDB.get(bookId);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("book", book);
         return new ModelAndView("addComment", "commentForm", new CommentForm());
     }
     public static class CommentForm {
@@ -192,10 +195,8 @@ public class BookController {
         }
     }
     @PostMapping("/view/{bookId}/comment/add")
-    public View addComment(@PathVariable("bookId") long bookId, CommentForm form, ModelMap model) throws IOException {
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException {
         Book book = bookDB.get(bookId);
-        model.addAttribute("bookId", bookId);
-        model.addAttribute("book", book);
         Comment comment = new Comment();
         comment.setUsername(form.getUsername());
         comment.setBookId(bookId);
