@@ -4,6 +4,7 @@ import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.Comment;
 import hkmu.comps380f.model.User;
+import hkmu.comps380f.model.UserRole;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
 import jakarta.annotation.*;
@@ -61,26 +62,14 @@ public class UserService {
         User savedUser = uRepo.save(user);
         return savedUser.getUsername();
     }
-
-//Comment
     @Transactional
-    public Comment getComment(String username, long commentId)
-            throws UserNotFound, CommentNotFound {
+    public void deleteUser(String username) throws UserNotFound{
         User user = uRepo.findById(username).orElse(null);
-        if (user == null) {
-            throw new UserNotFound(username);
+        if (user == null) throw new UserNotFound("User '" + username + "' not found.");
+        for(UserRole role : user.getRoles()){
+            role.setUser(null);
         }
-        Comment comment = comRepo.findById(commentId).orElse(null);
-        if (comment == null) {
-            throw new CommentNotFound(commentId);
-        }
-        return comment;
-    }
-    @Transactional
-    public void deleteComment(long commentId) throws CommentNotFound {
-        Comment comment = comRepo.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
-        comment.setBook(null);
-        comRepo.delete(comment);
+        user.setRoles(null);
+        uRepo.delete(user);
     }
 }
