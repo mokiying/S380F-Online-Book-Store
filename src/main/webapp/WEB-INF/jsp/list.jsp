@@ -2,10 +2,15 @@
 <html>
 <head>
     <title>Online Book Store</title>
+    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <style> body {padding:5rem;} </style>
 </head>
 <body>
 <h2>Book</h2>
-<a href="<c:url value="/book/create" />">Create a Book</a><br/><br/>
+<div>
+    <a href="<c:url value="/book/create" />">Create a Book</a>
+    <a href="<c:url value="/user/list" />">User Management</a>
+</div>
 <c:choose>
     <c:when test="${fn:length(bookDB) == 0}">
         <i>There are no Books in the system.</i>

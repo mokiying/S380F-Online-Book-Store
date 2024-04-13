@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Home</title>
+    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <style> body {padding:5rem;} </style>
 </head>
 <body>
 <h1>Welcome to S380F Book Store</h1>

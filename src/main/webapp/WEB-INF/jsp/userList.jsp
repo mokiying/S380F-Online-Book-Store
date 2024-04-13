@@ -2,9 +2,12 @@
 <html>
 <head>
     <title>Online Book Store</title>
+    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <style> body {padding:5rem;} </style>
 </head>
 <body>
 <h2>User</h2>
+<a href="<c:url value='/book/list'/>">Back</a>
 <a href="<c:url value="/bookUser/create" />">Create a User</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(userDB) == 0}">
@@ -12,7 +15,6 @@
     </c:when>
     <c:otherwise>
         <table border="1">
-            <caption>Users</caption>
             <thead>
             <tr>
                 <th>User Name</th>

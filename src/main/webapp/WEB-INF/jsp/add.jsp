@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Online Book Store</title>
+    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <style> body {padding:5rem;} </style>
 </head>
 <body>
 <h2>Create a Book</h2>

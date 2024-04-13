@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Online Book Store</title>
-</head>
+    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <style> body {padding:5rem;} </style>
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
