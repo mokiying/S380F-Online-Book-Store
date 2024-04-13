@@ -79,11 +79,11 @@ public class User {
         this.userRole = userRole;
     }
 
-    public List<Comment> getComment() {
+    public List<Comment> getComments() {
         return comment;
     }
 
-    public void setComment(List<Comment> comment) {
+    public void setComments(List<Comment> comment) {
         this.comment = comment;
     }
 
