@@ -32,8 +32,10 @@
         <ul>
             <c:forEach var="comment" items="${comments}">
                 <li>
-                    <b><c:out value="${comment.username}"/>:</b>
+                    <p><b><c:out value="${comment.username}"/>:</b>
                     <c:out value="${comment.content}"/>
+                    </p>
+                    <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
                 </li>
             </c:forEach>
         </ul>
