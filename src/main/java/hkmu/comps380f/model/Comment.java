@@ -1,9 +1,37 @@
 package hkmu.comps380f.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "username")
     private String username;
-    private long bookId;
+    @Column(name = "content")
     private String content;
+    @Column(name = "book_id", insertable=false, updatable=false)
+    private long bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     public String getContent() {
         return content;

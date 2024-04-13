@@ -15,10 +15,12 @@ import java.util.UUID;
 
 @Service
 public class BookService {
+    // Resources
     @Resource
     private BookRepository bRepo;
     @Resource
     private AttachmentRepository aRepo;
+    // Transaction of Book
     @Transactional
     public List<Book> getBooks() {
         return bRepo.findAll();
@@ -61,17 +63,16 @@ public class BookService {
     }
     @Transactional
     public void deleteBook(long bookId) throws BookNotFound, AttachmentNotFound{
-        // 1. Find the book by its ID
-        System.out.println("Finding Book");
+        // 1. Find the book by its ID;
         Book book = bRepo.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
-        System.out.println("Found Book");
         for (Attachment attachment : book.getAttachments()) {
             attachment.setBook(null);
             aRepo.delete(attachment);
         }
         bRepo.delete(book);
     }
+    // Transaction of Attachment
     @Transactional
     public Attachment getAttachment(long bookId, UUID attachmentId)
             throws BookNotFound, AttachmentNotFound {
@@ -85,6 +86,9 @@ public class BookService {
         }
         return attachment;
     }
+    // Transaction of Comment
+    @Transactional
+    public void addComment(long bookId) throws BookNotFound {}
 }
 
 
