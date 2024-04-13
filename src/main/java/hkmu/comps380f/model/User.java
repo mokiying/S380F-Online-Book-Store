@@ -17,15 +17,6 @@ public class User {
     private String fullName;
     private String email;
     private String address;
-
-    public List<UserRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<UserRole> roles) {
-        this.roles = roles;
-    }
-
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
@@ -34,6 +25,25 @@ public class User {
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
+
+    public User() {}
+
+    public User(String username, String password, String[] roles) {
+        this.username = username;
+        this.password = "{noop}" + password;
+        for (String role : roles) {
+            this.roles.add(new UserRole(this, role));
+        }
+    }
+
+
+    public List<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
+    }
 
     public String getUsername() {
         return username;

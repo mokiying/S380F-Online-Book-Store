@@ -17,8 +17,12 @@
     <li><b>email:</b><c:out value="${user.email}" /></li><br/>
     <li><b>address:</b><c:out value="${user.address}" /></li><br/>
 </ul>
-<h3>Comments</h3>
-
+<h2>Roles</h2>
+<ul>
+    <c:forEach var="r" items="${roles}">
+        <li><c:out value='${r.role}'/> </li>
+    </c:forEach>
+</ul>
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">
         <table border="1">
