@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>User</h2>
-<a href="<c:url value="/user/create" />">Create a User</a><br/><br/>
+<a href="<c:url value="/bookUser/create" />">Create a User</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(userDB) == 0}">
         <i>There are no Users in the system.</i>
@@ -27,7 +27,7 @@
                     <td>${entry.username}</td>
                     <td>${entry.fullName}</td>
                     <td>${entry.email}</td>
-                    <td><a href="<c:url value="/user/detail/${entry.username}" />">
+                    <td><a href="<c:url value="/bookUser/detail/${entry.username}" />">
                         Details
                     </a></td>
                 </tr>

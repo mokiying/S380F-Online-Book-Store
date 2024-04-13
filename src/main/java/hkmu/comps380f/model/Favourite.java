@@ -14,7 +14,7 @@ public class Favourite {
     private long id;
     @OneToOne
     @JoinColumn(name = "book_id")
-    private User user;
+    private BookUser bookUser;
     @Column(name = "username", insertable=false, updatable=false)
     private String username;
     @OneToMany(mappedBy = "favourite", fetch = FetchType.EAGER,
@@ -30,12 +30,12 @@ public class Favourite {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public BookUser getUser() {
+        return bookUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(BookUser bookUser) {
+        this.bookUser = bookUser;
     }
 
     public String getUsername() {

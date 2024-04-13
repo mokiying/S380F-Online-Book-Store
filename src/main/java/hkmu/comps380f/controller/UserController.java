@@ -1,8 +1,8 @@
 package hkmu.comps380f.controller;
 
-import hkmu.comps380f.dao.UserService;
+import hkmu.comps380f.dao.UserManagementService;
 import hkmu.comps380f.exception.UserNotFound;
-import hkmu.comps380f.model.User;
+import hkmu.comps380f.model.BookUser;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.View;
 @RequestMapping("/user")
 public class UserController {
     @Resource
-    private UserService uService;
+    private UserManagementService uService;
 
     @GetMapping(value = {"", "/list"})
     public String list(ModelMap model) {
@@ -27,11 +27,11 @@ public class UserController {
     @GetMapping(value = {"", "/detail/{username}"})
     public String view(ModelMap model,
                        @PathVariable("username") String username) throws UserNotFound {
-        User user = uService.getUser(username);
-        if (user == null) throw new UserNotFound(username);
-        model.addAttribute("user", user);
-        model.addAttribute("comments",user.getComments());
-        model.addAttribute("roles",user.getRoles());
+        BookUser bookUser = uService.getUser(username);
+        if (bookUser == null) throw new UserNotFound(username);
+        model.addAttribute("user", bookUser);
+        model.addAttribute("comments", bookUser.getComments());
+        model.addAttribute("roles", bookUser.getRoles());
         return "userDetail";
     }
     @GetMapping(value = {"", "/delete/{username}"})

@@ -11,7 +11,7 @@ public class Comment {
     private String username;
     @ManyToOne
     @JoinColumn(name = "username")
-    private User user;
+    private BookUser bookUser;
     @Column(name = "content")
     private String content;
     @Column(name = "book_id", insertable=false, updatable=false)
@@ -29,12 +29,12 @@ public class Comment {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public BookUser getUser() {
+        return bookUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(BookUser bookUser) {
+        this.bookUser = bookUser;
     }
 
     public Book getBook() {

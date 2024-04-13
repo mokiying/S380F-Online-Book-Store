@@ -5,10 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 //@Entity
@@ -19,7 +16,7 @@ public class Cart {
     private String username;
     @OneToOne
     @JoinColumn(name = "username")
-    private User user;
+    private BookUser bookUser;
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
@@ -41,12 +38,12 @@ public class Cart {
         this.username = username;
     }
 
-    public User getUser() {
-        return user;
+    public BookUser getUser() {
+        return bookUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(BookUser bookUser) {
+        this.bookUser = bookUser;
     }
 
     public List<BookItem> getBookItems() {

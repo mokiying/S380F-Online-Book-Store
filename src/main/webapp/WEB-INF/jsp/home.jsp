@@ -10,7 +10,7 @@
 <button onclick="redirectTo('/bookList')">Book List</button>
 <button onclick="redirectTo('/cart')">Cart</button>
 <button onclick="redirectTo('/history')">History</button>
-<button onclick="redirectTo('/user')">My Information</button>
+<button onclick="redirectTo('/bookUser')">My Information</button>
 
 <script>
     function redirectTo(url) {

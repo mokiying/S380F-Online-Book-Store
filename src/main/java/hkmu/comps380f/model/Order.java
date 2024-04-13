@@ -19,7 +19,7 @@ public class Order {
     private String username;
     @OneToOne
     @JoinColumn(name = "username")
-    private User user;
+    private BookUser bookUser;
     private LocalDateTime dateTime;
     private String state;
     private int totalNum;
@@ -45,12 +45,12 @@ public class Order {
         this.username = username;
     }
 
-    public User getUser() {
-        return user;
+    public BookUser getUser() {
+        return bookUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(BookUser bookUser) {
+        this.bookUser = bookUser;
     }
 
     public LocalDateTime getDateTime() {
