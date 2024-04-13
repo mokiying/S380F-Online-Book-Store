@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Entity
+//@Entity
 public class Cart {
     @Id
     private long id;

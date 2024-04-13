@@ -22,14 +22,14 @@ public class User {
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comment = new ArrayList<>();
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
+    /*@OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private Favourite favourite;
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private Cart cart;
+    private Cart cart;*/
 
     public String getUsername() {
         return username;
@@ -87,7 +87,7 @@ public class User {
         this.comment = comment;
     }
 
-    public Favourite getFavourite() {
+    /*public Favourite getFavourite() {
         return favourite;
     }
 
@@ -101,5 +101,5 @@ public class User {
 
     public void setCart(Cart cart) {
         this.cart = cart;
-    }
+    }*/
 }

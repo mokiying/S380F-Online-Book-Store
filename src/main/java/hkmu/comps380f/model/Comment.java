@@ -7,8 +7,11 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "username")
+    @Column(name = "username", insertable=false, updatable=false)
     private String username;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
     @Column(name = "content")
     private String content;
     @Column(name = "book_id", insertable=false, updatable=false)
@@ -23,6 +26,14 @@ public class Comment {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Book getBook() {

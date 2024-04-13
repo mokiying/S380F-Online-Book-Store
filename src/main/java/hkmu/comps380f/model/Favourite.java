@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity public class Favourite {
+//@Entity
+public class Favourite {
     @Id
     private long id;
     @OneToOne
