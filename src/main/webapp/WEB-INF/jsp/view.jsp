@@ -5,11 +5,15 @@
 </head>
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
+<div>
+    <a href="<c:url value='/book/list'/>">Back</a>
+    <a>Update</a>
+    <a href="<c:url value='/book/delete/${book.id}'/>" />Delete</a>
+</div>
 <c:choose>
     <c:when test="${!empty imageData}">
-        <a href="<c:url value='/book/${book.id}/attachment/${attachment.id}' />">
-            <img style="max-width:600px;" src="data:image/jpeg;base64,${imageData}" />
-        </a><br/>
+        <img style="max-width:600px;max-height:400px;" src="data:image/jpeg;base64,${imageData}" />
+        <br/>
     </c:when>
     <c:otherwise><h3>No cover image available.</h3></c:otherwise>
 </c:choose>
@@ -19,6 +23,21 @@
 <li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
 <li><b>Description:</b><p><c:out value="${book.description}" /></p></li><br/>
 </ul>
-<a href="<c:url value='/book/list' />">Return to book list</a>
+<h3>Comments</h3>
+<c:choose>
+    <c:when test="${fn:length(comments) > 0}">
+        <ul>
+            <c:forEach var="comment" items="${comments}">
+                <li>
+                    <b><c:out value="${comment.username}"/>:</b>
+                    <c:out value="${comment.content}"/>
+                </li>
+            </c:forEach>
+        </ul>
+    </c:when>
+    <c:otherwise>
+        <b>No Comments</b>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>
