@@ -20,7 +20,7 @@ public class BookService {
     @Resource
     private AttachmentRepository aRepo;
     @Transactional
-    public List<Book> get() {
+    public List<Book> getBooks() {
         return bRepo.findAll();
     }
     @Transactional
@@ -31,43 +31,6 @@ public class BookService {
             throw new BookNotFound(id);
         }
         return book;
-    }
-    @Transactional
-    public Attachment getAttachment(long bookId, UUID attachmentId)
-            throws BookNotFound, AttachmentNotFound {
-        Book book = bRepo.findById(bookId).orElse(null);
-        if (book == null) {
-            throw new BookNotFound(bookId);
-        }
-        Attachment attachment = aRepo.findById(attachmentId).orElse(null);
-        if (attachment == null) {
-            throw new AttachmentNotFound(attachmentId);
-        }
-        return attachment;
-    }
-    @Transactional(rollbackFor = BookNotFound.class)
-    public void delete(long id) throws BookNotFound {
-        Book deletedbook = bRepo.findById(id).orElse(null);
-        if (deletedbook == null) {
-            throw new BookNotFound(id);
-        }
-        bRepo.delete(deletedbook);
-    }
-    @Transactional(rollbackFor = AttachmentNotFound.class)
-    public void deleteAttachment(long bookId, UUID attachmentId)
-            throws BookNotFound, AttachmentNotFound {
-        Book book = bRepo.findById(bookId).orElse(null);
-        if (book == null) {
-            throw new BookNotFound(bookId);
-        }
-        for (Attachment attachment : book.getAttachments()) {
-            if (attachment.getId().equals(attachmentId)) {
-                book.deleteAttachment(attachment);
-                bRepo.save(book);
-                return;
-            }
-        }
-        throw new AttachmentNotFound(attachmentId);
     }
     @Transactional
     public long createBook(String name, String author,
@@ -96,4 +59,32 @@ public class BookService {
         Book savedBook = bRepo.save(book);
         return savedBook.getId();
     }
+    @Transactional
+    public void deleteBook(long bookId) throws BookNotFound, AttachmentNotFound{
+        // 1. Find the book by its ID
+        System.out.println("Finding Book");
+        Book book = bRepo.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
+        System.out.println("Found Book");
+        for (Attachment attachment : book.getAttachments()) {
+            attachment.setBook(null);
+            aRepo.delete(attachment);
+        }
+        bRepo.delete(book);
+    }
+    @Transactional
+    public Attachment getAttachment(long bookId, UUID attachmentId)
+            throws BookNotFound, AttachmentNotFound {
+        Book book = bRepo.findById(bookId).orElse(null);
+        if (book == null) {
+            throw new BookNotFound(bookId);
+        }
+        Attachment attachment = aRepo.findById(attachmentId).orElse(null);
+        if (attachment == null) {
+            throw new AttachmentNotFound(attachmentId);
+        }
+        return attachment;
+    }
 }
+
+

@@ -1,6 +1,7 @@
 package hkmu.comps380f.controller;
 
 import hkmu.comps380f.dao.BookService;
+import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.model.*;
 import hkmu.comps380f.view.DownloadingView;
@@ -36,7 +37,7 @@ public class BookController {
     private BookService bService;
     @GetMapping(value = {"", "/list"})
     public String list(ModelMap model) {
-        model.addAttribute("bookDB", bService.get());
+        model.addAttribute("bookDB", bService.getBooks());
         return "list";
     }
 
@@ -136,6 +137,11 @@ public class BookController {
         Map<Integer, Comment> comments = new HashMap<>(); //book.getComments();
         model.addAttribute("comments", comments);
         return "view";
+    }
+    @GetMapping("/delete/{bookId}")
+    public View delete(@PathVariable("bookId") long bookId) throws BookNotFound, AttachmentNotFound {
+        bService.deleteBook(bookId);
+        return new RedirectView("/book/list", true);
     }
 
     @GetMapping("/{bookId}/attachment/{attachment:.+}")
