@@ -4,6 +4,7 @@ import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.model.Attachment;
 import hkmu.comps380f.model.Book;
+import hkmu.comps380f.model.Comment;
 import jakarta.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
@@ -46,7 +47,6 @@ public class BookService {
         book.setDescription(description);
         book.setAvailability(availability);
         for (MultipartFile filePart : attachments) {
-            System.out.println("Looping attachments");
             Attachment attachment = new Attachment();
             attachment.setName(filePart.getOriginalFilename());
             attachment.setMimeContentType(filePart.getContentType());
@@ -88,7 +88,18 @@ public class BookService {
     }
     // Transaction of Comment
     @Transactional
-    public void addComment(long bookId) throws BookNotFound {}
+    public void addComment(long bookId, String username, String content) throws BookNotFound {
+        Book book = bRepo.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
+        List<Comment> comments = book.getComments();
+        Comment newComment = new Comment();
+        newComment.setUsername(username);
+        newComment.setContent(content);
+        newComment.setBookId(bookId);
+        newComment.setBook(book);
+        comments.add(newComment);
+        bRepo.save(book);
+    }
 }
 
 

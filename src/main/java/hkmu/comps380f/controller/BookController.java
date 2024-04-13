@@ -158,7 +158,7 @@ public class BookController {
         return new RedirectView("/book/list", true);
     }
 
-    @GetMapping("/view/{bookId}/comment/add")
+    @GetMapping("/comment/add/{bookId}")
     public ModelAndView addComment(@PathVariable("bookId") long bookId, ModelMap model) throws BookNotFound {
         Book book = bService.getBook(bookId);
         model.addAttribute("bookId", bookId);
@@ -194,16 +194,10 @@ public class BookController {
             this.content = content;
         }
     }
-    @PostMapping("/view/{bookId}/comment/add")
+    @PostMapping("/comment/add/{bookId}")
     public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException, BookNotFound{
         Book book = bService.getBook(bookId);
-        /*
-        Comment comment = new Comment();
-        comment.setUsername(form.getUsername());
-        comment.setBookId(bookId);
-        comment.setContent(form.getContent());
-        book.addComment(comment);
-         */
+        bService.addComment(bookId, form.getUsername(), form.getContent());
         return new RedirectView("/book/view/" + book.getId(), true);
     }
 }
