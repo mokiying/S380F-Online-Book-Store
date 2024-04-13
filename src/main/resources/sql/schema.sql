@@ -4,9 +4,11 @@ DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-   username VARCHAR(50) NOT NULL,
-   password VARCHAR(50) NOT NULL,
-   PRIMARY KEY (username)
+      username VARCHAR(255) PRIMARY KEY,
+      password VARCHAR(255),
+      full_name VARCHAR(255),
+      email VARCHAR(255),
+      address VARCHAR(255)
 );
 CREATE TABLE user_roles (
     user_role_id INTEGER GENERATED ALWAYS AS IDENTITY,

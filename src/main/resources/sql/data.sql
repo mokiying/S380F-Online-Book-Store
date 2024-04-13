@@ -1,12 +1,16 @@
-INSERT INTO users VALUES ('keith', '{noop}keithpw');
-INSERT INTO user_roles(username, role) VALUES ('keith', 'ROLE_USER');
-INSERT INTO user_roles(username, role) VALUES ('keith', 'ROLE_ADMIN');
 
-INSERT INTO users VALUES ('john', '{noop}johnpw');
-INSERT INTO user_roles(username, role) VALUES ('john', 'ROLE_ADMIN');
+INSERT INTO users (username, password, full_name, email, address) VALUES
+('mickey', '{noop}password', 'John Doe', 'john.doe@example.com', '123 Main St, Anytown USA'),
+('yelo', '{noop}password', 'Jane Smith', 'jane.smith@example.com', '456 Oak Rd, Somewhere City'),
+('nicky', '{noop}password', 'Bob Johnson', 'bob.johnson@example.com', '789 Elm St, Elsewhere Town');
 
-INSERT INTO users VALUES ('mary', '{noop}marypw');
-INSERT INTO user_roles(username, role) VALUES ('mary', 'ROLE_USER');
+INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_USER');
+INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_ADMIN');
+
+INSERT INTO user_roles(username, role) VALUES ('yelo', 'ROLE_ADMIN');
+INSERT INTO user_roles(username, role) VALUES ('yelo', 'ROLE_USER');
+
+INSERT INTO user_roles(username, role) VALUES ('nicky', 'ROLE_USER');
 
 INSERT INTO book (author, availability, description, name, price) VALUES ('Scott E', 10, 'The Model Thinker by Scott E. Page is a guide to thinking about complex problems. It offers practical tools for modeling and analyzing social, economic or political phenomena, and provides insights on how to make better decisions by understanding the world in a more nuanced way.', 'The Model Thinker', 174);
 INSERT INTO book (author, availability, description, name, price) VALUES ('F. Scott Fitzgerald', 5, 'The Model Thinker by Scott E. Page is a guide to thinking about complex problems. It offers practical tools for modeling and analyzing social, economic or political phenomena, and provides insights on how to make better decisions by understanding the world in a more nuanced way.', 'The Great Gatsby', 9);
