@@ -134,7 +134,8 @@ public class BookController {
         }
         model.addAttribute("imageData", imageData);
         // comments
-        Map<Integer, Comment> comments = new HashMap<>(); //book.getComments();
+        List<Comment> comments = book.getComments();
+        System.out.println("Comments:"+comments.toString());
         model.addAttribute("comments", comments);
         return "view";
     }
