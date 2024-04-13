@@ -1,15 +1,34 @@
 package hkmu.comps380f.model;
 
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class User {
+    @Id
     private String username;
     private String password;
     private String fullName;
     private String email;
     private String address;
     private String userRole;
-    private Comment comment;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Comment> comment = new ArrayList<>();
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private Favourite favourite;
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private Cart cart;
 
     public String getUsername() {
@@ -60,11 +79,11 @@ public class User {
         this.userRole = userRole;
     }
 
-    public Comment getComment() {
+    public List<Comment> getComment() {
         return comment;
     }
 
-    public void setComment(Comment comment) {
+    public void setComment(List<Comment> comment) {
         this.comment = comment;
     }
 

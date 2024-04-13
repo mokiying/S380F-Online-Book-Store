@@ -2,35 +2,55 @@ package hkmu.comps380f.model;
 
 
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Entity
 public class Order {
 
-    private Long id;
-    private String userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "username", insertable=false, updatable=false)
+    private String username;
+    @OneToOne
+    @JoinColumn(name = "username")
+    private User user;
     private LocalDateTime dateTime;
     private String state;
     private int totalNum;
     private Double totalPrice;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private List<BookItem> bookItems = new ArrayList<>();
-    //{ [bookId, name, author, price, qty] }
 
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getDateTime() {
