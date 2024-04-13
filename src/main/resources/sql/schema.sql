@@ -39,3 +39,4 @@ CREATE TABLE comment (
      book_id BIGINT,
      CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES Book(id)
 );
+
