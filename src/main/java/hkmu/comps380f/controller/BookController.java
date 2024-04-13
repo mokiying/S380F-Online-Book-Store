@@ -4,10 +4,12 @@ import hkmu.comps380f.dao.BookService;
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.CommentNotFound;
+import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.*;
 import hkmu.comps380f.view.DownloadingView;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +21,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/book")
@@ -167,7 +171,6 @@ public class BookController {
         return new ModelAndView("addComment", "commentForm", new CommentForm());
     }
     public static class CommentForm {
-        private String username;
         private long bookId;
         private String content;
 
@@ -178,15 +181,6 @@ public class BookController {
         public void setBookId(long bookId) {
             this.bookId = bookId;
         }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
         public String getContent() {
             return content;
         }
@@ -196,9 +190,10 @@ public class BookController {
         }
     }
     @PostMapping("/comment/add/{bookId}")
-    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws BookNotFound{
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form, Principal principal)
+            throws BookNotFound, UserNotFound {
         Book book = bService.getBook(bookId);
-        bService.addComment(bookId, form.getUsername(), form.getContent());
+        bService.addComment(bookId, principal.getName(), form.getContent());
         return new RedirectView("/book/view/" + book.getId(), true);
     }
     @GetMapping("/comment/delete/{commentId}/")

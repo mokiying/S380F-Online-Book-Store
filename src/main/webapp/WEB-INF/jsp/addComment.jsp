@@ -10,8 +10,6 @@
 </div>
 <h3>Add Comment</h3>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm">
-    <form:label path="username">Username: test</form:label><br/>
-    <form:input type="text" path="username" value="test" hidden="true" />
     <form:input type="text" path="bookId" value="${book.id}" hidden="true" /><br/>
     <form:label path="content">Content</form:label><br/>
     <form:textarea path="content" rows="5" cols="30"/><br/><br/>

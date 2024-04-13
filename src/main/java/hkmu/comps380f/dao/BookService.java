@@ -3,8 +3,10 @@ package hkmu.comps380f.dao;
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.CommentNotFound;
+import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.Attachment;
 import hkmu.comps380f.model.Book;
+import hkmu.comps380f.model.BookUser;
 import hkmu.comps380f.model.Comment;
 import jakarta.annotation.*;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class BookService {
     private AttachmentRepository aRepo;
     @Resource
     private CommentRepository cRepo;
+    @Resource
+    private UserManagementService uRepo;
     // Transaction of Book
     @Transactional
     public List<Book> getBooks() {
@@ -99,12 +103,13 @@ public class BookService {
         return comment;
     }
     @Transactional
-    public void addComment(long bookId, String username, String content) throws BookNotFound {
+    public void addComment(long bookId, String username, String content) throws BookNotFound, UserNotFound {
         Book book = bRepo.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
+                .orElseThrow(() -> new BookNotFound(bookId));
         List<Comment> comments = book.getComments();
         Comment newComment = new Comment();
         newComment.setUsername(username);
+        newComment.setBookUser(uRepo.getUser(username));
         newComment.setContent(content);
         newComment.setBookId(bookId);
         newComment.setBook(book);
