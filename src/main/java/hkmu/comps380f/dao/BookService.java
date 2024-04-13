@@ -2,6 +2,7 @@ package hkmu.comps380f.dao;
 
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
+import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.model.Attachment;
 import hkmu.comps380f.model.Book;
 import hkmu.comps380f.model.Comment;
@@ -21,6 +22,8 @@ public class BookService {
     private BookRepository bRepo;
     @Resource
     private AttachmentRepository aRepo;
+    @Resource
+    private CommentRepository cRepo;
     // Transaction of Book
     @Transactional
     public List<Book> getBooks() {
@@ -88,6 +91,14 @@ public class BookService {
     }
     // Transaction of Comment
     @Transactional
+    public Comment getCommment(long id) throws CommentNotFound {
+        Comment comment = cRepo.findById(id).orElse(null);
+        if (comment == null) {
+            throw new CommentNotFound(id);
+        }
+        return comment;
+    }
+    @Transactional
     public void addComment(long bookId, String username, String content) throws BookNotFound {
         Book book = bRepo.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
@@ -99,6 +110,13 @@ public class BookService {
         newComment.setBook(book);
         comments.add(newComment);
         bRepo.save(book);
+    }
+    @Transactional
+    public void deleteComment(long commentId) throws CommentNotFound {
+        Comment comment = cRepo.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
+        comment.setBook(null);
+        cRepo.delete(comment);
     }
 }
 
