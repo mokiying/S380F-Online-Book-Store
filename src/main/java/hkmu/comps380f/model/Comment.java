@@ -20,6 +20,7 @@ public class Comment {
     @JoinColumn(name = "book_id")
     private Book book;
 
+
     public long getId() {
         return id;
     }

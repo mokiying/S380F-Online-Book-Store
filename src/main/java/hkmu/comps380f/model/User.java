@@ -26,14 +26,6 @@ public class User {
         this.roles = roles;
     }
 
-    public List<Comment> getComment() {
-        return comment;
-    }
-
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
-    }
-
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
@@ -41,7 +33,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Comment> comment = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -84,10 +76,10 @@ public class User {
     }
 
     public List<Comment> getComments() {
-        return comment;
+        return comments;
     }
 
-    public void setComments(List<Comment> comment) {
-        this.comment = comment;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -21,16 +21,28 @@
 
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">
-        <ul>
+        <table border="1">
+            <tr>
+                <th>Book</th>
+                <th>Comment</th>
+                <th>Action</th>
+            </tr>
             <c:forEach var="comment" items="${comments}">
-                <li>
-                    <p><b><c:out value="${comment.bookId}"/>:</b>
+                <tr>
+                    <td>
+                        <a href="<c:url value="/book/view/${comment.bookId}"/>">
+                            <c:out value="${comment.book.name}"/>
+                        </a>
+                    </td>
+                    <td>
                         <c:out value="${comment.content}"/>
-                    </p>
-                    <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
-                </li>
+                    </td>
+                    <td>
+                        <a href="<c:url value='/book/comment/delete/${comment.id}'/>">Delete</a>
+                    </td>
+                </tr>
             </c:forEach>
-        </ul>
+        </table>
     </c:when>
     <c:otherwise>
         <b>No Comments</b>

@@ -28,6 +28,7 @@ public class UserController {
         User user = uService.getUser(username);
         if (user == null) throw new UserNotFound(username);
         model.addAttribute("user", user);
+        model.addAttribute("comments",user.getComments());
         System.out.println("roles"+user.getRoles());
         System.out.println("comment"+user.getComments());
         return "userDetail";
