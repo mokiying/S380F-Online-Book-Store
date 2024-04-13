@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     private String username;
@@ -16,20 +17,31 @@ public class User {
     private String fullName;
     private String email;
     private String address;
-    private String userRole;
+
+    public List<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRole> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comment = new ArrayList<>();
-    /*@OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
-    private Favourite favourite;
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
-    private Cart cart;*/
 
     public String getUsername() {
         return username;
@@ -71,14 +83,6 @@ public class User {
         this.address = address;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
     public List<Comment> getComments() {
         return comment;
     }
@@ -86,20 +90,4 @@ public class User {
     public void setComments(List<Comment> comment) {
         this.comment = comment;
     }
-
-    /*public Favourite getFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(Favourite favourite) {
-        this.favourite = favourite;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }*/
 }

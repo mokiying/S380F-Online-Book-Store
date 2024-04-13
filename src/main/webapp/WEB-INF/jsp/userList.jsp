@@ -15,24 +15,19 @@
             <caption>Users</caption>
             <thead>
             <tr>
-                <th>username</th>
-                <th>password</th>
-                <th>fullName</th>
-                <th>email</th>
-                <th>address</th>
-                <th>userRole</th>
+                <th>User Name</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${userDB}" var="entry">
                 <tr>
                     <td>${entry.username}</td>
-                    <td>${entry.password}</td>
                     <td>${entry.fullName}</td>
                     <td>${entry.email}</td>
-                    <td>${entry.address}</td>
-                    <td>${entry.userRole}</td>
-                    <td><a href="<c:url value="/user/userDetail/${entry.username}" />">
+                    <td><a href="<c:url value="/user/detail/${entry.username}" />">
                         Details
                     </a></td>
                 </tr>

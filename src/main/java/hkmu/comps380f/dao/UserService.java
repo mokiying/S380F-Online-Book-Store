@@ -58,8 +58,6 @@ public class UserService {
         user.setFullName(fullName);
         user.setEmail(email);
         user.setAddress(address);
-        user.setUserRole(userRole);
-
         User savedUser = uRepo.save(user);
         return savedUser.getUsername();
     }
