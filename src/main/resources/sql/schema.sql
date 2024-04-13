@@ -22,6 +22,7 @@ CREATE TABLE users (
     password VARCHAR(50) NOT NULL,
     PRIMARY KEY (username)
 );
+
 CREATE TABLE IF NOT EXISTS user_roles (
     user_role_id INTEGER GENERATED ALWAYS AS IDENTITY,
     username VARCHAR(50) NOT NULL,
@@ -29,3 +30,34 @@ CREATE TABLE IF NOT EXISTS user_roles (
     PRIMARY KEY (user_role_id),
     FOREIGN KEY (username) REFERENCES users(username)
 );
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS book (
+    bookId uuid default random_uuid() not null,
+    name VARCHAR(50) NOT NULL,
+    author VARCHAR(50) NOT NULL,
+    price DOUBLE(50),
+    description TEXT,
+    coverPhoto BLOB,
+    PRIMARY KEY (BookId)
+    );
+
+CREATE TABLE IF NOT EXISTS favouriteList (
+    favouriteListId uuid default random_uuid() not null,
+    PRIMARY key (favouriteListId),
+    FOREIGN key (bookId) references book,
+    FOREIGN key (username) references users
+    );
+
+
+CREATE TABLE IF NOT EXISTS cartItem (
+    cartItemId uuid default random_uuid() not null,
+    quantity INT,
+    PRIMARY key (cartItemId),
+    FOREIGN key (bookId) references book,
+    FOREIGN key (username) references users
+    );
+
