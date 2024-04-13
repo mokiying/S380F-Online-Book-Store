@@ -3,6 +3,7 @@ package hkmu.comps380f.controller;
 import hkmu.comps380f.dao.BookService;
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
+import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.model.*;
 import hkmu.comps380f.view.DownloadingView;
 import jakarta.annotation.Resource;
@@ -195,9 +196,15 @@ public class BookController {
         }
     }
     @PostMapping("/comment/add/{bookId}")
-    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws IOException, BookNotFound{
+    public View addComment(@PathVariable("bookId") long bookId, CommentForm form) throws BookNotFound{
         Book book = bService.getBook(bookId);
         bService.addComment(bookId, form.getUsername(), form.getContent());
         return new RedirectView("/book/view/" + book.getId(), true);
+    }
+    @GetMapping("/comment/delete/{commentId}/")
+    public View deleteComemnt(@PathVariable("commentId") long commentId) throws CommentNotFound {
+        Comment comment = bService.getCommment(commentId);
+        bService.deleteComment(commentId);
+        return new RedirectView("/book/view/" + comment.getBookId(), true);
     }
 }
