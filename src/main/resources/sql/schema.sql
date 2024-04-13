@@ -1,3 +1,4 @@
+DROP TABLE  IF EXISTS comment;
 DROP TABLE IF EXISTS attachment;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS user_roles;
@@ -30,4 +31,11 @@ CREATE TABLE attachment (
     book_id INT,
     primary key (id),
     foreign key (book_id) references book(id)
+);
+CREATE TABLE comment (
+     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+     username VARCHAR(255),
+     content TEXT,
+     book_id BIGINT,
+     CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES Book(id)
 );
