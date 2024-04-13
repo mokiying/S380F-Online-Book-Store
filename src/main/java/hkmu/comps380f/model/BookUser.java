@@ -17,11 +17,11 @@ public class BookUser {
     private String fullName;
     private String email;
     private String address;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "bookUser", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "bookUser", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();

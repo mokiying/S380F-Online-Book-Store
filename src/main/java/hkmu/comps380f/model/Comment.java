@@ -29,11 +29,11 @@ public class Comment {
         this.id = id;
     }
 
-    public BookUser getUser() {
+    public BookUser getBookUser() {
         return bookUser;
     }
 
-    public void setUser(BookUser bookUser) {
+    public void setBookUser(BookUser bookUser) {
         this.bookUser = bookUser;
     }
 

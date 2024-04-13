@@ -27,7 +27,7 @@
                     <td>${entry.username}</td>
                     <td>${entry.fullName}</td>
                     <td>${entry.email}</td>
-                    <td><a href="<c:url value="/bookUser/detail/${entry.username}" />">
+                    <td><a href="<c:url value="/user/detail/${entry.username}" />">
                         Details
                     </a></td>
                 </tr>

@@ -18,7 +18,8 @@ public class UserController {
     @Resource
     private UserManagementService uService;
 
-    @GetMapping(value = {"", "/list"})
+    @GetMapping({"", "/", "/list"})
+
     public String list(ModelMap model) {
         model.addAttribute("userDB", uService.getUsers());
         return "userList";
@@ -29,6 +30,7 @@ public class UserController {
                        @PathVariable("username") String username) throws UserNotFound {
         BookUser bookUser = uService.getUser(username);
         if (bookUser == null) throw new UserNotFound(username);
+        System.out.println(bookUser.toString());
         model.addAttribute("user", bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
