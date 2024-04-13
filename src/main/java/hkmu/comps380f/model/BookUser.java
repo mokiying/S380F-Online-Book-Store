@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class BookUser {
     @Id
     private String username;
     private String password;
@@ -26,9 +26,9 @@ public class User {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    public User() {}
+    public BookUser() {}
 
-    public User(String username, String password, String[] roles) {
+    public BookUser(String username, String password, String[] roles) {
         this.username = username;
         this.password = "{noop}" + password;
         for (String role : roles) {
