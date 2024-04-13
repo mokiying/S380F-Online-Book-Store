@@ -11,32 +11,43 @@ public class Attachment {
     @GeneratedValue
     @ColumnDefault("random_uuid()")
     private UUID id;
-
     @Column(name = "filename")
     private String name;
-
     @Column(name = "content_type")
     private String mimeContentType;
-
     @Column(name = "content")
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] contents;
-
-    @Column(name = "ticket_id", insertable=false, updatable=false)
-    private long ticketId;
-
+    @Column(name = "book_id", insertable=false, updatable=false)
+    private long bookId;
     @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+    @JoinColumn(name = "book_id")
+    private Book book;
 
-    // getters and setters of all properties
+    // Getters and Setters of id, name, mimeContentType, contents
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(long bookId) {
+        this.bookId = bookId;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public String getName() {
@@ -62,21 +73,4 @@ public class Attachment {
     public void setContents(byte[] contents) {
         this.contents = contents;
     }
-
-    public long getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(long ticketId) {
-        this.ticketId = ticketId;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
 }
-

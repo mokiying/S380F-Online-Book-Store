@@ -9,25 +9,20 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_role_id")
     private int id;
-
     @Column(insertable = false, updatable = false)
     private String username;
-
     private String role;
-
     @ManyToOne
     @JoinColumn(name = "username")
-    private TicketUser user;
-
+    private BookUser bookUser;
     public UserRole() {
     }
-
-    public UserRole(TicketUser user, String role) {
-        this.user = user;
+    public UserRole(BookUser bookUser, String role) {
+        this.bookUser = bookUser;
         this.role = role;
     }
-
     // getters and setters of all properties
+
     public int getId() {
         return id;
     }
@@ -52,11 +47,11 @@ public class UserRole {
         this.role = role;
     }
 
-    public TicketUser getUser() {
-        return user;
+    public BookUser getUser() {
+        return bookUser;
     }
 
-    public void setUser(TicketUser user) {
-        this.user = user;
+    public void setUser(BookUser bookUser) {
+        this.bookUser = bookUser;
     }
 }

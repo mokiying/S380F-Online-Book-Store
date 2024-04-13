@@ -33,4 +33,3 @@ public class DownloadingView implements View {
         stream.write(this.contents);
     }
 }
-

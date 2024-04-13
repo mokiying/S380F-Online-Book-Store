@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer Support</title>
+    <title>Online Book Store</title>
 </head>
 <body>
-<c:url var="logoutUrl" value="/logout"/>
-<form action="${logoutUrl}" method="post">
-    <input type="submit" value="Log out" />
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
-
-<h2>Ticket #${ticketId}: <c:out value="${ticket.subject}"/></h2>
-<security:authorize access="hasRole('ADMIN') or
-                            principal.username=='${ticket.customerName}'">
-    [<a href="<c:url value="/ticket/edit/${ticket.id}" />">Edit</a>]
-</security:authorize>
-<security:authorize access="hasRole('ADMIN')">
-    [<a href="<c:url value="/ticket/delete/${ticket.id}" />">Delete</a>]
-</security:authorize>
-<br/><br/>
-<i>Customer Name - <c:out value="${ticket.customerName}"/></i><br/><br/>
-<c:out value="${ticket.body}"/><br/><br/>
-<c:if test="${!empty ticket.attachments}">
-    Attachments:
-    <c:forEach items="${ticket.attachments}" var="attachment" varStatus="status">
-        <c:if test="${!status.first}">, </c:if>
-        <a href="<c:url value="/ticket/${ticketId}/attachment/${attachment.id}" />">
-            <c:out value="${attachment.name}"/></a>
-        [<a href="<c:url value="/ticket/${ticketId}/delete/${attachment.id}" />">Delete</a>]
-    </c:forEach><br/><br/>
-</c:if>
-<a href="<c:url value="/ticket" />">Return to list tickets</a>
+<h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
+<div>
+    <a href="<c:url value='/book/list'/>">Back</a>
+    <a>Update</a>
+    <a href="<c:url value='/book/delete/${book.id}'/>" />Delete</a>
+</div>
+<c:choose>
+    <c:when test="${!empty imageData}">
+        <img style="max-width:600px;max-height:400px;" src="data:image/jpeg;base64,${imageData}" />
+        <br/>
+    </c:when>
+    <c:otherwise><h3>No cover image available.</h3></c:otherwise>
+</c:choose>
+<ul>
+<li><b>Author:</b> <c:out value="${book.author}" /></li><br/>
+<li><b>Price:</b> <c:out value="${book.price}" /></li><br/>
+<li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
+<li><b>Description:</b><p><c:out value="${book.description}" /></p></li><br/>
+</ul>
+<h3>Comments</h3>
+<div>
+    <a href="<c:url value='/book/comment/add/${bookId}'/>">Add Comment</a>
+</div>
+<c:choose>
+    <c:when test="${fn:length(comments) > 0}">
+        <ul>
+            <c:forEach var="comment" items="${comments}">
+                <li>
+                    <p><b><c:out value="${comment.username}"/>:</b>
+                    <c:out value="${comment.content}"/>
+                    </p>
+                    <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
+                </li>
+            </c:forEach>
+        </ul>
+    </c:when>
+    <c:otherwise>
+        <b>No Comments</b>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

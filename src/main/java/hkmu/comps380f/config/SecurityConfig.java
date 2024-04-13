@@ -15,28 +15,30 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
         http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/user/**").hasRole("ADMIN")
-                .requestMatchers("/ticket/delete/**").hasRole("ADMIN")
-                .requestMatchers("/ticket/**").hasAnyRole("USER", "ADMIN")
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-            )
-            .rememberMe(remember -> remember
-                .key("uniqueAndSecret")
-                .tokenValiditySeconds(86400)
-            )
-            .httpBasic(withDefaults());
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/book/list/**").permitAll()
+                        .requestMatchers("/book/view/**").permitAll()
+                        .requestMatchers("/user/**").hasRole("ADMIN")
+                        .requestMatchers("/book/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/book/**").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
+                .rememberMe(remember -> remember
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(86400)
+                )
+                .httpBasic(withDefaults());
         return http.build();
     }
 }
