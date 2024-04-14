@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("/create")
     public ModelAndView create() {
-        return new ModelAndView("add", "userForm", new UserController.Form());
+        return new ModelAndView("addUser", "userForm", new UserController.Form());
     }
     public static class Form {
         private String username;

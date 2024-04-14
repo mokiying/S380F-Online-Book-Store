@@ -10,7 +10,7 @@
 <div>
     <a href="<c:url value='/book/list'/>">[Back]</a>
 </div>
-<form:form method="POST" enctype="multipart/form-data" modelAttribute="bookForm">
+<form:form method="POST" enctype="multipart/form-data" modelAttribute="userForm">
     <form:label path="name">Book Name</form:label><br/>
     <form:input type="text" path="name"/><br/><br/>
     <form:label path="author">Author</form:label><br/>

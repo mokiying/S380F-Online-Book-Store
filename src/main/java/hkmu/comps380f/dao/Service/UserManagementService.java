@@ -1,5 +1,6 @@
 package hkmu.comps380f.dao.Service;
 
+import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Repository.BookUserRepository;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookUser;
@@ -44,13 +45,10 @@ public class UserManagementService {
     public String createUser(String username, String password, String fullName, String email,
                              String address, String[] userRole)
             throws IOException {
-        BookUser bookUser = new BookUser();
-        bookUser.setUsername(username);
-        bookUser.setPassword(password);
+        BookUser bookUser = new BookUser(username, password, userRole);
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);
         bookUser.setAddress(address);
-        Cart cart = new Cart();
         BookUser savedBookUser = uRepo.save(bookUser);
         return savedBookUser.getUsername();
     }
