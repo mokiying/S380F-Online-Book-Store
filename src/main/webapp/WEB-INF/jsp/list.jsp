@@ -9,6 +9,7 @@
 <h2>Book</h2>
 <div>
     <a href="<c:url value="/user/personal" />">[Personal Information]</a>
+    <a href="<c:url value="/user/cart" />">[Shopping Cart]</a>
     <a href="<c:url value="/book/create" />">[Create a Book]</a>
     <a href="<c:url value="/user/list" />">[User Management]</a>
 </div>
@@ -18,7 +19,6 @@
     </c:when>
     <c:otherwise>
         <table border="1">
-            <caption>Books</caption>
             <thead>
                 <tr>
                     <th>Book Name</th>
