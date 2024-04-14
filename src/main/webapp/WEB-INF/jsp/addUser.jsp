@@ -8,21 +8,22 @@
 <body>
 <h2>Create a User</h2>
 <div>
-    <a href="<c:url value='/book/list'/>">[Back]</a>
+    <a href="<c:url value='/user/list'/>">[Back]</a>
 </div>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="userForm">
-    <form:label path="name">Book Name</form:label><br/>
-    <form:input type="text" path="name"/><br/><br/>
-    <form:label path="author">Author</form:label><br/>
-    <form:input type="text" path="author"/><br/><br/>
-    <form:label path="price">Price</form:label><br/>
-    <form:input type="number" step="0.01" path="price"/><br/><br/>
-    <form:label path="description">Description</form:label><br/>
-    <form:textarea path="description" rows="5" cols="30"/><br/><br/>
-    <form:label path="availability">Availability</form:label><br/>
-    <form:input type="number" step="1" path="availability"/><br/><br/>
-    <b>Attachments</b><br/>
-    <input type="file" name="attachments" multiple="multiple" accept="image/png, image/gif, image/jpeg"/><br/><br/>
+    <form:label path="username">Username</form:label><br/>
+    <form:input type="text" path="username"/><br/><br/>
+    <form:label path="password">Password</form:label><br/>
+    <form:input type="text" path="password"/><br/><br/>
+    <form:label path="fullName">Full Name</form:label><br/>
+    <form:input type="text" path="fullName"/><br/><br/>
+    <form:label path="email">Email</form:label><br/>
+    <form:input type="text" path="email"/><br/><br/>
+    <form:label path="address">Address</form:label><br/>
+    <form:input type="text" path="address"/><br/><br/>
+    <form:checkbox path="roles" value="ROLE_USER"/>ROLE_USER
+    <form:checkbox path="roles" value="ROLE_ADMIN"/>ROLE_ADMIN
+    <br/><br/>
     <input type="submit" value="Submit"/>
 </form:form>
 </body>

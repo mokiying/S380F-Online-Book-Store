@@ -8,7 +8,7 @@
 <body>
 <h2>User</h2>
 <a href="<c:url value='/book/list'/>">[Back]</a>
-<a href="<c:url value="/bookUser/create" />">[Create a User]</a><br/><br/>
+<a href="<c:url value="/user/create" />">[Create a User]</a><br/><br/>
 <c:choose>
     <c:when test="${fn:length(userDB) == 0}">
         <i>There are no Users in the system.</i>
