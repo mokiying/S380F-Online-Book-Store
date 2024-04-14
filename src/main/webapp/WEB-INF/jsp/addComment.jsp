@@ -8,7 +8,7 @@
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
-    <a href="<c:url value='/book/view/${bookId}'/>">Back</a>
+    <a href="<c:url value='/book/view/${bookId}'/>">[Back]</a>
 </div>
 <h3>Add Comment</h3>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm">

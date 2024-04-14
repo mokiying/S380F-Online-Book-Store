@@ -8,9 +8,9 @@
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
-    <a href="<c:url value='/book/list'/>">Back</a>
-    <a href="<c:url value='/book/edit/${book.id}'/>">Update</a>
-    <a href="<c:url value='/book/delete/${book.id}'/>" >Delete</a>
+    <a href="<c:url value='/book/list'/>">[Back]</a>
+    <a href="<c:url value='/book/edit/${book.id}'/>">[Update]</a>
+    <a href="<c:url value='/book/delete/${book.id}'/>" >[Delete]</a>
 </div>
 <c:choose>
     <c:when test="${!empty imageData}">

@@ -4,6 +4,9 @@
     <title>Online Book Store</title>
 </head>
 <body>
+<div>
+    <a href="<c:url value='/book/list'/>">[Back]</a>
+</div>
 <h2>Edit Book ${book.id}</h2>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="bookForm">
     <form:label path="name">Book Name</form:label><br/>

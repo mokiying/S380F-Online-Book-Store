@@ -8,8 +8,9 @@
 <body>
 <h2>Book</h2>
 <div>
-    <a href="<c:url value="/book/create" />">Create a Book</a>
-    <a href="<c:url value="/user/list" />">User Management</a>
+    <a href="<c:url value="/user/personal" />">[Personal Information]</a>
+    <a href="<c:url value="/book/create" />">[Create a Book]</a>
+    <a href="<c:url value="/user/list" />">[User Management]</a>
 </div>
 <c:choose>
     <c:when test="${fn:length(bookDB) == 0}">
