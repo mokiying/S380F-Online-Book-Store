@@ -12,6 +12,28 @@ public class BookItem {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
+    @Column(name = "cart_id", insertable=false, updatable=false)
+    private long cartId;
+
+    public long getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(long cartId) {
+        this.cartId = cartId;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
     private int quantity;
 
     public long getId() {

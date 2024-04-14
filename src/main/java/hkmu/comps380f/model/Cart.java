@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//@Entity
+@Entity
 public class Cart {
     @Id
     private long id;
