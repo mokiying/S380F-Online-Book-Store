@@ -26,12 +26,6 @@ public class BookUser {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
-    @Column(name = "cart_id", insertable=false, updatable=false)
-    private long cartId;
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
     public BookUser() {}
 
     public BookUser(String username, String password, String[] roles) {
@@ -53,22 +47,6 @@ public class BookUser {
 
     public String getUsername() {
         return username;
-    }
-
-    public long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(long cartId) {
-        this.cartId = cartId;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
     }
 
     public void setUsername(String username) {

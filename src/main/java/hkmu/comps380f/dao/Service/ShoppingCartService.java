@@ -26,20 +26,19 @@ public class ShoppingCartService {
     @Resource
     BookRepository bookRepo;
     @Transactional
-    public void createCart(String username) throws UserNotFound{
+    public void createCartToUser(String username) throws UserNotFound{
         BookUser user = userRepo.findById(username).orElse(null);
         if(user == null) throw new UserNotFound(username);
         Cart newCart = new Cart();
         newCart.setUsername(username);
         newCart.setUser(user);
-        user.setCart(newCart);
+        userRepo.save(user);
     }
     @Transactional
-    public List<BookItem> getItems(long cartId) throws CartNotFound {
-        Cart cart = cartRepo.findById(cartId).orElse(null);
-        if(cart == null) throw new CartNotFound(cartId);
-        List<BookItem> items = cart.getBookItems();
-        return items;
+    public Cart getCart(String username) throws CartNotFound {
+        Cart cart = cartRepo.getCartByUsername(username);
+        if(cart == null) throw new CartNotFound(username);
+        return cart;
     }
     @Transactional
     public void addItem(long cartId, long bookId) throws CartNotFound, BookNotFound {

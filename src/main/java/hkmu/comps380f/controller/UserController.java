@@ -1,8 +1,11 @@
 package hkmu.comps380f.controller;
 
+import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Service.UserManagementService;
+import hkmu.comps380f.exception.CartNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookUser;
+import hkmu.comps380f.model.Cart;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,8 @@ import java.security.Principal;
 public class UserController {
     @Resource
     private UserManagementService uService;
+    @Resource
+    private ShoppingCartService scService;
 
     @GetMapping({"", "/", "/list"})
 
@@ -53,5 +58,14 @@ public class UserController {
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
         return "userDetail";
+    }
+
+    @GetMapping(value = {"/cart"})
+    public String viewShoppingCart (ModelMap model, Principal principal) throws CartNotFound {
+        Cart cart = scService.getCart(principal.getName());
+        if(cart==null) throw new CartNotFound(principal.getName());
+        model.addAttribute("cartItems",cart.getBookItems());
+        System.out.println("cart items:" + cart.getBookItems());
+        return "cart";
     }
 }
