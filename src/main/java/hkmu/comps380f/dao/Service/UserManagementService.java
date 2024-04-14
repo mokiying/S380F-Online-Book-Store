@@ -51,11 +51,6 @@ public class UserManagementService {
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);
         bookUser.setAddress(address);
-        List<UserRole> roles = new ArrayList<>();
-        for (String role : userRole) {
-            roles.add(new UserRole(bookUser, role));
-        }
-        bookUser.setRoles(roles);
         BookUser savedBookUser = uRepo.save(bookUser);
         return savedBookUser.getUsername();
     }
@@ -68,11 +63,11 @@ public class UserManagementService {
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);
         bookUser.setAddress(address);
-        List<UserRole> roles = new ArrayList<>();
+        /*List<UserRole> roles = new ArrayList<>();
         for (String role : userRole) {
             roles.add(new UserRole(bookUser, role));
         }
-        bookUser.setRoles(roles);
+        bookUser.setRoles(roles);*/
         BookUser savedUser = uRepo.save(bookUser);
         return savedUser.getUsername();
     }
