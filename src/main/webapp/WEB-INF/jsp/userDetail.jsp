@@ -8,7 +8,7 @@
 <body>
 <h2>User - ${user.username}</h2>
 <div>
-    <a href="<c:url value='/user/list'/>">[Back]</a>
+    <a href="<c:url value='/book/list'/>">[Back]</a>
     <a href="<c:url value='/user/edit'/>">[Update]</a>
     <a href="<c:url value='/user/delete/${user.username}'/>" />[Delete]</a>
 </div>
