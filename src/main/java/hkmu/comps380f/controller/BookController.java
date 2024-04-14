@@ -140,7 +140,6 @@ public class BookController {
         model.addAttribute("imageData", imageData);
         // comments
         List<Comment> comments = book.getComments();
-        System.out.println("Comments:"+comments.toString());
         model.addAttribute("comments", comments);
         return "view";
     }
@@ -164,9 +163,10 @@ public class BookController {
         model.addAttribute("imageData", imageData);
         // comments
         List<Comment> comments = book.getComments();
-        System.out.println("Comments:"+comments.toString());
         model.addAttribute("comments", comments);
-        return "edit/"+bookId;
+        // form
+        model.addAttribute("bookForm", new Form());
+        return "edit";
     }
     @PostMapping("/edit/{bookId}")
     public View edit(@PathVariable("bookId") long bookId, Form form) throws IOException,BookNotFound, AttachmentNotFound {
@@ -184,19 +184,6 @@ public class BookController {
     @GetMapping("/delete/{bookId}")
     public View delete(@PathVariable("bookId") long bookId) throws BookNotFound, AttachmentNotFound {
         bService.deleteBook(bookId);
-        return new RedirectView("/book/list", true);
-    }
-
-    @GetMapping("/{bookId}/attachment/{attachment:.+}")
-    public View download(@PathVariable("bookId") long bookId,
-                         @PathVariable("attachment") String AttachmentId) throws BookNotFound {
-        Book book = bService.getBook(bookId);
-        if (book != null) {
-            Attachment attachment = book.getAttachments().get(0);
-            if (attachment != null)
-                return new DownloadingView(attachment.getName(),
-                        attachment.getMimeContentType(), attachment.getContents());
-        }
         return new RedirectView("/book/list", true);
     }
 

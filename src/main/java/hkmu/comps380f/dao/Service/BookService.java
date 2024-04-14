@@ -76,7 +76,7 @@ public class BookService {
                            double price,String description,int availability, List<MultipartFile> attachments)
             throws IOException,BookNotFound, AttachmentNotFound {
         Book book = bRepo.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
+                .orElseThrow(() -> new BookNotFound(bookId));
         book.setName(name);
         book.setAuthor(author);
         book.setPrice(price);
@@ -101,7 +101,7 @@ public class BookService {
     public void deleteBook(long bookId) throws BookNotFound, AttachmentNotFound{
         // 1. Find the book by its ID;
         Book book = bRepo.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
+                .orElseThrow(() -> new BookNotFound(bookId));
         for (Attachment attachment : book.getAttachments()) {
             attachment.setBook(null);
             aRepo.delete(attachment);
@@ -148,7 +148,7 @@ public class BookService {
     @Transactional
     public void deleteComment(long commentId) throws CommentNotFound {
         Comment comment = cRepo.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
+                .orElseThrow(() -> new CommentNotFound(commentId));
         comment.setBook(null);
         cRepo.delete(comment);
     }
