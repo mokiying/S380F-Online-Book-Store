@@ -1,4 +1,3 @@
-
 INSERT INTO users (username, password, full_name, email, address) VALUES
 ('mickey', '{noop}password', 'John Doe', 'john.doe@example.com', '123 Main St, Anytown USA'),
 ('yelo', '{noop}password', 'Jane Smith', 'jane.smith@example.com', '456 Oak Rd, Somewhere City'),

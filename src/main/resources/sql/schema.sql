@@ -1,23 +1,24 @@
-DROP TABLE  IF EXISTS comment;
-DROP TABLE IF EXISTS attachment;
-DROP TABLE IF EXISTS book;
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-      username VARCHAR(255) PRIMARY KEY,
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS user_roles CASCADE;
+DROP TABLE IF EXISTS book CASCADE;
+DROP TABLE IF EXISTS attachment CASCADE;
+DROP TABLE IF EXISTS comment CASCADE;
+CREATE TABLE IF NOT EXISTS users (
+      username VARCHAR(255),
       password VARCHAR(255),
       full_name VARCHAR(255),
       email VARCHAR(255),
-      address VARCHAR(255)
+      address VARCHAR(255),
+      PRIMARY KEY (username)
 );
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
     user_role_id INTEGER GENERATED ALWAYS AS IDENTITY,
     username VARCHAR(50) NOT NULL,
     role VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_role_id),
     FOREIGN KEY (username) REFERENCES users(username)
 );
-CREATE TABLE book (
+CREATE TABLE IF NOT EXISTS book (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
@@ -25,7 +26,7 @@ CREATE TABLE book (
     description VARCHAR(500),
     availability INTEGER
 );
-CREATE TABLE attachment (
+CREATE TABLE IF NOT EXISTS attachment (
     id uuid default random_uuid() not null,
     content blob,
     content_type varchar(255),
@@ -34,7 +35,7 @@ CREATE TABLE attachment (
     primary key (id),
     foreign key (book_id) references book(id)
 );
-CREATE TABLE comment (
+CREATE TABLE IF NOT EXISTS comment (
      id BIGINT AUTO_INCREMENT PRIMARY KEY,
      username VARCHAR(255),
      content TEXT,
