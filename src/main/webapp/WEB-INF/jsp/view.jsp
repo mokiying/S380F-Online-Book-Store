@@ -27,7 +27,7 @@
 </ul>
 <h3>Comments</h3>
 <div>
-    <a href="<c:url value='/book/comment/add/${bookId}'/>">Add Comment</a>
+    <a href="<c:url value='/book/comment/add/${bookId}'/>">[Add Comment]</a>
 </div>
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">
