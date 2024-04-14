@@ -134,7 +134,7 @@ public class UserController {
         model.addAttribute("comments", comments);
         // form
         model.addAttribute("userForm", new Form());
-        return "edit";
+        return "editUser";
     }
     @PostMapping("/edit/{username}")
     public View edit(@PathVariable("username") String username, Form form) throws IOException,UserNotFound {
