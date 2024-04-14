@@ -3,6 +3,10 @@ INSERT INTO users (username, password, full_name, email, address) VALUES
 ('yelo', '{noop}password', 'Jane Smith', 'jane.smith@example.com', '456 Oak Rd, Somewhere City'),
 ('nicky', '{noop}password', 'Bob Johnson', 'bob.johnson@example.com', '789 Elm St, Elsewhere Town');
 
+INSERT INTO cart (username) VALUES ('mickey');
+INSERT INTO cart (username) VALUES ('yelo');
+INSERT INTO cart (username) VALUES ('nicky');
+
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_USER');
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_ADMIN');
 
@@ -19,3 +23,5 @@ INSERT INTO book (author, availability, description, name, price) VALUES ('Paulo
 
 INSERT INTO comment (USERNAME, CONTENT, BOOK_ID) VALUES ('mickey', 'Good Book', 1);
 INSERT INTO comment (USERNAME, CONTENT, BOOK_ID) VALUES ('yelo', 'Bad Book', 1);
+
+INSERT INTO BOOK_ITEM (CART_ID,BOOK_ID,QUANTITY) VALUES (1,1,10);

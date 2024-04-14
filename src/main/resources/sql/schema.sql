@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS book_item CASCADE;
+DROP TABLE IF EXISTS cart CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_roles CASCADE;
 DROP TABLE IF EXISTS book CASCADE;
@@ -43,3 +45,17 @@ CREATE TABLE IF NOT EXISTS comment (
      CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES book(id)
 );
 
+CREATE TABLE IF NOT EXISTS cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username varchar(255) DEFAULT NULL,
+    FOREIGN KEY (username) REFERENCES users (username)
+);
+
+CREATE TABLE  IF NOT EXISTS book_item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT,
+    cart_id INT,
+    quantity INTEGER,
+    FOREIGN KEY (book_id) REFERENCES book (id),
+    FOREIGN KEY (cart_id) REFERENCES cart (id)
+)
