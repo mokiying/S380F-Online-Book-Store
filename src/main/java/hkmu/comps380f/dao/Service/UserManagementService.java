@@ -3,6 +3,7 @@ package hkmu.comps380f.dao.Service;
 import hkmu.comps380f.dao.Repository.BookUserRepository;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookUser;
+import hkmu.comps380f.model.Cart;
 import hkmu.comps380f.model.UserRole;
 import jakarta.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class UserManagementService {
     }
     @Transactional
     public String createUser(String username, String password, String fullName, String email,
-                             String address, String userRole)
+                             String address, String[] userRole)
             throws IOException {
         BookUser bookUser = new BookUser();
         bookUser.setUsername(username);
@@ -49,6 +50,7 @@ public class UserManagementService {
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);
         bookUser.setAddress(address);
+        Cart cart = new Cart();
         BookUser savedBookUser = uRepo.save(bookUser);
         return savedBookUser.getUsername();
     }
