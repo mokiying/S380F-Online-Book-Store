@@ -1,10 +1,10 @@
 package hkmu.comps380f.controller;
 
 import hkmu.comps380f.dao.Service.UserManagementService;
+import hkmu.comps380f.exception.AttachmentNotFound;
+import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.UserNotFound;
-import hkmu.comps380f.model.BookUser;
-import hkmu.comps380f.model.Comment;
-import hkmu.comps380f.model.UserRole;
+import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +20,7 @@ import org.springframework.web.servlet.View;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -117,6 +118,35 @@ public class UserController {
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
         return "userDetail";
+    }
+    @GetMapping("/edit/{username}")
+    public String edit(@PathVariable("username") String username,
+                       ModelMap model) throws UserNotFound {
+        BookUser bookUser = uService.getUser(username);
+        if (bookUser == null) {
+            return "redirect:/user/list";
+        }
+        model.addAttribute("username", username);
+        model.addAttribute("user", bookUser);
+        model.addAttribute("roles", bookUser.getRoles());
+        // comments
+        List<Comment> comments = bookUser.getComments();
+        model.addAttribute("comments", comments);
+        // form
+        model.addAttribute("userForm", new Form());
+        return "edit";
+    }
+    @PostMapping("/edit/{username}")
+    public View edit(@PathVariable("username") String username, Form form) throws IOException,UserNotFound {
+        uService.editUser(
+            username,
+                form.getPassword(),
+                form.getFullName(),
+                form.getEmail(),
+                form.getAddress(),
+                form.getRoles()
+        );
+        return new RedirectView("/user/detail/" + username, true);
     }
     @GetMapping(value = {"", "/delete/{username}"})
     public View delete(ModelMap model,

@@ -2,17 +2,19 @@ package hkmu.comps380f.dao.Service;
 
 import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Repository.BookUserRepository;
+import hkmu.comps380f.exception.AttachmentNotFound;
+import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.UserNotFound;
-import hkmu.comps380f.model.BookUser;
-import hkmu.comps380f.model.Cart;
-import hkmu.comps380f.model.UserRole;
+import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,8 +51,30 @@ public class UserManagementService {
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);
         bookUser.setAddress(address);
+        List<UserRole> roles = new ArrayList<>();
+        for (String role : userRole) {
+            roles.add(new UserRole(bookUser, role));
+        }
+        bookUser.setRoles(roles);
         BookUser savedBookUser = uRepo.save(bookUser);
         return savedBookUser.getUsername();
+    }
+    @Transactional
+    public String editUser(String username, String password, String fullName, String email,
+                           String address, String[] userRole)
+            throws IOException, UserNotFound {
+        BookUser bookUser = uRepo.findById(username).orElse(null);
+        bookUser.setPassword(password);
+        bookUser.setFullName(fullName);
+        bookUser.setEmail(email);
+        bookUser.setAddress(address);
+        List<UserRole> roles = new ArrayList<>();
+        for (String role : userRole) {
+            roles.add(new UserRole(bookUser, role));
+        }
+        bookUser.setRoles(roles);
+        BookUser savedUser = uRepo.save(bookUser);
+        return savedUser.getUsername();
     }
     @Transactional
     public void deleteUser(String username) throws UserNotFound{
