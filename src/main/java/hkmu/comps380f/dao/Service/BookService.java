@@ -9,6 +9,7 @@ import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.Attachment;
 import hkmu.comps380f.model.Book;
+import hkmu.comps380f.model.BookUser;
 import hkmu.comps380f.model.Comment;
 import jakarta.annotation.*;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,32 @@ public class BookService {
             throws IOException {
 
         Book book = new Book();
+        book.setName(name);
+        book.setAuthor(author);
+        book.setPrice(price);
+        book.setDescription(description);
+        book.setAvailability(availability);
+        for (MultipartFile filePart : attachments) {
+            Attachment attachment = new Attachment();
+            attachment.setName(filePart.getOriginalFilename());
+            attachment.setMimeContentType(filePart.getContentType());
+            attachment.setContents(filePart.getBytes());
+            attachment.setBook(book);
+            if (attachment.getName() != null && attachment.getName().length() > 0
+                    && attachment.getContents() != null
+                    && attachment.getContents().length > 0) {
+                book.getAttachments().add(attachment);
+            }
+        }
+        Book savedBook = bRepo.save(book);
+        return savedBook.getId();
+    }
+    @Transactional
+    public long editBook(long bookId, String name, String author,
+                           double price,String description,int availability, List<MultipartFile> attachments)
+            throws IOException,BookNotFound, AttachmentNotFound {
+        Book book = bRepo.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + bookId));
         book.setName(name);
         book.setAuthor(author);
         book.setPrice(price);
