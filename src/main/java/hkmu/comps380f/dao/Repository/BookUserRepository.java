@@ -1,4 +1,4 @@
-package hkmu.comps380f.dao;
+package hkmu.comps380f.dao.Repository;
 
 import hkmu.comps380f.model.BookUser;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,5 +1,6 @@
-package hkmu.comps380f.dao;
+package hkmu.comps380f.dao.Service;
 
+import hkmu.comps380f.dao.Repository.BookUserRepository;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookUser;
 import hkmu.comps380f.model.UserRole;

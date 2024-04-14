@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/book/list/**").permitAll()
                         .requestMatchers("/book/view/**").permitAll()
+                        .requestMatchers("/home/**").permitAll()
                         .requestMatchers("/user/**").hasRole("ADMIN")
                         .requestMatchers("/book/delete/**").hasRole("ADMIN")
                         .requestMatchers("/book/**").hasAnyRole("USER", "ADMIN")

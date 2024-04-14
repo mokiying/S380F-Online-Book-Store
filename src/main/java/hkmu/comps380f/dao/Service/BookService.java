@@ -1,12 +1,14 @@
-package hkmu.comps380f.dao;
+package hkmu.comps380f.dao.Service;
 
+import hkmu.comps380f.dao.Repository.AttachmentRepository;
+import hkmu.comps380f.dao.Repository.BookRepository;
+import hkmu.comps380f.dao.Repository.CommentRepository;
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.Attachment;
 import hkmu.comps380f.model.Book;
-import hkmu.comps380f.model.BookUser;
 import hkmu.comps380f.model.Comment;
 import jakarta.annotation.*;
 import org.springframework.stereotype.Service;

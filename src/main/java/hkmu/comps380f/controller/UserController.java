@@ -1,6 +1,6 @@
 package hkmu.comps380f.controller;
 
-import hkmu.comps380f.dao.UserManagementService;
+import hkmu.comps380f.dao.Service.UserManagementService;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookUser;
 import jakarta.annotation.Resource;
