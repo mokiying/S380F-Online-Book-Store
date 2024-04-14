@@ -144,6 +144,43 @@ public class BookController {
         model.addAttribute("comments", comments);
         return "view";
     }
+    @GetMapping("/edit/{bookId}")
+    public String edit(@PathVariable("bookId") long bookId,
+                       ModelMap model) throws BookNotFound {
+        Book book = bService.getBook(bookId);
+        if (book == null) {
+            return "redirect:/book/list";
+        }
+        // book Data
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("book", book);
+        // cover image
+        String imageData = "";
+        if (book.getAttachments().size() > 0) {
+            Attachment attachment = book.getAttachments().get(0);
+            byte[] imageBytes = attachment.getContents();
+            imageData = Base64.getEncoder().encodeToString(imageBytes);
+        }
+        model.addAttribute("imageData", imageData);
+        // comments
+        List<Comment> comments = book.getComments();
+        System.out.println("Comments:"+comments.toString());
+        model.addAttribute("comments", comments);
+        return "edit/"+bookId;
+    }
+    @PostMapping("/edit/{bookId}")
+    public View edit(@PathVariable("bookId") long bookId, Form form) throws IOException,BookNotFound, AttachmentNotFound {
+        bService.editBook(
+                bookId,
+                form.getName(),
+                form.getAuthor(),
+                form.getPrice(),
+                form.getDescription(),
+                form.getAvailability(),
+                form.getAttachments()
+        );
+        return new RedirectView("/book/view/" + bookId, true);
+    }
     @GetMapping("/delete/{bookId}")
     public View delete(@PathVariable("bookId") long bookId) throws BookNotFound, AttachmentNotFound {
         bService.deleteBook(bookId);
