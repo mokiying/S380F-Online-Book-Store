@@ -4,6 +4,7 @@ import hkmu.comps380f.dao.Service.UserManagementService;
 import hkmu.comps380f.exception.AttachmentNotFound;
 import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.UserNotFound;
+import hkmu.comps380f.exception.UserRoleNotFound;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,9 @@ import org.springframework.web.servlet.View;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -106,14 +109,13 @@ public class UserController {
                 form.getAddress(),
                 form.getRoles()
         );
-        return new RedirectView("/user/detail/" + username, true);
+        return new RedirectView("/user/view/" + username, true);
     }
-    @GetMapping(value = {"", "/detail/{username}"})
+    @GetMapping(value = {"", "/view/{username}"})
     public String view(ModelMap model,
                        @PathVariable("username") String username) throws UserNotFound {
         BookUser bookUser = uService.getUser(username);
         if (bookUser == null) throw new UserNotFound(username);
-        System.out.println("user comment "+bookUser.getComments().toString());
         model.addAttribute("user", bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
@@ -128,6 +130,7 @@ public class UserController {
         }
         model.addAttribute("username", username);
         model.addAttribute("user", bookUser);
+        model.addAttribute("password",bookUser.getPassword().split("}")[1]);
         model.addAttribute("roles", bookUser.getRoles());
         // comments
         List<Comment> comments = bookUser.getComments();
@@ -140,19 +143,43 @@ public class UserController {
     public View edit(@PathVariable("username") String username, Form form) throws IOException,UserNotFound {
         uService.editUser(
             username,
-                form.getPassword(),
-                form.getFullName(),
-                form.getEmail(),
-                form.getAddress(),
-                form.getRoles()
+            form.getPassword(),
+            form.getFullName(),
+            form.getEmail(),
+            form.getAddress()
         );
-        return new RedirectView("/user/detail/" + username, true);
+        return new RedirectView("/user/view/" + username, true);
     }
     @GetMapping(value = {"", "/delete/{username}"})
     public View delete(ModelMap model,
                        @PathVariable("username") String username) throws UserNotFound {
         uService.delete(username);
         return new RedirectView("/user/list",true);
+    }
+
+    @GetMapping(value = {"/roleuser/create/{username}"})
+    public View addRoleUser(@PathVariable("username") String username) throws UserNotFound{
+        BookUser user = uService.getUser(username);
+        if(user == null) throw new UserNotFound(username);
+        uService.addRole(username,"ROLE_USER");
+        return new RedirectView("/user/view/"+ username,true);
+    }
+
+    @GetMapping(value = {"/roleadmin/create/{username}"})
+    public View addRoleAdmin(@PathVariable("username") String username) throws UserNotFound{
+        BookUser user = uService.getUser(username);
+        if(user == null) throw new UserNotFound(username);
+        uService.addRole(username,"ROLE_ADMIN");
+        return new RedirectView("/user/view/"+ username,true);
+    }
+
+    @GetMapping(value = {"/role/delete/{username}/{role}"})
+    public View deleteRole(@PathVariable("username") String username,@PathVariable("role") int role) throws UserNotFound, UserRoleNotFound {
+        BookUser user = uService.getUser(username);
+        if(user == null) throw new UserNotFound(username);
+        System.out.println("Delete Role");
+        uService.deleteRole(role);
+        return new RedirectView("/user/view/"+ username,true);
     }
 
     @GetMapping(value = {"/personal"})

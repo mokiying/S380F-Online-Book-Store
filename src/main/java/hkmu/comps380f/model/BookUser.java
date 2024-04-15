@@ -58,7 +58,7 @@ public class BookUser {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = "{noop}"+password;
     }
 
     public String getFullName() {

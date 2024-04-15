@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_role_id")

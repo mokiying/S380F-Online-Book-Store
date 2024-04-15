@@ -12,34 +12,22 @@
 </div>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="userForm">
     <form:label path="password">Password</form:label><br/>
-    <form:input type="text" path="password" value="${user.password}"/><br/><br/>
+    <form:input type="text" path="password" value="${password}"/><br/><br/>
     <form:label path="fullName">Full Name</form:label><br/>
     <form:input type="text" path="fullName" value="${user.fullName}"/><br/><br/>
     <form:label path="email">Email</form:label><br/>
     <form:input type="text" path="email" value="${user.email}"/><br/><br/>
     <form:label path="address">Address</form:label><br/>
     <form:input type="text" path="address" value="${user.address}"/><br/><br/>
-    <c:forEach var="r" items="${roles}">
-        <c:choose>
-            <c:when test="${r.role == 'ROLE_USER'}" >
-                <form:checkbox path="roles" value="ROLE_USER" checked="true" />ROLE_USER
-            </c:when>
-            <c:when test="${r.role != 'ROLE_USER'}" >
-                <form:checkbox path="roles" value="ROLE_USER" />ROLE_USER
-            </c:when>
-        </c:choose>
-        <br/>
-        <c:choose>
-            <c:when test="${r.role == 'ROLE_ADMIN'}" >
-                <form:checkbox path="roles" value="ROLE_ADMIN" checked="true" />ROLE_ADMIN
-            </c:when>
-            <c:when test="${r.role != 'ROLE_ADMIN'}" >
-                <form:checkbox path="roles" value="ROLE_ADMIN" />ROLE_ADMIN
-            </c:when>
-        </c:choose>
-    </c:forEach>
     <br/><br/>
+    <h2>Roles</h2>
+    <ul>
+        <c:forEach var="r" items="${roles}">
+            <li><c:out value='${r.role}'/> </li>
+        </c:forEach>
+    </ul>
     <input type="submit" value="Submit"/>
 </form:form>
+
 </body>
 </html>

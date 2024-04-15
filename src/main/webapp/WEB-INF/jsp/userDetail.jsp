@@ -20,9 +20,13 @@
     <li><b>address:</b><c:out value="${user.address}" /></li><br/>
 </ul>
 <h2>Roles</h2>
+<div>
+    <a href="<c:url value='/user/roleuser/create/${user.username}'/>">[Add Role User]</a>
+    <a href="<c:url value='/user/roleadmin/create/${user.username}'/>">[Add Role Admin]</a>
+</div>
 <ul>
     <c:forEach var="r" items="${roles}">
-        <li><c:out value='${r.role}'/> </li>
+        <li><c:out value='${r.role}'/> <a href="<c:url value='/user/role/delete/${user.username}/${r.id}'/>">[Delete]</a></li>
     </c:forEach>
 </ul>
 <c:choose>
