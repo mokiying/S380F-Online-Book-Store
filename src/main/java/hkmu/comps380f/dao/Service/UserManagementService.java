@@ -79,6 +79,7 @@ public class UserManagementService {
         roles.add(new UserRole(user,role));
         uRepo.save(user);
     }
+    @Transactional
     public void deleteRole(int roleId) throws UserRoleNotFound {
         UserRole role = rRepo.findById(roleId).orElse(null);
         if (role == null) throw new UserRoleNotFound(roleId);

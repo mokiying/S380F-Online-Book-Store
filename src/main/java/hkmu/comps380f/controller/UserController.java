@@ -1,12 +1,11 @@
 package hkmu.comps380f.controller;
 
+import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Service.UserManagementService;
-import hkmu.comps380f.exception.AttachmentNotFound;
-import hkmu.comps380f.exception.BookNotFound;
-import hkmu.comps380f.exception.UserNotFound;
-import hkmu.comps380f.exception.UserRoleNotFound;
+import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,16 +20,15 @@ import org.springframework.web.servlet.View;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Resource
     private UserManagementService uService;
+    @Resource
+    private ShoppingCartService cService;
 
     @GetMapping({"", "/", "/list"})
 
@@ -189,5 +187,21 @@ public class UserController {
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
         return "userDetail";
+    }
+
+    @GetMapping(value={"/cart"})
+    public String viewCart(ModelMap model, Principal principal) throws UserNotFound, CartNotFound{
+        Cart cart = cService.getCart(principal.getName());
+        if (cart == null) throw new CartNotFound(principal.getName());
+       List<Map<String,Object>> items = new ArrayList<>();
+        for(BookItem item : cart.getBookItems()){
+            Map newItem = new HashMap();
+            newItem.put("book",item.getBook());
+            newItem.put("item",item);
+            items.add(newItem);
+        }
+        System.out.println(items.toString());
+        model.addAttribute("cartItems",items);
+        return "cart";
     }
 }

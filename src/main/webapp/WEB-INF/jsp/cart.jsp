@@ -18,15 +18,23 @@
         <table border="1">
             <thead>
             <tr>
-                <th>Book Id</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Price</th>
                 <th>Quantity</th>
+                <th>Save</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${cartItems}" var="item">
+            <c:forEach items="${cartItems}" var="cartItem">
                 <tr>
-                    <td>${item.bookId}</td>
-                    <td>${item.quantity}</td>
+                    <td><a href="<c:url value='${cartItem.item.bookId}}'/>">${cartItem['book'].name}</a></td>
+                    <td>${cartItem['book'].author}</td>
+                    <td>$${cartItem['book'].price}</td>
+                    <td>${cartItem['item'].quantity}</td>
+                    <td><a>[Save]</a></td>
+                    <td><a>[Delete]</a></td>
                 </tr>
             </c:forEach>
             </tbody>
