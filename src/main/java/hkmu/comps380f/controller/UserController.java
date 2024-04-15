@@ -157,16 +157,12 @@ public class UserController {
 
     @GetMapping(value = {"/roleuser/create/{username}"})
     public View addRoleUser(@PathVariable("username") String username) throws UserNotFound{
-        BookUser user = uService.getUser(username);
-        if(user == null) throw new UserNotFound(username);
         uService.addRole(username,"ROLE_USER");
         return new RedirectView("/user/view/"+ username,true);
     }
 
     @GetMapping(value = {"/roleadmin/create/{username}"})
     public View addRoleAdmin(@PathVariable("username") String username) throws UserNotFound{
-        BookUser user = uService.getUser(username);
-        if(user == null) throw new UserNotFound(username);
         uService.addRole(username,"ROLE_ADMIN");
         return new RedirectView("/user/view/"+ username,true);
     }
@@ -174,8 +170,6 @@ public class UserController {
     @GetMapping(value = {"/role/delete/{username}/{role}"})
     public View deleteRole(@PathVariable("username") String username,@PathVariable("role") int role) throws UserNotFound, UserRoleNotFound {
         BookUser user = uService.getUser(username);
-        if(user == null) throw new UserNotFound(username);
-        System.out.println("Delete Role");
         uService.deleteRole(role);
         return new RedirectView("/user/view/"+ username,true);
     }
@@ -190,18 +184,29 @@ public class UserController {
     }
 
     @GetMapping(value={"/cart"})
-    public String viewCart(ModelMap model, Principal principal) throws UserNotFound, CartNotFound{
+    public String viewCart(ModelMap model, Principal principal) throws CartNotFound{
         Cart cart = cService.getCart(principal.getName());
-        if (cart == null) throw new CartNotFound(principal.getName());
-       List<Map<String,Object>> items = new ArrayList<>();
+        List<Map<String,Object>> items = new ArrayList<>();
         for(BookItem item : cart.getBookItems()){
             Map newItem = new HashMap();
             newItem.put("book",item.getBook());
             newItem.put("item",item);
             items.add(newItem);
         }
-        System.out.println(items.toString());
         model.addAttribute("cartItems",items);
         return "cart";
+    }
+
+    @GetMapping(value={"/cart/add/{bookId}"})
+    public View addToCart(Principal principal, @PathVariable("bookId") long bookId) throws BookNotFound, CartNotFound, CartItemExist {
+        Cart cart = cService.getCart(principal.getName());
+        cService.addItem(cart.getId(),bookId);
+        return new RedirectView("/user/cart",true);
+    }
+    @GetMapping(value={"/cart/delete/{bookId}"})
+    public View deleteFromCart(Principal principal, @PathVariable("bookId") long bookId) throws BookNotFound, CartNotFound, CartItemExist {
+        Cart cart = cService.getCart(principal.getName());
+        cService.deleteItem(cart.getId(),bookId);
+        return new RedirectView("/user/cart",true);
     }
 }

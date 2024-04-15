@@ -2,6 +2,7 @@ package hkmu.comps380f.dao.Service;
 
 
 import hkmu.comps380f.exception.BookNotFound;
+import hkmu.comps380f.exception.CartItemExist;
 import hkmu.comps380f.exception.CartNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.BookItem;
@@ -41,12 +42,13 @@ public class ShoppingCartService {
         return cart;
     }
     @Transactional
-    public void addItem(long cartId, long bookId) throws CartNotFound, BookNotFound {
+    public void addItem(long cartId, long bookId) throws CartNotFound, BookNotFound,CartItemExist {
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
         List<BookItem> items = cart.getBookItems();
         Book book = bookRepo.findById(bookId).orElse(null);
         if (book == null) throw new BookNotFound(bookId);
+        for(BookItem i : items) if (i.getBookId() == book.getId()) throw new CartItemExist(bookId);
         BookItem newItem = new BookItem();
         newItem.setBookId(bookId);
         newItem.setBook(book);
@@ -54,5 +56,16 @@ public class ShoppingCartService {
         newItem.setCart(cart);
         newItem.setQuantity(1);
         cart.getBookItems().add(newItem);
+    }
+    @Transactional
+    public void deleteItem(long cartId, long bookId) throws CartNotFound, BookNotFound,CartItemExist {
+        Cart cart = cartRepo.findById(cartId).orElse(null);
+        if(cart == null) throw new CartNotFound(cartId);
+        List<BookItem> items = cart.getBookItems();
+        BookItem item = itemRepo.findByIdAndBookId(cart.getId(),bookId);
+        items.remove(item);
+        item.setCart(null);
+        item.setBook(null);
+        itemRepo.delete(item);
     }
 }

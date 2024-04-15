@@ -29,12 +29,12 @@
             <tbody>
             <c:forEach items="${cartItems}" var="cartItem">
                 <tr>
-                    <td><a href="<c:url value='${cartItem.item.bookId}}'/>">${cartItem['book'].name}</a></td>
+                    <td><a href="<c:url value='/book/view/${cartItem.item.bookId}'/>">${cartItem['book'].name}</a></td>
                     <td>${cartItem['book'].author}</td>
                     <td>$${cartItem['book'].price}</td>
                     <td>${cartItem['item'].quantity}</td>
                     <td><a>[Save]</a></td>
-                    <td><a>[Delete]</a></td>
+                    <td><a href="<c:url value='/user/cart/delete/${cartItem.item.bookId}'/>">[Delete]</a></td>
                 </tr>
             </c:forEach>
             </tbody>

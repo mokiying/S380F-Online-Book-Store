@@ -4,4 +4,5 @@ import hkmu.comps380f.model.BookItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookItemRepository extends JpaRepository<BookItem,Long> {
+    public BookItem findByIdAndBookId(long id,long bookId);
 }
