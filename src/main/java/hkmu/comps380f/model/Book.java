@@ -25,6 +25,11 @@ public class Book {
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="favourite",
+            joinColumns = {@JoinColumn(name="favourite_id")},
+            inverseJoinColumns = {@JoinColumn(name="book_id")})
+    private List<Favourite> favourites = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -98,5 +103,13 @@ public class Book {
 
     public int numberOfAttachments(){
         return this.attachments.size();
+    }
+
+    public List<Favourite> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<Favourite> favourites) {
+        this.favourites = favourites;
     }
 }
