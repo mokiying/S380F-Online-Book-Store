@@ -12,15 +12,13 @@ import java.util.List;
 public class Favourite {
     @Id
     private long id;
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    private BookUser bookUser;
     @Column(name = "username", insertable=false, updatable=false)
     private String username;
-    @OneToMany(mappedBy = "favourite", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<BookItem> bookItems = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private BookUser bookUser;
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy="favourites")
+    private List<Book> book = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -30,11 +28,11 @@ public class Favourite {
         this.id = id;
     }
 
-    public BookUser getUser() {
+    public BookUser getBookUser() {
         return bookUser;
     }
 
-    public void setUser(BookUser bookUser) {
+    public void setBookUser(BookUser bookUser) {
         this.bookUser = bookUser;
     }
 
@@ -46,11 +44,11 @@ public class Favourite {
         this.username = username;
     }
 
-    public List<BookItem> getBookItems() {
-        return bookItems;
+    public List<Book> getBook() {
+        return book;
     }
 
-    public void setBookItems(List<BookItem> bookItems) {
-        this.bookItems = bookItems;
+    public void setBook(List<Book> book) {
+        this.book = book;
     }
 }

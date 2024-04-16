@@ -12,19 +12,25 @@
 </div>
 <c:choose>
     <c:when test="${fn:length(favItems) == 0}">
-        <i>There are no Books in Favourite.</i>
+        <i>There are no Books in your favourite.</i>
     </c:when>
     <c:otherwise>
         <table border="1">
             <thead>
             <tr>
-                <th>Book Id</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Price</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${favItems}" var="item">
+            <c:forEach items="${favItems}" var="favItem">
                 <tr>
-                    <td>${item.bookId}</td>
+                    <td><a href="<c:url value='${favItem.item.bookId}}'/>">${favItem['book'].name}</a></td>
+                    <td>${favItem['book'].author}</td>
+                    <td>$${favItem['book'].price}</td
+                    <td><a>[Delete]</a></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -58,4 +58,10 @@ CREATE TABLE  IF NOT EXISTS book_item (
     quantity INTEGER,
     FOREIGN KEY (book_id) REFERENCES book (id),
     FOREIGN KEY (cart_id) REFERENCES cart (id)
-)
+);
+
+CREATE TABLE  IF NOT EXISTS favourite (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   username varchar(255) DEFAULT NULL,
+   FOREIGN KEY (username) REFERENCES users (username)
+);

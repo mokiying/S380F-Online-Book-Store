@@ -7,6 +7,10 @@ INSERT INTO cart (username) VALUES ('mickey');
 INSERT INTO cart (username) VALUES ('yelo');
 INSERT INTO cart (username) VALUES ('nicky');
 
+INSERT INTO favourite (username) VALUES ('mickey');
+INSERT INTO favourite (username) VALUES ('yelo');
+INSERT INTO favourite (username) VALUES ('nicky');
+
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_USER');
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_ADMIN');
 
