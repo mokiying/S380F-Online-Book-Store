@@ -34,6 +34,7 @@ public class FavouriteService {
         if(favourite == null) throw new FavouriteNotFound(username);
         return favourite;
     }
+    @Transactional
     public void addFavourtie(String username, long bookId) throws FavouriteNotFound, BookNotFound {
         Favourite favourite = fReop.getFavouriteByUsername(username);
         if(favourite == null) throw new FavouriteNotFound(username);
@@ -50,5 +51,15 @@ public class FavouriteService {
         newBook.setComments(book.getComments());
         newBook.setFavourites(book.getFavourites());
         favourite.getBook().add(newBook);
+        fReop.save(favourite);
+    }
+    @Transactional
+    public void deleteFavourtie(String username, long bookId) throws FavouriteNotFound, BookNotFound {
+        Favourite favourite = fReop.getFavouriteByUsername(username);
+        if(favourite == null) throw new FavouriteNotFound(username);
+        Book book = bookRepo.findById(bookId).orElse(null);
+        if (book == null) throw new BookNotFound(bookId);
+        favourite.getBook().remove(book);
+        fReop.delete(favourite);
     }
 }
