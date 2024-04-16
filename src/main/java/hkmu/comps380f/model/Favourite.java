@@ -12,11 +12,11 @@ import java.util.List;
 public class Favourite {
     @Id
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookUser bookUser;
     @Column(name = "username", insertable=false, updatable=false)
     private String username;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private BookUser bookUser;
     @ManyToMany(cascade = CascadeType.ALL, mappedBy="favourites")
     private List<Book> book = new ArrayList<>();
 
