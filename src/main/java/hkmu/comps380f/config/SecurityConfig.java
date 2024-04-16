@@ -18,15 +18,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/book/list/**").permitAll()
                         .requestMatchers("/book/view/**").permitAll()
-                        .requestMatchers("/home/**").permitAll()
-                        .requestMatchers("/user/**").hasRole("ADMIN")
                         .requestMatchers("/book/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/book/create/**").hasRole("ADMIN")
                         .requestMatchers("/book/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user/personal").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user/cart").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user/favourite").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user/**").hasRole("ADMIN")
+                        .requestMatchers("/home/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .failureUrl("/login?error")
+                        .defaultSuccessUrl("/book/list")
                         .permitAll()
                 )
                 .logout(logout -> logout

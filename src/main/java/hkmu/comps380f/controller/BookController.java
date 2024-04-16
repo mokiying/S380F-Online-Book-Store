@@ -12,10 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -220,10 +217,15 @@ public class BookController {
         bService.addComment(bookId, principal.getName(), form.getContent());
         return new RedirectView("/book/view/" + book.getId(), true);
     }
-    @GetMapping("/comment/delete/{commentId}/")
+    @GetMapping("/comment/delete/{commentId}")
     public View deleteComemnt(@PathVariable("commentId") long commentId) throws CommentNotFound {
         Comment comment = bService.getCommment(commentId);
         bService.deleteComment(commentId);
         return new RedirectView("/book/view/" + comment.getBookId(), true);
     }
+    @ExceptionHandler({BookNotFound.class, AttachmentNotFound.class, CommentNotFound.class})
+    public ModelAndView error(Exception e) {
+        return new ModelAndView("error", "message", e.getMessage());
+    }
 }
+

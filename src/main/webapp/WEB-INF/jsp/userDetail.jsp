@@ -8,7 +8,8 @@
 <body>
 <h2>User - ${user.username}</h2>
 <div>
-    <a href="<c:url value='/user/list'/>">[Back]</a>
+    <a href="<c:url value='/book/list'/>">[Back]</a>
+    <a href="<c:url value='/book/orders'/>">[Orders]</a>
     <a href="<c:url value='/user/edit/${user.username}'/>">[Update]</a>
     <a href="<c:url value='/user/delete/${user.username}'/>" />[Delete]</a>
 </div>
@@ -29,6 +30,7 @@
         <li><c:out value='${r.role}'/> <a href="<c:url value='/user/role/delete/${user.username}/${r.id}'/>">[Delete]</a></li>
     </c:forEach>
 </ul>
+<h2>Comments</h2>
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">
         <table border="1">
