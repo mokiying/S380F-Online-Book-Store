@@ -29,12 +29,15 @@
             <tbody>
             <c:forEach items="${cartItems}" var="cartItem">
                 <tr>
+                    <c:url var="post_url"  value="/user/cart/edit/${cartItem.item.bookId}" />
+                    <form:form method="POST" enctype="multipart/form-data" modelAttribute="cartForm" action="${post_url}">
                     <td><a href="<c:url value='/book/view/${cartItem.item.bookId}'/>">${cartItem['book'].name}</a></td>
                     <td>${cartItem['book'].author}</td>
                     <td>$${cartItem['book'].price}</td>
-                    <td>${cartItem['item'].quantity}</td>
-                    <td><a>[Save]</a></td>
+                    <td><form:input type="number" step="1" path="quantity" value="${cartItem['item'].quantity}"/></td>
+                    <td><input type="submit" value="Save"/></td>
                     <td><a href="<c:url value='/user/cart/delete/${cartItem.item.bookId}'/>">[Delete]</a></td>
+                    </form:form>
                 </tr>
             </c:forEach>
             </tbody>

@@ -182,7 +182,17 @@ public class UserController {
         model.addAttribute("roles", bookUser.getRoles());
         return "userDetail";
     }
+    public static class BookItemQuantityForm {
+        private int quantity;
 
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+    }
     @GetMapping(value={"/cart"})
     public String viewCart(ModelMap model, Principal principal) throws CartNotFound{
         Cart cart = cService.getCart(principal.getName());
@@ -194,6 +204,7 @@ public class UserController {
             items.add(newItem);
         }
         model.addAttribute("cartItems",items);
+        model.addAttribute("cartForm",new BookItemQuantityForm());
         return "cart";
     }
 
@@ -209,10 +220,12 @@ public class UserController {
         cService.deleteItem(cart.getId(),bookId);
         return new RedirectView("/user/cart",true);
     }
-    @GetMapping(value={"/cart/edit/{bookId}/qty/{qty}"})
-    public View editQuantity(Principal principal, @PathVariable("bookId") long bookId, @PathVariable("qty") int qty) throws CartNotFound {
+    @PostMapping ("/cart/edit/{bookId}")
+    public View editQuantity(Principal principal,
+                             @PathVariable("bookId") long bookId,
+                             BookItemQuantityForm form) throws CartNotFound {
         Cart cart = cService.getCart(principal.getName());
-        cService.editItemQuantity(cart.getId(),bookId,qty);
+        cService.editItemQuantity(cart.getId(),bookId, form.getQuantity());
         return new RedirectView("/user/cart",true);
     }
 }

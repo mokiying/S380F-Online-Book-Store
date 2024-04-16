@@ -56,13 +56,14 @@ public class ShoppingCartService {
         newItem.setCart(cart);
         newItem.setQuantity(1);
         cart.getBookItems().add(newItem);
+        cartRepo.save(cart);
     }
     @Transactional
     public void deleteItem(long cartId, long bookId) throws CartNotFound {
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
         List<BookItem> items = cart.getBookItems();
-        BookItem item = itemRepo.findByIdAndBookId(cart.getId(),bookId);
+        BookItem item = itemRepo.findByCartIdAndBookId(cart.getId(),bookId);
         items.remove(item);
         item.setCart(null);
         item.setBook(null);
@@ -72,9 +73,11 @@ public class ShoppingCartService {
     public void editItemQuantity(long cartId, long bookId, int quantity) throws CartNotFound {
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
-        List<BookItem> items = cart.getBookItems();
-        BookItem item = itemRepo.findByIdAndBookId(cart.getId(),bookId);
+        System.out.println("Cart ID: "+ cart.getId());
+        System.out.println("Book ID: "+ bookId);
+        BookItem item = itemRepo.findByCartIdAndBookId(cart.getId(),bookId);
+        if(item == null) System.out.println("Error");;
         item.setQuantity(quantity);
-        itemRepo.delete(item);
+        itemRepo.save(item);
     }
 }
