@@ -204,9 +204,15 @@ public class UserController {
         return new RedirectView("/user/cart",true);
     }
     @GetMapping(value={"/cart/delete/{bookId}"})
-    public View deleteFromCart(Principal principal, @PathVariable("bookId") long bookId) throws BookNotFound, CartNotFound, CartItemExist {
+    public View deleteFromCart(Principal principal, @PathVariable("bookId") long bookId) throws CartNotFound {
         Cart cart = cService.getCart(principal.getName());
         cService.deleteItem(cart.getId(),bookId);
+        return new RedirectView("/user/cart",true);
+    }
+    @GetMapping(value={"/cart/edit/{bookId}/qty/{qty}"})
+    public View editQuantity(Principal principal, @PathVariable("bookId") long bookId, @PathVariable("qty") int qty) throws CartNotFound {
+        Cart cart = cService.getCart(principal.getName());
+        cService.editItemQuantity(cart.getId(),bookId,qty);
         return new RedirectView("/user/cart",true);
     }
 }

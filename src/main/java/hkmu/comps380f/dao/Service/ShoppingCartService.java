@@ -58,7 +58,7 @@ public class ShoppingCartService {
         cart.getBookItems().add(newItem);
     }
     @Transactional
-    public void deleteItem(long cartId, long bookId) throws CartNotFound, BookNotFound,CartItemExist {
+    public void deleteItem(long cartId, long bookId) throws CartNotFound {
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
         List<BookItem> items = cart.getBookItems();
@@ -66,6 +66,15 @@ public class ShoppingCartService {
         items.remove(item);
         item.setCart(null);
         item.setBook(null);
+        itemRepo.delete(item);
+    }
+    @Transactional
+    public void editItemQuantity(long cartId, long bookId, int quantity) throws CartNotFound {
+        Cart cart = cartRepo.findById(cartId).orElse(null);
+        if(cart == null) throw new CartNotFound(cartId);
+        List<BookItem> items = cart.getBookItems();
+        BookItem item = itemRepo.findByIdAndBookId(cart.getId(),bookId);
+        item.setQuantity(quantity);
         itemRepo.delete(item);
     }
 }
