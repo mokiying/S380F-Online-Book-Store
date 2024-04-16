@@ -7,10 +7,11 @@ import hkmu.comps380f.exception.FavouriteNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Service
 public class FavouriteService {
     @Resource
     BookUserRepository userRepo;
@@ -35,7 +36,7 @@ public class FavouriteService {
         return favourite;
     }
     @Transactional
-    public void addFavourtie(String username, long bookId) throws FavouriteNotFound, BookNotFound {
+    public void addFavourite(String username, long bookId) throws FavouriteNotFound, BookNotFound {
         Favourite favourite = fReop.getFavouriteByUsername(username);
         if(favourite == null) throw new FavouriteNotFound(username);
         Book book = bookRepo.findById(bookId).orElse(null);
@@ -54,7 +55,7 @@ public class FavouriteService {
         fReop.save(favourite);
     }
     @Transactional
-    public void deleteFavourtie(String username, long bookId) throws FavouriteNotFound, BookNotFound {
+    public void deleteFavourite(String username, long bookId) throws FavouriteNotFound, BookNotFound {
         Favourite favourite = fReop.getFavouriteByUsername(username);
         if(favourite == null) throw new FavouriteNotFound(username);
         Book book = bookRepo.findById(bookId).orElse(null);

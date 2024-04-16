@@ -10,7 +10,7 @@
 <div>
     <a href="<c:url value='/book/list'/>">[Back]</a>
     <a href="<c:url value='/user/cart/add/${book.id}'/>">[Add to Shopping Cart]</a>
-    <a href="<c:url value='/favourite/add/${book.id}'/>">[Add to Favourite]</a>
+    <a href="<c:url value='/user/favourite/add/${book.id}'/>">[Add to Favourite]</a>
     <a href="<c:url value='/book/edit/${book.id}'/>">[Update]</a>
     <a href="<c:url value='/book/delete/${book.id}'/>" >[Delete]</a>
 </div>
