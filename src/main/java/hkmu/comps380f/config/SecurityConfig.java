@@ -21,6 +21,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/create").permitAll()
                         .requestMatchers("/user/edit/**").hasRole("USER")
                         .requestMatchers("/user/view/**").hasRole("USER")
+                        .requestMatchers("/user/cart/**").hasRole("USER")
                         .requestMatchers("/book/delete/**").hasRole("ADMIN")
                         .requestMatchers("/book/create/**").hasRole("ADMIN")
                         .requestMatchers("/book/**").hasAnyRole("USER", "ADMIN")
