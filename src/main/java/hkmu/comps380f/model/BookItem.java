@@ -36,6 +36,12 @@ public class BookItem {
     private Cart cart;
     private int quantity;
 
+    @Column(name = "order_id", insertable=false, updatable=false)
+    private long orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public long getId() {
         return id;
     }
@@ -66,5 +72,21 @@ public class BookItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

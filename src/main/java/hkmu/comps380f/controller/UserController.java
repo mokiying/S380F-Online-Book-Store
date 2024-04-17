@@ -1,6 +1,7 @@
 package hkmu.comps380f.controller;
 
 import hkmu.comps380f.dao.Service.FavouriteService;
+import hkmu.comps380f.dao.Service.OrderService;
 import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Service.UserManagementService;
 import hkmu.comps380f.exception.*;
@@ -30,6 +31,8 @@ public class UserController {
     private ShoppingCartService cService;
     @Resource
     private FavouriteService fService;
+    @Resource
+    private OrderService oService;
 
     @GetMapping({"", "/", "/list"})
 
@@ -231,7 +234,27 @@ public class UserController {
         cService.editItemQuantity(cart.getId(),bookId, form.getQuantity());
         return new RedirectView("/user/cart",true);
     }
-
+    @GetMapping(value={"/order"})
+    public String viewOrder(ModelMap model, Principal principal) throws OrderNotFound{
+        Order order = oService.getOrder(principal.getName());
+        List<Map<String,Object>> items = new ArrayList<>();
+        for(BookItem item : order.getBookItems()){
+            Map newItem = new HashMap();
+            newItem.put("book",item.getBook());
+            newItem.put("item",item);
+            items.add(newItem);
+        }
+        model.addAttribute("cartItems",items);
+        model.addAttribute("cartForm",new BookItemQuantityForm());
+        return "order";
+    }
+    @GetMapping(value={"/order/add"})
+    public View addToOrder(Principal principal) throws BookNotFound, CartNotFound, CartItemExist, OrderNotFound {
+        Cart cart = cService.getCart(principal.getName());
+        Order order = oService.getOrder(principal.getName());
+        oService.addItem(order.getId(),cart.getId());
+        return new RedirectView("/user/order",true);
+    }
     @GetMapping(value = "/favourite")
     public String viewFavourite(ModelMap model, Principal principal) throws FavouriteNotFound {
         Favourite myFavourite = fService.getFavourite(principal.getName());
@@ -249,7 +272,7 @@ public class UserController {
         return new RedirectView("/user/favourite",true);
     }
 
-    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class, UserAlreadyExist.class})
+    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class, UserAlreadyExist.class, OrderNotFound.class})
     public ModelAndView error(Exception e) {
         return new ModelAndView("error", "message", e.getMessage());
     }
