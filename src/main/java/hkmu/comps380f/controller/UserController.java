@@ -1,18 +1,14 @@
 package hkmu.comps380f.controller;
 
-import hkmu.comps380f.dao.Service.FavouriteService;
+import hkmu.comps380f.dao.Repository.AttachmentRepository;
 import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Service.UserManagementService;
 import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.View;
@@ -29,7 +25,7 @@ public class UserController {
     @Resource
     private ShoppingCartService cService;
     @Resource
-    private FavouriteService fService;
+    private AttachmentRepository aService;
 
     @GetMapping({"", "/", "/list"})
 
@@ -232,24 +228,22 @@ public class UserController {
         return new RedirectView("/user/cart",true);
     }
 
-    @GetMapping(value = "/favourite")
-    public String viewFavourite(ModelMap model, Principal principal) throws FavouriteNotFound {
-        Favourite myFavourite = fService.getFavourite(principal.getName());
-        model.addAttribute("books",myFavourite.getBook());
-        return "favourite";
+    @GetMapping(value = {"/orders"})
+    public String viewOrder(Principal principal, ModelMap model){
+        System.out.println("Name:"+principal.getName());
+        List<Order> orders = cService.getOrders(principal.getName());
+        System.out.println("Orders:"+orders.toString());
+        model.addAttribute("orders",orders);
+        return "order";
     }
-    @GetMapping(value = "/favourite/add/{bookId}")
-    public View addToFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
-        fService.addFavourite(principal.getName(),bookId);
-        return new RedirectView("/user/favourite",true);
-    }
-    @GetMapping(value = "/favourite/delete/{bookId}")
-    public View deleteFromFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
-        fService.deleteFavourite(principal.getName(),bookId);
-        return new RedirectView("/user/favourite",true);
-    }
-
-    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class, UserAlreadyExist.class})
+    @ExceptionHandler(
+            {
+                    UserNotFound.class,
+                    BookNotFound.class,
+                    CartNotFound.class,
+                    CartItemExist.class,
+                    UserAlreadyExist.class
+            })
     public ModelAndView error(Exception e) {
         return new ModelAndView("error", "message", e.getMessage());
     }

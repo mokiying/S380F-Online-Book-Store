@@ -1,10 +1,7 @@
 package hkmu.comps380f.dao.Service;
 
 
-import hkmu.comps380f.exception.BookNotFound;
-import hkmu.comps380f.exception.CartItemExist;
-import hkmu.comps380f.exception.CartNotFound;
-import hkmu.comps380f.exception.UserNotFound;
+import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.BookItem;
 import hkmu.comps380f.model.BookUser;
 import jakarta.annotation.Resource;
@@ -13,7 +10,10 @@ import org.springframework.stereotype.Service;
 import hkmu.comps380f.dao.Repository.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 import hkmu.comps380f.model.*;
 
 @Service
@@ -26,6 +26,10 @@ public class ShoppingCartService {
     BookItemRepository itemRepo;
     @Resource
     BookRepository bookRepo;
+    @Resource
+    OrderRepository orderRepo;
+    @Resource
+    OrderItemRepository orderItemRepo;
     @Transactional
     public void createCartToUser(String username) throws UserNotFound{
         BookUser user = userRepo.findById(username).orElse(null);
@@ -80,5 +84,33 @@ public class ShoppingCartService {
         if(item == null) System.out.println("Error");;
         item.setQuantity(quantity);
         itemRepo.save(item);
+    }
+    @Transactional
+    public void addOrder(long cartId, long bookId) throws CartNotFound {
+        Cart cart = cartRepo.findById(cartId).orElse(null);
+        if(cart == null) throw new CartNotFound(cartId);
+        Order newOrder = new Order();
+        newOrder.setBookUser(cart.getUser());
+        newOrder.setDateTime(LocalDate.now());
+        for (BookItem item : cart.getBookItems()){
+            OrderItem newItem = new OrderItem();
+            newItem.setBookId(item.getBookId());
+            newItem.setBook(item.getBook());
+            newItem.setQuantity(item.getQuantity());
+            newOrder.getOrderItems().add(newItem);
+        }
+        orderRepo.save(newOrder);
+    }
+    @Transactional
+    public List<Order> getOrders(String username){
+        //List<Order> orders = orderRepo.findByUsername(username);
+        List<Order> orders = orderRepo.findAll();
+        return orders;
+    }
+    @Transactional
+    public Order getOrder(UUID orderId) throws OrderNotFound{
+       Order order = orderRepo.findById(orderId).orElse(null);
+        if(order == null) throw new OrderNotFound(orderId);
+        return order;
     }
 }
