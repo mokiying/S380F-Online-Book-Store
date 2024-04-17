@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS order_item CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS favourite CASCADE;
 DROP TABLE IF EXISTS book_item CASCADE;
 DROP TABLE IF EXISTS cart CASCADE;
@@ -59,6 +61,21 @@ CREATE TABLE  IF NOT EXISTS book_item (
     quantity INTEGER,
     FOREIGN KEY (book_id) REFERENCES book (id),
     FOREIGN KEY (cart_id) REFERENCES cart (id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username varchar(255) DEFAULT NULL,
+    FOREIGN KEY (username) REFERENCES users (username)
+);
+
+CREATE TABLE  IF NOT EXISTS order_item (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      book_id INT,
+      order_id INT,
+      quantity INTEGER,
+      FOREIGN KEY (book_id) REFERENCES book (id),
+      FOREIGN KEY (order_id) REFERENCES orders (id)
 );
 
 CREATE TABLE  IF NOT EXISTS favourite (
