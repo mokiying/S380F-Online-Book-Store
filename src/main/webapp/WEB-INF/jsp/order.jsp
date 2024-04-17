@@ -33,7 +33,7 @@
                 <tr>
                     <td>${order.id}</td>
                     <td>${order.dateTime}</td>
-                    <td><a href="<c:url value="/order/view/${entry.id}" />">
+                    <td><a href="<c:url value="/user/orders/view/${order.id}" />">
                         Details
                     </a></td>
                 </tr>

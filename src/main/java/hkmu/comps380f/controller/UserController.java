@@ -236,6 +236,21 @@ public class UserController {
         model.addAttribute("orders",orders);
         return "order";
     }
+    @GetMapping(value = {"/orders/view/{orderId}"})
+    public String viewOrderDetail(ModelMap model, @PathVariable("orderId") UUID orderId) throws OrderNotFound {
+        Order order = cService.getOrder(orderId);
+        List<Map<String,Object>> items = new ArrayList<>();
+        for(OrderItem item : order.getOrderItems()){
+            Map newItem = new HashMap();
+            newItem.put("book",item.getBook());
+            newItem.put("item",item);
+            items.add(newItem);
+        }
+        System.out.println("items:"+items.toString());
+        model.addAttribute("orderId",orderId);
+        model.addAttribute("orderItems",items);
+        return "orderDetail";
+    }
     @ExceptionHandler(
             {
                     UserNotFound.class,
