@@ -8,6 +8,7 @@ import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class UserController {
         private String fullName;
         private String email;
         private String address;
-        private String[] roles;
+        private String[] roles = new String[]{"ROLE_USER"};
 
         public String getUsername() {
             return username;
@@ -107,8 +108,9 @@ public class UserController {
                 form.getAddress(),
                 form.getRoles()
         );
-        return new RedirectView("/user/view/" + username, true);
+        return new RedirectView("/register", true);
     }
+
     @GetMapping(value = {"", "/view/{username}"})
     public String view(ModelMap model,
                        @PathVariable("username") String username) throws UserNotFound {

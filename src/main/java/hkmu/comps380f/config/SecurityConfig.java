@@ -18,6 +18,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/book/list/**").permitAll()
                         .requestMatchers("/book/view/**").permitAll()
+                        .requestMatchers("/user/create").permitAll()
+                        .requestMatchers("/user/edit/**").hasRole("USER")
+                        .requestMatchers("/user/view/**").hasRole("USER")
                         .requestMatchers("/book/delete/**").hasRole("ADMIN")
                         .requestMatchers("/book/create/**").hasRole("ADMIN")
                         .requestMatchers("/book/**").hasAnyRole("USER", "ADMIN")

@@ -51,6 +51,17 @@
         <li class="list-group-item">
             <a onclick="loadPage('/bookUser')" class="nav-link">My Information</a>
         </li>
+            <li class="list-group-item">
+                <a onclick="loadPage('/logout')" class="nav-link">Logout</a>
+            </li>
+        </security:authorize>
+        <security:authorize access="!hasAnyRole('USER', 'ADMIN')">
+            <li class="list-group-item">
+                <a onclick="loadPage('/register')" class="nav-link">Register</a>
+            </li>
+            <li class="list-group-item">
+                <a onclick="loadPage('/login')" class="nav-link">Login</a>
+            </li>
         </security:authorize>
     </ul>
 </div>

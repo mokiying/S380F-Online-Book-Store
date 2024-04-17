@@ -9,12 +9,17 @@
 <h2>Book</h2>
 <div>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
     <a href="<c:url value="/user/personal" />">[Personal Information]</a>
     <a href="<c:url value="/user/cart" />">[Shopping Cart]</a>
     </security:authorize>
     <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value="/book/create" />">[Create a Book]</a>
     <a href="<c:url value="/user/list" />">[User Management]</a>
+    </security:authorize>
+    <security:authorize access="!hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/login" />">[login]</a>
+        <a href="<c:url value="/user/create" />">[Register]</a>
     </security:authorize>
 </div>
 <c:choose>
