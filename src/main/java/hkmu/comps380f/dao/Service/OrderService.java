@@ -34,7 +34,7 @@ public class OrderService {
         return order;
     }
     @Transactional
-    public void addItem(String orderId, long cartId) throws CartNotFound, BookNotFound, CartItemExist, OrderNotFound {
+    public void addItem(long orderId, long cartId) throws CartNotFound, BookNotFound, CartItemExist, OrderNotFound {
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
         Order order = oRepo.findById(orderId).orElse(null);
