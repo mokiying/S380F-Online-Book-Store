@@ -34,6 +34,7 @@ public class ShoppingCartService {
         newCart.setUsername(username);
         newCart.setUser(user);
         userRepo.save(user);
+        cartRepo.save(newCart);
     }
     @Transactional
     public Cart getCart(String username) throws CartNotFound {

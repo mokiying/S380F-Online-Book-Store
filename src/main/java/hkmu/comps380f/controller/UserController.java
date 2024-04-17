@@ -99,7 +99,7 @@ public class UserController {
         }
     }
     @PostMapping("/create")
-    public View create(Form form) throws IOException {
+    public View create(Form form) throws IOException, UserNotFound {
         String username = uService.createUser(
                 form.getUsername(),
                 form.getPassword(),
@@ -108,6 +108,7 @@ public class UserController {
                 form.getAddress(),
                 form.getRoles()
         );
+        cService.createCartToUser(username);
         return new RedirectView("/register", true);
     }
 
