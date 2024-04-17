@@ -7,6 +7,11 @@ import hkmu.comps380f.exception.FavouriteNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
+<<<<<<< Updated upstream
+=======
+import org.apache.commons.logging.Log;
+import org.springframework.stereotype.Service;
+>>>>>>> Stashed changes
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

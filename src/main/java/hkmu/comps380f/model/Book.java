@@ -25,10 +25,7 @@ public class Book {
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="favourite",
-            joinColumns = {@JoinColumn(name="favourite_id")},
-            inverseJoinColumns = {@JoinColumn(name="book_id")})
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy="book")
     private List<Favourite> favourites = new ArrayList<>();
 
     public long getId() {

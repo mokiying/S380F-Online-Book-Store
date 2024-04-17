@@ -98,11 +98,11 @@ public class BookUser {
         this.comments = comments;
     }
 
-    public List<Favourite> getFavourites() {
+    public List<Favourite> getFavourite() {
         return favourites;
     }
 
-    public void setFavourites(List<Favourite> favourites) {
+    public void setFavourite(List<Favourite> favourites) {
         this.favourites = favourites;
     }
 }

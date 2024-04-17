@@ -11,7 +11,7 @@
     <a href="<c:url value='/book/list'/>">[Back]</a>
 </div>
 <c:choose>
-    <c:when test="${fn:length(favItems) == 0}">
+    <c:when test="${fn:length(books) == 0}">
         <i>There are no Books in your favourite.</i>
     </c:when>
     <c:otherwise>
@@ -25,11 +25,11 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${favItems}" var="favItem">
+            <c:forEach items="${book}" var="books">
                 <tr>
-                    <td><a href="<c:url value='${favItem.item.bookId}}'/>">${favItem['book'].name}</a></td>
-                    <td>${favItem['book'].author}</td>
-                    <td>$${favItem['book'].price}</td
+                    <td><a href="<c:url value='${book.bookId}}'/>">${book.book.name}</a></td>
+                    <td>${book.author}</td>
+                    <td>$${book.price}</td
                     <td><a>[Delete]</a></td>
                 </tr>
             </c:forEach>

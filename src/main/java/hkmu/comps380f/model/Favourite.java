@@ -17,7 +17,10 @@ public class Favourite {
     @ManyToOne
     @JoinColumn(name = "username")
     private BookUser bookUser;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy="favourites")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="favourite_book",
+            joinColumns = {@JoinColumn(name="username")},
+            inverseJoinColumns = {@JoinColumn(name="book_id")})
     private List<Book> book = new ArrayList<>();
 
     public long getId() {

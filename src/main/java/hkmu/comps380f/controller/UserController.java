@@ -204,4 +204,51 @@ public class UserController {
         model.addAttribute("cartItems",items);
         return "cart";
     }
+<<<<<<< Updated upstream
+=======
+
+    @GetMapping(value={"/cart/add/{bookId}"})
+    public View addToCart(Principal principal, @PathVariable("bookId") long bookId) throws BookNotFound, CartNotFound, CartItemExist {
+        Cart cart = cService.getCart(principal.getName());
+        cService.addItem(cart.getId(),bookId);
+        return new RedirectView("/user/cart",true);
+    }
+    @GetMapping(value={"/cart/delete/{bookId}"})
+    public View deleteFromCart(Principal principal, @PathVariable("bookId") long bookId) throws CartNotFound {
+        Cart cart = cService.getCart(principal.getName());
+        cService.deleteItem(cart.getId(),bookId);
+        return new RedirectView("/user/cart",true);
+    }
+    @PostMapping ("/cart/edit/{bookId}")
+    public View editQuantity(Principal principal,
+                             @PathVariable("bookId") long bookId,
+                             BookItemQuantityForm form) throws CartNotFound {
+        Cart cart = cService.getCart(principal.getName());
+        cService.editItemQuantity(cart.getId(),bookId, form.getQuantity());
+        return new RedirectView("/user/cart",true);
+    }
+
+    @GetMapping(value = "/favourite")
+    public String viewFavourite(ModelMap model, Principal principal) throws FavouriteNotFound {
+        Favourite myFavourite = fService.getFavourite(principal.getName());
+        model.addAttribute("user", myFavourite.getBookUser());
+        model.addAttribute("books",myFavourite.getBook());
+        return "viewFavourite";
+    }
+    @GetMapping(value = "/favourite/add/{bookId}")
+    public View addToFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
+        fService.addFavourite(principal.getName(),bookId);
+        return new RedirectView("/user/favourite",true);
+    }
+    @GetMapping(value = "/favourite/delete/{bookId}")
+    public View deleteFromFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
+        fService.deleteFavourite(principal.getName(),bookId);
+        return new RedirectView("/user/favourite",true);
+    }
+
+    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class})
+    public ModelAndView error(Exception e) {
+        return new ModelAndView("error", "message", e.getMessage());
+    }
+>>>>>>> Stashed changes
 }
