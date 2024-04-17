@@ -9,10 +9,13 @@
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
     <a href="<c:url value='/book/list'/>">[Back]</a>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
     <a href="<c:url value='/user/cart/add/${book.id}'/>">[Add to Shopping Cart]</a>
-    <a href="<c:url value='/user/favourite/add/${book.id}'/>">[Add to Favourite]</a>
+    </security:authorize>
+    <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value='/book/edit/${book.id}'/>">[Update]</a>
     <a href="<c:url value='/book/delete/${book.id}'/>" >[Delete]</a>
+    </security:authorize>
 </div>
 <c:choose>
     <c:when test="${!empty imageData}">
@@ -29,7 +32,9 @@
 </ul>
 <h3>Comments</h3>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
     <a href="<c:url value='/book/comment/add/${bookId}'/>">[Add Comment]</a>
+    </security:authorize>>
 </div>
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">

@@ -36,11 +36,9 @@
 <div class="toolbar">
     <ul class="list-group">
         <li class="list-group-item">
-            <a onclick="loadPage('/fav')" class="nav-link">Favorite</a>
-        </li>
-        <li class="list-group-item">
             <a onclick="loadPage('/bookList')" class="nav-link">Book List</a>
         </li>
+        <security:authorize access="hasAnyRole('USER', 'ADMIN')">
         <li class="list-group-item">
             <a onclick="loadPage('/cart')" class="nav-link">Cart</a>
         </li>
@@ -53,6 +51,7 @@
         <li class="list-group-item">
             <a onclick="loadPage('/bookUser')" class="nav-link">My Information</a>
         </li>
+        </security:authorize>
     </ul>
 </div>
 

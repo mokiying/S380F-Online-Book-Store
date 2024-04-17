@@ -6,7 +6,7 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<h2>Create a User</h2>
+<h2>Register</h2>
 <div>
     <a href="<c:url value='/user/list'/>">[Back]</a>
 </div>
@@ -21,8 +21,7 @@
     <form:input type="text" path="email"/><br/><br/>
     <form:label path="address">Address</form:label><br/>
     <form:input type="text" path="address"/><br/><br/>
-    <form:checkbox path="roles" value="ROLE_USER" checked="true"/>ROLE_USER<br/>
-    <form:checkbox path="roles" value="ROLE_ADMIN"/>ROLE_ADMIN
+    <form:checkbox path="roles" value="ROLE_USER" checked="true" display="none"/>ROLE_USER<br/>
     <br/><br/>
     <input type="submit" value="Submit"/>
 </form:form>

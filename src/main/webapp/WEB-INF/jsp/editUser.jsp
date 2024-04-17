@@ -20,12 +20,14 @@
     <form:label path="address">Address</form:label><br/>
     <form:input type="text" path="address" value="${user.address}"/><br/><br/>
     <br/><br/>
+    <security:authorize access="hasRole('ADMIN')">
     <h2>Roles</h2>
     <ul>
         <c:forEach var="r" items="${roles}">
             <li><c:out value='${r.role}'/> </li>
         </c:forEach>
     </ul>
+    </security:authorize>
     <input type="submit" value="Submit"/>
 </form:form>
 
