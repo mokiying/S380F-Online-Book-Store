@@ -3,10 +3,7 @@ package hkmu.comps380f.dao.Service;
 import hkmu.comps380f.dao.Repository.UserRoleRepository;
 import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Repository.BookUserRepository;
-import hkmu.comps380f.exception.AttachmentNotFound;
-import hkmu.comps380f.exception.BookNotFound;
-import hkmu.comps380f.exception.UserNotFound;
-import hkmu.comps380f.exception.UserRoleNotFound;
+import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +47,9 @@ public class UserManagementService {
     @Transactional
     public String createUser(String username, String password, String fullName, String email,
                              String address, String[] userRole)
-            throws IOException {
+            throws IOException, UserAlreadyExist {
+        BookUser user = uRepo.findById(username).orElse(null);
+        if (user != null) throw new UserAlreadyExist(username);
         BookUser bookUser = new BookUser(username, password, userRole);
         bookUser.setFullName(fullName);
         bookUser.setEmail(email);

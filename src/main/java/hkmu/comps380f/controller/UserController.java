@@ -99,7 +99,7 @@ public class UserController {
         }
     }
     @PostMapping("/create")
-    public View create(Form form) throws IOException, UserNotFound {
+    public View create(Form form) throws IOException, UserNotFound, UserAlreadyExist {
         String username = uService.createUser(
                 form.getUsername(),
                 form.getPassword(),
@@ -249,7 +249,7 @@ public class UserController {
         return new RedirectView("/user/favourite",true);
     }
 
-    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class})
+    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class, UserAlreadyExist.class})
     public ModelAndView error(Exception e) {
         return new ModelAndView("error", "message", e.getMessage());
     }
