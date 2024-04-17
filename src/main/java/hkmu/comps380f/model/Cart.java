@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Cart {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "username", insertable=false, updatable=false)
     private String username;

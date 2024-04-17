@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class Attachment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ColumnDefault("random_uuid()")
     private UUID id;
     @Column(name = "filename")
