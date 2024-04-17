@@ -9,7 +9,6 @@
 <h2>User - ${user.username}</h2>
 <div>
     <a href="<c:url value='/book/list'/>">[Back]</a>
-    <a href="<c:url value='/book/orders'/>">[Orders]</a>
     <a href="<c:url value='/user/edit/${user.username}'/>">[Update]</a>
     <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value='/user/delete/${user.username}'/>" />[Delete]</a>

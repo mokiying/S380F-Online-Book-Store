@@ -8,10 +8,16 @@
 <body>
 <h2>Book</h2>
 <div>
+    <c:url var="logoutUrl" value="/logout"/>
+    <form action="${logoutUrl}" method="post">
+        <input type="submit" value="Log out" />
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
         <a href="<c:url value="/logout" />">[Logout]</a>
     <a href="<c:url value="/user/personal" />">[Personal Information]</a>
     <a href="<c:url value="/user/cart" />">[Shopping Cart]</a>
+        <a href="<c:url value='/user/orders'/>">[Orders]</a>
     </security:authorize>
     <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value="/book/create" />">[Create a Book]</a>
