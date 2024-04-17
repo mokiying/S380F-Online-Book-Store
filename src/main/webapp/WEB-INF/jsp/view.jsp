@@ -27,7 +27,9 @@
 <ul>
 <li><b>Author:</b> <c:out value="${book.author}" /></li><br/>
 <li><b>Price:</b> <c:out value="${book.price}" /></li><br/>
-<li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
+<security:authorize access="hasRole('ADMIN')">
+    <li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
+</security:authorize>
 <li><b>Description:</b><p><c:out value="${book.description}" /></p></li><br/>
 </ul>
 <h3>Comments</h3>
@@ -46,7 +48,7 @@
                     </p>
                     <security:authorize access="hasRole('ADMIN')">
                     <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
-                    </security:authorize>>
+                    </security:authorize>
                 </li>
             </c:forEach>
         </ul>

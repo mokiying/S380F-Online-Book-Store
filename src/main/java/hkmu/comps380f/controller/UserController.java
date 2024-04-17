@@ -227,7 +227,19 @@ public class UserController {
         cService.editItemQuantity(cart.getId(),bookId, form.getQuantity());
         return new RedirectView("/user/cart",true);
     }
+    @GetMapping(value = {"/cart/checkout"})
+    public View checkout(ModelMap model, Principal principal) throws CartNotFound, UserNotFound, OrderNotFound {
 
+        Cart cart = cService.getCart(principal.getName());
+        Order order = cService.addOrder(principal.getName());
+        /*
+        try{
+            cService.transferCartToOrder(order.getId(),cart.getId());
+        }catch (OutOfStockException e){
+            cService.deleteOrder(order.getId());
+        }*/
+        return new RedirectView("/user/orders",true);
+    }
     @GetMapping(value = {"/orders"})
     public String viewOrder(Principal principal, ModelMap model){
         System.out.println("Name:"+principal.getName());

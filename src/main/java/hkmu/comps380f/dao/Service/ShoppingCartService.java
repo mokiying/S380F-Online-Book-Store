@@ -86,20 +86,49 @@ public class ShoppingCartService {
         itemRepo.save(item);
     }
     @Transactional
-    public void addOrder(long cartId, long bookId) throws CartNotFound {
+    public Order addOrder(String username) throws UserNotFound{
+        Order newOrder = new Order();
+        BookUser user = userRepo.findById(username).orElse(null);
+        if(user == null) throw new UserNotFound(username);
+        newOrder.setUsername(username);
+        newOrder.setDateTime(LocalDate.now());
+        orderRepo.save(newOrder);
+        return newOrder;
+    }
+    @Transactional
+    public void transferCartToOrder(UUID orderId, long cartId) throws OutOfStockException {
+        Order order = orderRepo.findById(orderId).orElse(null);
+        Cart cart = cartRepo.findById(cartId).orElse(null);
+        for (BookItem item : cart.getBookItems()){
+            if(item.getQuantity() > item.getBook().getAvailability())
+                throw new OutOfStockException(item.getId());
+            OrderItem newItem = new OrderItem();
+            newItem.setBookId(item.getBookId());
+            newItem.setBook(item.getBook());
+            newItem.setQuantity(item.getQuantity());
+            order.getOrderItems().add(newItem);
+        }
+        orderRepo.save(order);
+    }
+    @Transactional
+    public void addOrder(long cartId) throws CartNotFound, OutOfStockException{
         Cart cart = cartRepo.findById(cartId).orElse(null);
         if(cart == null) throw new CartNotFound(cartId);
         Order newOrder = new Order();
         newOrder.setBookUser(cart.getUser());
         newOrder.setDateTime(LocalDate.now());
-        for (BookItem item : cart.getBookItems()){
-            OrderItem newItem = new OrderItem();
-            newItem.setBookId(item.getBookId());
-            newItem.setBook(item.getBook());
-            newItem.setQuantity(item.getQuantity());
-            newOrder.getOrderItems().add(newItem);
-        }
+
+        System.out.println(newOrder.toString());
         orderRepo.save(newOrder);
+        for (BookItem item : cart.getBookItems()){
+            Book book = item.getBook();
+            book.setAvailability(book.getAvailability()-item.getQuantity());
+            bookRepo.save(book);
+            item.setCart(null);
+            itemRepo.delete(item);
+            cart.getBookItems().remove(item);
+        }
+        cartRepo.save(cart);
     }
     @Transactional
     public List<Order> getOrders(String username){
@@ -112,5 +141,17 @@ public class ShoppingCartService {
        Order order = orderRepo.findById(orderId).orElse(null);
         if(order == null) throw new OrderNotFound(orderId);
         return order;
+    }
+    @Transactional
+    public void deleteOrder(UUID orderId) throws OrderNotFound{
+        Order order = orderRepo.findById(orderId).orElse(null);
+        if(order == null) throw new OrderNotFound(orderId);
+        for (OrderItem item : order.getOrderItems()){
+            item.setBook(null);
+            item.setOrder(null);
+            order.getOrderItems().remove(item);
+            orderItemRepo.delete(item);
+        }
+        orderRepo.delete(order);
     }
 }

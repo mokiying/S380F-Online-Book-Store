@@ -9,6 +9,7 @@
 <h2>Shopping Cart</h2>
 <div>
     <a href="<c:url value="/book/list" />">[Back]</a>
+    <a href="<c:url value="/user/cart/checkout" />">[Check Out]</a>
 </div>
 <c:choose>
     <c:when test="${fn:length(cartItems) == 0}">
