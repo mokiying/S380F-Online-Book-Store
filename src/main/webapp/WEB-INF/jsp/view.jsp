@@ -34,7 +34,7 @@
 <div>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
     <a href="<c:url value='/book/comment/add/${bookId}'/>">[Add Comment]</a>
-    </security:authorize>>
+    </security:authorize>
 </div>
 <c:choose>
     <c:when test="${fn:length(comments) > 0}">
@@ -44,7 +44,9 @@
                     <p><b><c:out value="${comment.username}"/>:</b>
                     <c:out value="${comment.content}"/>
                     </p>
+                    <security:authorize access="hasRole('ADMIN')">
                     <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
+                    </security:authorize>>
                 </li>
             </c:forEach>
         </ul>
