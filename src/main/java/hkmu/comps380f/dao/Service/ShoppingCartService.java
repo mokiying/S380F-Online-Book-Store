@@ -117,6 +117,9 @@ public class ShoppingCartService {
             Book book = item.getBook();
             book.setAvailability(book.getAvailability() - item.getQuantity());
             bookRepo.save(book);
+            item.setCart(null);
+            item.setBook(null);
+            itemRepo.delete(item);
         }
     }
     @Transactional
