@@ -9,6 +9,9 @@
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
     <a href="<c:url value='/book/view/${bookId}'/>">[Back]</a>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
 </div>
 <h3>Add Comment</h3>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm">

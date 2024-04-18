@@ -7,6 +7,9 @@
 </head>
 <body>
 <h2>User</h2>
+<security:authorize access="hasAnyRole('USER', 'ADMIN')">
+    <a href="<c:url value="/logout" />">[Logout]</a>
+</security:authorize>
 <a href="<c:url value='/book/list'/>">[Back]</a>
 <security:authorize access="hasRole('ADMIN')">
 <a href="<c:url value="/user/create" />">[Create a User]</a><br/><br/>

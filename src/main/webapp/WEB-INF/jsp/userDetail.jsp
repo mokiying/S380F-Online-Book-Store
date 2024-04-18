@@ -8,6 +8,9 @@
 <body>
 <h2>User - ${user.username}</h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
     <a href="<c:url value='/user/edit/${user.username}'/>">[Update]</a>
     <security:authorize access="hasRole('ADMIN')">

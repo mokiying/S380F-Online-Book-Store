@@ -8,6 +8,9 @@
 <body>
 <h2>Register</h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <security:authorize access="hasRole('ADMIN')">
     <a href="<c:url value='/user/list'/>">[Back]</a>
     </security:authorize>

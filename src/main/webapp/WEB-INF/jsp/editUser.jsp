@@ -8,6 +8,9 @@
 <body>
 <h2>Edit User: ${user.username}</h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/user/list'/>">[Back]</a>
 </div>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="userForm">

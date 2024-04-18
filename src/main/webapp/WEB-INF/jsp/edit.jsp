@@ -7,6 +7,9 @@
 </head>
 <body>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
 </div>
 <h2>Edit Book ${book.id}</h2>

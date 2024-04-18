@@ -8,11 +8,9 @@
 <body>
 <h2>Order</h2>
 <div>
-    <c:url var="logoutUrl" value="/logout"/>
-    <form action="${logoutUrl}" method="post">
-        <input type="submit" value="Log out" />
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    </form>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value="/book/list" />">[Back]</a>
 </div>
 <c:choose>

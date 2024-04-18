@@ -8,6 +8,9 @@
 <body>
 <h2>Create a Book</h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
 </div>
 <form:form method="POST" enctype="multipart/form-data" modelAttribute="bookForm">

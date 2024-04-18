@@ -8,6 +8,9 @@
 <body>
 <h2> ${username} Favourite /></h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
 </div>
 <c:choose>

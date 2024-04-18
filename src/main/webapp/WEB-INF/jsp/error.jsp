@@ -6,7 +6,9 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<c:url var="logoutUrl" value="/logout"/>
+<security:authorize access="hasAnyRole('USER', 'ADMIN')">
+    <a href="<c:url value="/logout" />">[Logout]</a>
+</security:authorize>
 <form action="${logoutUrl}" method="post">
     <input type="submit" value="Log out" />
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

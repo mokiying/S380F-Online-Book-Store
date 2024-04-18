@@ -12,8 +12,10 @@
 <c:if test="${param.logout != null}">
     <p class="alert alert-success">You have logged out.</p>
 </c:if>
+
 <div class="container">
     <h2>Online Book System - Login</h2>
+    <a href="<c:url value='/book/list'/>">[Back]</a>
     <form action="login" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Username:</label>

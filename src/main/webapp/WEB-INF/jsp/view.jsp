@@ -8,6 +8,9 @@
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
     <a href="<c:url value='/user/cart/add/${book.id}'/>">[Add to Shopping Cart]</a>
