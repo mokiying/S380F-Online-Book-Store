@@ -32,6 +32,6 @@ public class IndexController {
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/book/list";
+        return "redirect:/login";
     }
 }

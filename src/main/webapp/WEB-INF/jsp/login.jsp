@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Customer Support Login</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style> body {padding:5rem;} </style>
 </head>
 <body>
@@ -15,24 +15,35 @@
 
 <div class="container">
     <h2>Online Book System - Login</h2>
-    <a href="<c:url value='/book/list'/>">[Back]</a>
-    <form action="login" method="POST">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username:</label>
-            <input type="text" class="form-control" id="username" name="username">
+    <div class="row">
+        <div class="col-md-6">
+            <form action="login" method="POST">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                    <label class="form-check-label" for="remember-me">Remember me</label>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                    <a href="/CSApp/book/list" class="btn btn-secondary ml-2">Login as Guest</a>
+                </div>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-            <label class="form-check-label" for="remember-me">Remember me</label>
-        </div>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <button type="submit" class="btn btn-primary">Log In</button>
-    </form>
+    </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
