@@ -102,25 +102,19 @@ public class ShoppingCartService {
         Order order = orderRepo.findById(orderId).orElse(null);
         Cart cart = cartRepo.findById(cartId).orElse(null);
         for (BookItem item : cart.getBookItems()){
+            if(item.getQuantity() > item.getBook().getAvailability())
+                throw new OutOfStockException(item.getId());
+        }
+        for (BookItem item : cart.getBookItems()){
             OrderItem newItem = new OrderItem();
-            newItem.setOrderId(orderId);
-            newItem.setOrder(order);
             newItem.setBookId(item.getBookId());
             newItem.setBook(item.getBook());
             newItem.setQuantity(item.getQuantity());
             order.getOrderItems().add(newItem);
-            if(item.getQuantity() > item.getBook().getAvailability())
-                throw new OutOfStockException(item.getId());
+            newItem.setOrderId(orderId);
+            newItem.setOrder(order);
         }
         orderRepo.save(order);
-        for (BookItem item : cart.getBookItems()){
-            Book book = item.getBook();
-            book.setAvailability(book.getAvailability() - item.getQuantity());
-            bookRepo.save(book);
-            item.setCart(null);
-            item.setBook(null);
-            itemRepo.delete(item);
-        }
     }
     @Transactional
     public List<Order> getOrders(String username){
@@ -142,9 +136,11 @@ public class ShoppingCartService {
             for (OrderItem item : order.getOrderItems()){
                 item.setBook(null);
                 item.setOrder(null);
+                orderItemRepo.delete(item);
                 order.getOrderItems().remove(item);
             }
         }
+        order.getBookUser().getOrders().remove(order);
         order.setBookUser(null);
         orderRepo.delete(order);
     }
