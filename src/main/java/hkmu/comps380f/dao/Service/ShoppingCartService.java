@@ -94,7 +94,6 @@ public class ShoppingCartService {
         newOrder.setUsername(username);
         newOrder.setBookUser(user);
         newOrder.setDateTime(LocalDate.now());
-        System.out.println("new Order:"+newOrder.getDateTime().toString());
         orderRepo.save(newOrder);
         return newOrder;
     }
@@ -103,13 +102,15 @@ public class ShoppingCartService {
         Order order = orderRepo.findById(orderId).orElse(null);
         Cart cart = cartRepo.findById(cartId).orElse(null);
         for (BookItem item : cart.getBookItems()){
-            if(item.getQuantity() > item.getBook().getAvailability())
-                throw new OutOfStockException(item.getId());
             OrderItem newItem = new OrderItem();
+            newItem.setOrderId(orderId);
+            newItem.setOrder(order);
             newItem.setBookId(item.getBookId());
             newItem.setBook(item.getBook());
             newItem.setQuantity(item.getQuantity());
             order.getOrderItems().add(newItem);
+            if(item.getQuantity() > item.getBook().getAvailability())
+                throw new OutOfStockException(item.getId());
         }
         orderRepo.save(order);
     }
@@ -148,12 +149,15 @@ public class ShoppingCartService {
     public void deleteOrder(UUID orderId) throws OrderNotFound{
         Order order = orderRepo.findById(orderId).orElse(null);
         if(order == null) throw new OrderNotFound(orderId);
-        for (OrderItem item : order.getOrderItems()){
-            item.setBook(null);
-            item.setOrder(null);
-            order.getOrderItems().remove(item);
-            orderItemRepo.delete(item);
+        List<OrderItem> items = order.getOrderItems();
+        if(items != null){
+            for (OrderItem item : order.getOrderItems()){
+                item.setBook(null);
+                item.setOrder(null);
+                order.getOrderItems().remove(item);
+            }
         }
+        order.setBookUser(null);
         orderRepo.delete(order);
     }
 }
