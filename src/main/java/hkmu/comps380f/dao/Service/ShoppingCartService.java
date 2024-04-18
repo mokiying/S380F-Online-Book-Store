@@ -119,27 +119,6 @@ public class ShoppingCartService {
             bookRepo.save(book);
         }
     }
-
-    @Transactional
-    public void addOrder(long cartId) throws CartNotFound, OutOfStockException{
-        Cart cart = cartRepo.findById(cartId).orElse(null);
-        if(cart == null) throw new CartNotFound(cartId);
-        Order newOrder = new Order();
-        newOrder.setBookUser(cart.getUser());
-        newOrder.setDateTime(LocalDate.now());
-
-        System.out.println(newOrder.toString());
-        orderRepo.save(newOrder);
-        for (BookItem item : cart.getBookItems()){
-            Book book = item.getBook();
-            book.setAvailability(book.getAvailability()-item.getQuantity());
-            bookRepo.save(book);
-            item.setCart(null);
-            itemRepo.delete(item);
-            cart.getBookItems().remove(item);
-        }
-        cartRepo.save(cart);
-    }
     @Transactional
     public List<Order> getOrders(String username){
         List<Order> orders = orderRepo.findByUsername(username);
