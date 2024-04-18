@@ -64,22 +64,17 @@ CREATE TABLE  IF NOT EXISTS book_item (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id UUID DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY,
     username varchar(255) DEFAULT NULL,
+    order_date date,
     FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE  IF NOT EXISTS order_item (
       id INT AUTO_INCREMENT PRIMARY KEY,
       book_id INT,
-      order_id INT,
+      order_id UUID,
       quantity INTEGER,
       FOREIGN KEY (book_id) REFERENCES book (id),
       FOREIGN KEY (order_id) REFERENCES orders (id)
-);
-
-CREATE TABLE  IF NOT EXISTS favourite (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   username varchar(255) DEFAULT NULL,
-   FOREIGN KEY (username) REFERENCES users (username)
 );

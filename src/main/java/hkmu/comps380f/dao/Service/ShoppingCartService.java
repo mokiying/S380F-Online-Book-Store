@@ -1,10 +1,7 @@
 package hkmu.comps380f.dao.Service;
 
 
-import hkmu.comps380f.exception.BookNotFound;
-import hkmu.comps380f.exception.CartItemExist;
-import hkmu.comps380f.exception.CartNotFound;
-import hkmu.comps380f.exception.UserNotFound;
+import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.BookItem;
 import hkmu.comps380f.model.BookUser;
 import jakarta.annotation.Resource;
@@ -13,7 +10,10 @@ import org.springframework.stereotype.Service;
 import hkmu.comps380f.dao.Repository.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 import hkmu.comps380f.model.*;
 
 @Service
@@ -26,6 +26,10 @@ public class ShoppingCartService {
     BookItemRepository itemRepo;
     @Resource
     BookRepository bookRepo;
+    @Resource
+    OrderRepository orderRepo;
+    @Resource
+    OrderItemRepository orderItemRepo;
     @Transactional
     public void createCartToUser(String username) throws UserNotFound{
         BookUser user = userRepo.findById(username).orElse(null);
@@ -80,5 +84,64 @@ public class ShoppingCartService {
         if(item == null) System.out.println("Error");;
         item.setQuantity(quantity);
         itemRepo.save(item);
+    }
+    @Transactional
+    public Order addOrder(String username) throws UserNotFound{
+        Order newOrder = new Order();
+        BookUser user = userRepo.findById(username).orElse(null);
+        if(user == null) throw new UserNotFound(username);
+        user.getOrders().add(newOrder);
+        newOrder.setUsername(username);
+        newOrder.setBookUser(user);
+        newOrder.setDateTime(LocalDate.now());
+        orderRepo.save(newOrder);
+        return newOrder;
+    }
+    @Transactional
+    public void transferCartToOrder(UUID orderId, long cartId) throws OutOfStockException {
+        Order order = orderRepo.findById(orderId).orElse(null);
+        Cart cart = cartRepo.findById(cartId).orElse(null);
+        for (BookItem item : cart.getBookItems()){
+            if(item.getQuantity() > item.getBook().getAvailability())
+                throw new OutOfStockException(item.getId());
+        }
+        for (BookItem item : cart.getBookItems()){
+            OrderItem newItem = new OrderItem();
+            newItem.setBookId(item.getBookId());
+            newItem.setBook(item.getBook());
+            newItem.setQuantity(item.getQuantity());
+            order.getOrderItems().add(newItem);
+            newItem.setOrderId(orderId);
+            newItem.setOrder(order);
+        }
+        orderRepo.save(order);
+    }
+    @Transactional
+    public List<Order> getOrders(String username){
+        List<Order> orders = orderRepo.findByUsername(username);
+        return orders;
+    }
+    @Transactional
+    public Order getOrder(UUID orderId) throws OrderNotFound{
+       Order order = orderRepo.findById(orderId).orElse(null);
+        if(order == null) throw new OrderNotFound(orderId);
+        return order;
+    }
+    @Transactional
+    public void deleteOrder(UUID orderId) throws OrderNotFound{
+        Order order = orderRepo.findById(orderId).orElse(null);
+        if(order == null) throw new OrderNotFound(orderId);
+        List<OrderItem> items = order.getOrderItems();
+        if(items != null){
+            for (OrderItem item : order.getOrderItems()){
+                item.setBook(null);
+                item.setOrder(null);
+                orderItemRepo.delete(item);
+                order.getOrderItems().remove(item);
+            }
+        }
+        order.getBookUser().getOrders().remove(order);
+        order.setBookUser(null);
+        orderRepo.delete(order);
     }
 }

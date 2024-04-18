@@ -7,10 +7,6 @@ INSERT INTO cart (username) VALUES ('mickey');
 INSERT INTO cart (username) VALUES ('yelo');
 INSERT INTO cart (username) VALUES ('nicky');
 
-INSERT INTO favourite (username) VALUES ('mickey');
-INSERT INTO favourite (username) VALUES ('yelo');
-INSERT INTO favourite (username) VALUES ('nicky');
-
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_USER');
 INSERT INTO user_roles(username, role) VALUES ('mickey', 'ROLE_ADMIN');
 
@@ -31,6 +27,6 @@ INSERT INTO comment (USERNAME, CONTENT, BOOK_ID) VALUES ('yelo', 'Bad Book', 1);
 INSERT INTO BOOK_ITEM (CART_ID,BOOK_ID,QUANTITY) VALUES (1,1,10);
 INSERT INTO BOOK_ITEM (CART_ID,BOOK_ID,QUANTITY) VALUES (1,2,1);
 
-INSERT INTO orders (username) VALUES ('mickey');
-INSERT INTO ORDER_ITEM (ORDER_ID,BOOK_ID,QUANTITY) VALUES (1,1,5);
-INSERT INTO ORDER_ITEM (ORDER_ID,BOOK_ID,QUANTITY) VALUES (1,2,4);
+INSERT INTO orders (id,username,ORDER_DATE) VALUES ('d8b42ce4-39db-43e2-b617-127c52d8539b','mickey','2024-04-18');
+INSERT INTO ORDER_ITEM (order_id,BOOK_ID,QUANTITY) VALUES ('d8b42ce4-39db-43e2-b617-127c52d8539b',1,10);
+INSERT INTO ORDER_ITEM (order_id,BOOK_ID,QUANTITY) VALUES ('d8b42ce4-39db-43e2-b617-127c52d8539b',2,5);

@@ -1,19 +1,14 @@
 package hkmu.comps380f.controller;
 
-import hkmu.comps380f.dao.Service.FavouriteService;
-import hkmu.comps380f.dao.Service.OrderService;
+import hkmu.comps380f.dao.Repository.AttachmentRepository;
 import hkmu.comps380f.dao.Service.ShoppingCartService;
 import hkmu.comps380f.dao.Service.UserManagementService;
 import hkmu.comps380f.exception.*;
 import hkmu.comps380f.model.*;
 import jakarta.annotation.Resource;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.View;
@@ -30,9 +25,7 @@ public class UserController {
     @Resource
     private ShoppingCartService cService;
     @Resource
-    private FavouriteService fService;
-    @Resource
-    private OrderService oService;
+    private AttachmentRepository aService;
 
     @GetMapping({"", "/", "/list"})
 
@@ -234,45 +227,60 @@ public class UserController {
         cService.editItemQuantity(cart.getId(),bookId, form.getQuantity());
         return new RedirectView("/user/cart",true);
     }
-    @GetMapping(value={"/order"})
-    public String viewOrder(ModelMap model, Principal principal) throws OrderNotFound{
-        Order order = oService.getOrder(principal.getName());
+    @GetMapping(value = {"/cart/checkout"})
+    public View checkout(ModelMap model, Principal principal) throws CartNotFound, UserNotFound, OrderNotFound, OutOfStockException, CartNull {
+        Cart cart = cService.getCart(principal.getName());
+
+        if (cart.getBookItems()!=null) {
+            Order order = cService.addOrder(principal.getName());
+            try {
+                cService.transferCartToOrder(order.getId(), cart.getId());
+            } catch (OutOfStockException e) {
+                cService.deleteOrder(order.getId());
+                throw e;
+            }
+            for (BookItem item : cart.getBookItems()) {
+                cService.deleteItem(cart.getId(), item.getBookId());
+            }
+        }
+        else {
+            throw new CartNull();
+
+
+        }
+        return new RedirectView("/user/orders",true);
+    }
+    @GetMapping(value = {"/orders"})
+    public String viewOrder(Principal principal, ModelMap model){
+        List<Order> orders = cService.getOrders(principal.getName());
+        model.addAttribute("orders",orders);
+        return "order";
+    }
+    @GetMapping(value = {"/orders/view/{orderId}"})
+    public String viewOrderDetail(ModelMap model, @PathVariable("orderId") UUID orderId) throws OrderNotFound {
+        Order order = cService.getOrder(orderId);
         List<Map<String,Object>> items = new ArrayList<>();
-        for(BookItem item : order.getBookItems()){
+        for(OrderItem item : order.getOrderItems()){
             Map newItem = new HashMap();
             newItem.put("book",item.getBook());
             newItem.put("item",item);
             items.add(newItem);
         }
-        model.addAttribute("cartItems",items);
-        model.addAttribute("cartForm",new BookItemQuantityForm());
-        return "order";
+        System.out.println("items:"+items.toString());
+        model.addAttribute("orderId",orderId);
+        model.addAttribute("orderItems",items);
+        return "orderDetail";
     }
-    @GetMapping(value={"/order/add"})
-    public View addToOrder(Principal principal) throws BookNotFound, CartNotFound, CartItemExist, OrderNotFound {
-        Cart cart = cService.getCart(principal.getName());
-        Order order = oService.getOrder(principal.getName());
-        oService.addItem(order.getId(),cart.getId());
-        return new RedirectView("/user/order",true);
-    }
-    @GetMapping(value = "/favourite")
-    public String viewFavourite(ModelMap model, Principal principal) throws FavouriteNotFound {
-        Favourite myFavourite = fService.getFavourite(principal.getName());
-        model.addAttribute("books",myFavourite.getBook());
-        return "favourite";
-    }
-    @GetMapping(value = "/favourite/add/{bookId}")
-    public View addToFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
-        fService.addFavourite(principal.getName(),bookId);
-        return new RedirectView("/user/favourite",true);
-    }
-    @GetMapping(value = "/favourite/delete/{bookId}")
-    public View deleteFromFavourite(@PathVariable("bookId") long bookId, Principal principal) throws BookNotFound, FavouriteNotFound {
-        fService.deleteFavourite(principal.getName(),bookId);
-        return new RedirectView("/user/favourite",true);
-    }
-
-    @ExceptionHandler({UserNotFound.class, BookNotFound.class, CartNotFound.class, CartItemExist.class, FavouriteNotFound.class, UserAlreadyExist.class, OrderNotFound.class})
+    @ExceptionHandler(
+            {
+                    UserNotFound.class,
+                    BookNotFound.class,
+                    CartNotFound.class,
+                    CartItemExist.class,
+                    UserAlreadyExist.class,
+                    OutOfStockException.class,
+                    CartNull.class
+            })
     public ModelAndView error(Exception e) {
         return new ModelAndView("error", "message", e.getMessage());
     }

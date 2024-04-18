@@ -8,6 +8,9 @@
 <body>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <div>
+    <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+        <a href="<c:url value="/logout" />">[Logout]</a>
+    </security:authorize>
     <a href="<c:url value='/book/list'/>">[Back]</a>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
     <a href="<c:url value='/user/cart/add/${book.id}'/>">[Add to Shopping Cart]</a>
@@ -27,7 +30,9 @@
 <ul>
 <li><b>Author:</b> <c:out value="${book.author}" /></li><br/>
 <li><b>Price:</b> <c:out value="${book.price}" /></li><br/>
-<li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
+<security:authorize access="hasRole('ADMIN')">
+    <li><b>Availability:</b><c:out value="${book.availability}" /></li><br/>
+</security:authorize>
 <li><b>Description:</b><p><c:out value="${book.description}" /></p></li><br/>
 </ul>
 <h3>Comments</h3>
@@ -46,7 +51,7 @@
                     </p>
                     <security:authorize access="hasRole('ADMIN')">
                     <a href="<c:url value='/book/comment/delete/${comment.id}'/>">[Delete]</a>
-                    </security:authorize>>
+                    </security:authorize>
                 </li>
             </c:forEach>
         </ul>

@@ -3,6 +3,9 @@ package hkmu.comps380f.dao.Repository;
 import hkmu.comps380f.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderRepository extends JpaRepository<Order,Long> {
-    public Order getOrderByUsername(String username);
+import java.util.List;
+import java.util.UUID;
+
+public interface OrderRepository extends JpaRepository<Order, UUID> {
+    List<Order> findByUsername(String username);
 }

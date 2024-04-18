@@ -6,16 +6,16 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<h2> ${username} Favourite /></h2>
+<h2>Order - ${orderId}</h2>
 <div>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
         <a href="<c:url value="/logout" />">[Logout]</a>
     </security:authorize>
-    <a href="<c:url value='/book/list'/>">[Back]</a>
+    <a href="<c:url value="/book/list" />">[Back]</a>
 </div>
 <c:choose>
-    <c:when test="${fn:length(favItems) == 0}">
-        <i>There are no Books in your favourite.</i>
+    <c:when test="${fn:length(orderItems) == 0}">
+        <i>There are no Books in the Shopping cart.</i>
     </c:when>
     <c:otherwise>
         <table border="1">
@@ -24,16 +24,16 @@
                 <th>Book Name</th>
                 <th>Book Author</th>
                 <th>Price</th>
-                <th>Delete</th>
+                <th>Quantity</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${favItems}" var="favItem">
+            <c:forEach items="${orderItems}" var="orderItem">
                 <tr>
-                    <td><a href="<c:url value='${favItem.item.bookId}}'/>">${favItem['book'].name}</a></td>
-                    <td>${favItem['book'].author}</td>
-                    <td>$${favItem['book'].price}</td
-                    <td><a>[Delete]</a></td>
+                    <td><a href="<c:url value='/book/view/${orderItem.item.bookId}'/>">${orderItem['book'].name}</a></td>
+                    <td>${orderItem['book'].author}</td>
+                    <td>$${orderItem['book'].price}</td>
+                    <td>${orderItem['item'].quantity}</td>
                 </tr>
             </c:forEach>
             </tbody>

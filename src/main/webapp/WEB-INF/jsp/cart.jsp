@@ -7,14 +7,21 @@
 </head>
 <body>
 <h2>Shopping Cart</h2>
-<div>
-    <a href="<c:url value="/book/list" />">[Back]</a>
-</div>
+<security:authorize access="hasAnyRole('USER', 'ADMIN')">
+    <a href="<c:url value="/logout" />">[Logout]</a>
+</security:authorize>
 <c:choose>
     <c:when test="${fn:length(cartItems) == 0}">
+        <div>
+            <a href="<c:url value="/book/list" />">[Back]</a>
+        </div>
         <i>There are no Books in the Shopping cart.</i>
     </c:when>
     <c:otherwise>
+        <div>
+            <a href="<c:url value="/book/list" />">[Back]</a>
+            <a href="<c:url value="/user/cart/checkout" />">[Check Out]</a>
+        </div>
         <table border="1">
             <thead>
             <tr>

@@ -29,7 +29,7 @@ public class BookUser {
     @OneToMany(mappedBy = "bookUser", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Favourite> favourites = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     public BookUser() {}
 
@@ -98,11 +98,11 @@ public class BookUser {
         this.comments = comments;
     }
 
-    public List<Favourite> getFavourites() {
-        return favourites;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setFavourites(List<Favourite> favourites) {
-        this.favourites = favourites;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
