@@ -7,7 +7,9 @@
 </head>
 <body>
 <h2>Shopping Cart</h2>
-
+<security:authorize access="hasAnyRole('USER', 'ADMIN')">
+    <a href="<c:url value="/logout" />">[Logout]</a>
+</security:authorize>
 <c:choose>
     <c:when test="${fn:length(cartItems) == 0}">
         <div>
