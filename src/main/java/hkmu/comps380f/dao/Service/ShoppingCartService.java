@@ -113,7 +113,13 @@ public class ShoppingCartService {
                 throw new OutOfStockException(item.getId());
         }
         orderRepo.save(order);
+        for (BookItem item : cart.getBookItems()){
+            Book book = item.getBook();
+            book.setAvailability(book.getAvailability() - item.getQuantity());
+            bookRepo.save(book);
+        }
     }
+
     @Transactional
     public void addOrder(long cartId) throws CartNotFound, OutOfStockException{
         Cart cart = cartRepo.findById(cartId).orElse(null);
