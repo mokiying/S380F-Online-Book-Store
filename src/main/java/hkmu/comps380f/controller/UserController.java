@@ -229,7 +229,7 @@ public class UserController {
     }
     @GetMapping(value = {"/cart/checkout"})
     public View checkout(ModelMap model, Principal principal) throws CartNotFound, UserNotFound, OrderNotFound {
-
+        System.out.println();
         Cart cart = cService.getCart(principal.getName());
         Order order = cService.addOrder(principal.getName());
         /*
@@ -244,7 +244,7 @@ public class UserController {
     public String viewOrder(Principal principal, ModelMap model){
         System.out.println("Name:"+principal.getName());
         List<Order> orders = cService.getOrders(principal.getName());
-        System.out.println("Orders:"+orders.toString());
+        //System.out.println("Orders:"+orders.toString());
         model.addAttribute("orders",orders);
         return "order";
     }

@@ -26,6 +26,11 @@ public class BookUser {
     @Fetch(FetchMode.SUBSELECT)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "bookUser", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Order> orders = new ArrayList<>();
+
     public BookUser() {}
 
     public BookUser(String username, String password, String[] roles) {
@@ -91,5 +96,13 @@ public class BookUser {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

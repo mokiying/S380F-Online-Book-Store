@@ -90,8 +90,11 @@ public class ShoppingCartService {
         Order newOrder = new Order();
         BookUser user = userRepo.findById(username).orElse(null);
         if(user == null) throw new UserNotFound(username);
+        user.getOrders().add(newOrder);
         newOrder.setUsername(username);
+        newOrder.setBookUser(user);
         newOrder.setDateTime(LocalDate.now());
+        System.out.println("new Order:"+newOrder.getDateTime().toString());
         orderRepo.save(newOrder);
         return newOrder;
     }
@@ -132,8 +135,7 @@ public class ShoppingCartService {
     }
     @Transactional
     public List<Order> getOrders(String username){
-        //List<Order> orders = orderRepo.findByUsername(username);
-        List<Order> orders = orderRepo.findAll();
+        List<Order> orders = orderRepo.findByUsername(username);
         return orders;
     }
     @Transactional

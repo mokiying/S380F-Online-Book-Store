@@ -20,10 +20,10 @@ public class Order {
     private UUID id;
     @Column(name = "username", insertable=false, updatable=false)
     private String username;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "username")
     private BookUser bookUser;
-    @Column(name = "order_date", insertable=false, updatable=false)
+    @Column(name = "order_date")
     private LocalDate dateTime;
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
