@@ -2,17 +2,12 @@
 <html>
 <head>
     <title>Customer Support</title>
-    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<security:authorize access="hasAnyRole('USER', 'ADMIN')">
-    <a href="<c:url value="/logout" />">[Logout]</a>
-</security:authorize>
-<form action="${logoutUrl}" method="post">
-    <input type="submit" value="Log out" />
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
+<%@ include file="navbar.jsp" %>
+
 
 <h2>Error page</h2>
 <c:choose>

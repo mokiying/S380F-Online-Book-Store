@@ -219,7 +219,7 @@ public class BookController {
     }
     @ExceptionHandler({BookNotFound.class, AttachmentNotFound.class, CommentNotFound.class})
     public ModelAndView error(Exception e) {
-        return new ModelAndView("error", "message", e.getMessage());
+        return new ModelAndView("errorNewUI", "message", e.getMessage());
     }
 }
 
