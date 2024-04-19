@@ -18,16 +18,24 @@ public class IndexController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "loginNewUI";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return "registerNewUI";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/login";
+    }
+    @GetMapping("/login_by_guest")
+    public String login_by_guest(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();

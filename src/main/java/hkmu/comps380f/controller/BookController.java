@@ -40,7 +40,7 @@ public class BookController {
     @GetMapping(value = {"", "/list"})
     public String list(ModelMap model) {
         model.addAttribute("bookDB", bService.getBooks());
-        return "list";
+        return "listNewUI";
     }
 
     @GetMapping("/create")
