@@ -269,7 +269,7 @@ public class UserController {
         System.out.println("items:"+items.toString());
         model.addAttribute("orderId",orderId);
         model.addAttribute("orderItems",items);
-        return "orderDetail";
+        return "orderDetailNewUI";
     }
     @ExceptionHandler(
             {
