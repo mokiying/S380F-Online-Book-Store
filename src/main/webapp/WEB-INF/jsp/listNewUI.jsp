@@ -3,23 +3,8 @@
 <head>
     <title>Online Book Store</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            padding: 3.75rem;
-        }
 
-        .table {
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        .table tr {border: none;}
-        .table td {border: none;}
-        .table th {border: none;}
-        .navbar {
-            min-height: 80px;
-        }
-    </style>
-
+    <%@ include file="navbarHead.jsp" %>
 </head>
 <body>
 <%@ include file="navbar.jsp" %>
