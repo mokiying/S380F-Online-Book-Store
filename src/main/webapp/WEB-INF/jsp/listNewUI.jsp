@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            padding: 5rem;
+            padding: 3.75rem;
         }
 
         .table {
@@ -36,7 +36,7 @@
                     <c:forEach items="${bookDB}" var="entry">
                         <tr>
                             <td colspan="4">
-                                <h5>${entry.name}</h5>
+                                <h5><a href="<c:url value='/book/view/${entry.id}' />">${entry.name}</a></h5>
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +47,7 @@
                                 <p>Price: ${entry.price}</p>
                             </td>
                             <td>
-                                <a href="<c:url value="/book/view/${entry.id}" />" class="btn btn-primary">Details</a>
+                                <a href="<c:url value='/book/addToCart/${entry.id}' />" class="btn btn-primary">[Add to Cart(pls edit the url in listNewUI.jsp line 50)]</a>
                             </td>
                         </tr>
                     </c:forEach>

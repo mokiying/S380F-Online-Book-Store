@@ -3,7 +3,11 @@
 <head>
     <title>Customer Support Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style> body {padding:5rem;} </style>
+    <style>
+        body {
+            padding: 5rem;
+            height: 100vh;
+        }</style>
 </head>
 <body>
 <c:if test="${param.error != null}">
