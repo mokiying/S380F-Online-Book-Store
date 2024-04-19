@@ -47,7 +47,7 @@ public class SecurityConfig {
                 )
                 .rememberMe(remember -> remember
                         .key("uniqueAndSecret")
-                        .tokenValiditySeconds(86400)
+                        .tokenValiditySeconds(0)
                 )
                 .httpBasic(withDefaults());
         return http.build();
