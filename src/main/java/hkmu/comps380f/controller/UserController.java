@@ -116,7 +116,7 @@ public class UserController {
         model.addAttribute("user", bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
-        return "userDetail";
+        return "userDetailNewUI";
     }
     @GetMapping("/edit/{username}")
     public String edit(@PathVariable("username") String username,
@@ -179,7 +179,7 @@ public class UserController {
         model.addAttribute("user",bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
-        return "userDetail";
+        return "userDetailNewUI";
     }
     public static class BookItemQuantityForm {
         private int quantity;
