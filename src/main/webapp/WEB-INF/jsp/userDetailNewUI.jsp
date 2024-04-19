@@ -12,12 +12,30 @@
     <h2>User - ${user.username}</h2>
 
 
-    <ul class="list-unstyled mt-4">
-        <li><b>password:</b> <c:out value="${user.password}" /></li>
-        <li><b>fullName:</b> <c:out value="${user.fullName}" /></li>
-        <li><b>email:</b> <c:out value="${user.email}" /></li>
-        <li><b>address:</b> <c:out value="${user.address}" /></li>
-    </ul>
+    <table class="table table-bordered mt-4">
+        <tbody>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><b>password:</b></td>
+            <td><c:out value="${user.password}" /></td>
+        </tr>
+        <tr>
+            <td><b>fullName:</b></td>
+            <td><c:out value="${user.fullName}" /></td>
+        </tr>
+        <tr>
+            <td><b>email:</b></td>
+            <td><c:out value="${user.email}" /></td>
+        </tr>
+        <tr>
+            <td><b>address:</b></td>
+            <td><c:out value="${user.address}" /></td>
+        </tr>
+        </tbody>
+    </table>
     <div class="mt-3">
         <ul class="nav">
             <security:authorize access="hasAnyRole('USER', 'ADMIN')">
@@ -35,14 +53,24 @@
     <security:authorize access="hasRole('ADMIN')">
         <h2>Roles</h2>
 
-        <ul class="list-unstyled">
+        <table class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
             <c:forEach var="r" items="${roles}">
-                <li>
-                    <c:out value='${r.role}'/>
-                    <a class="text-danger ml-2" href="<c:url value='/user/role/delete/${user.username}/${r.id}'/>">Delete</a>
-                </li>
+                <tr>
+                    <td><c:out value="${r.role}" /></td>
+                    <td>
+                        <a class="text-danger ml-2" href="<c:url value='/user/role/delete/${user.username}/${r.id}'/>">Delete</a>
+                    </td>
+                </tr>
             </c:forEach>
-        </ul>
+            </tbody>
+        </table>
 
         <div>
             <a class="btn btn-primary mb-2" href="<c:url value='/user/roleuser/create/${user.username}'/>">Add Role User</a>
@@ -74,7 +102,7 @@
                             <c:out value="${comment.content}"/>
                         </td>
                         <td>
-                            <a class=" btn btn-danger" href="<c:url value='/book/comment/delete/${comment.id}'/>">Delete</a>
+                            <a class="text-danger ml-2" href="<c:url value='/book/comment/delete/${comment.id}'/>">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>

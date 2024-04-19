@@ -31,7 +31,7 @@ public class UserController {
 
     public String list(ModelMap model) {
         model.addAttribute("userDB", uService.getUsers());
-        return "userList";
+        return "userListNewUI";
     }
 
     @GetMapping("/create")

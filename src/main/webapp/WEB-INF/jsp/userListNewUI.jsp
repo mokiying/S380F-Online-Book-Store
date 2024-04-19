@@ -2,24 +2,19 @@
 <html>
 <head>
     <title>Online Book Store</title>
-    <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style> body {padding:5rem;} </style>
 </head>
+
 <body>
+<%@ include file="navbar.jsp" %>
 <h2>User</h2>
-<security:authorize access="hasAnyRole('USER', 'ADMIN')">
-    <a href="<c:url value="/logout" />">[Logout]</a>
-</security:authorize>
-<a href="<c:url value='/book/list'/>">[Back]</a>
-<security:authorize access="hasRole('ADMIN')">
-<a href="<c:url value="/user/create" />">[Create a User]</a><br/><br/>
-</security:authorize>
 <c:choose>
     <c:when test="${fn:length(userDB) == 0}">
         <i>There are no Users in the system.</i>
     </c:when>
     <c:otherwise>
-        <table border="1">
+        <table class="table table-bordered mt-3">
             <thead>
             <tr>
                 <th>User Name</th>
@@ -41,7 +36,9 @@
             </c:forEach>
             </tbody>
         </table>
-
+        <security:authorize access="hasRole('ADMIN')">
+            <a class="btn btn-primary mb-2" href="<c:url value="/user/create" />">Create a User</a>
+        </security:authorize>
     </c:otherwise>
 </c:choose>
 </body>
