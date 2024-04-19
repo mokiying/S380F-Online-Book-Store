@@ -204,7 +204,7 @@ public class UserController {
         }
         model.addAttribute("cartItems",items);
         model.addAttribute("cartForm",new BookItemQuantityForm());
-        return "cart";
+        return "cartNewUI";
     }
 
     @GetMapping(value={"/cart/add/{bookId}"})

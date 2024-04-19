@@ -13,8 +13,6 @@ public class IndexController {
         return "redirect:/book/list";
     }
 
-    @GetMapping("/home")
-    public String home() {return "home";}
 
     @GetMapping("/login")
     public String login() {
