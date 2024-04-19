@@ -46,9 +46,11 @@
                             <td>
                                 <p>Price: ${entry.price}</p>
                             </td>
+                            <security:authorize access="hasAnyRole('USER', 'ADMIN')">
                             <td>
                                 <a href="<c:url value='/book/addToCart/${entry.id}' />" class="btn btn-primary">[Add to Cart(pls edit the url in listNewUI.jsp line 50)]</a>
                             </td>
+                            </security:authorize>
                         </tr>
                     </c:forEach>
                     </tbody>

@@ -34,7 +34,7 @@
                     <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
                     <label class="form-check-label" for="remember-me">Remember me</label>
                     <button type="submit" class="btn btn-primary">Log In</button>
-                    <a href="/CSApp/book/list" class="btn btn-secondary ml-2">Login as Guest</a>
+                    <a href="/CSApp/login_by_guest" class="btn btn-secondary ml-2">Login as Guest</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </form>

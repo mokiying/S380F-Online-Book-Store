@@ -34,4 +34,12 @@ public class IndexController {
         }
         return "redirect:/login";
     }
+    @GetMapping("/login_by_guest")
+    public String login_by_guest(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/book/list";
+    }
 }
