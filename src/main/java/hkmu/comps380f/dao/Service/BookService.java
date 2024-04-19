@@ -151,6 +151,7 @@ public class BookService {
                 .orElseThrow(() -> new CommentNotFound(commentId));
         comment.setBook(null);
         cRepo.delete(comment);
+        comment.setBookUser(null);
     }
 }
 

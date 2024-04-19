@@ -6,10 +6,7 @@ import hkmu.comps380f.exception.BookNotFound;
 import hkmu.comps380f.exception.CommentNotFound;
 import hkmu.comps380f.exception.UserNotFound;
 import hkmu.comps380f.model.*;
-import hkmu.comps380f.view.DownloadingView;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.security.Principal;
 
 @Controller
@@ -138,7 +132,7 @@ public class BookController {
         // comments
         List<Comment> comments = book.getComments();
         model.addAttribute("comments", comments);
-        return "view";
+        return "viewNewUI";
     }
     @GetMapping("/edit/{bookId}")
     public String edit(@PathVariable("bookId") long bookId,
