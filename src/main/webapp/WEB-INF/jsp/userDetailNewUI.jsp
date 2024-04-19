@@ -43,6 +43,7 @@
                 </li>
             </c:forEach>
         </ul>
+
         <div>
             <a class="btn btn-primary mb-2" href="<c:url value='/user/roleuser/create/${user.username}'/>">Add Role User</a>
             <a class="btn btn-primary mb-2" href="<c:url value='/user/roleadmin/create/${user.username}'/>">Add Role Admin</a>
