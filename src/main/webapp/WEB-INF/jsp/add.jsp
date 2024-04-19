@@ -6,7 +6,7 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<h2>Create a Book</h2>
+<h2>Create a Book </h2>
 <div>
     <security:authorize access="hasAnyRole('USER', 'ADMIN')">
         <a href="<c:url value="/logout" />">[Logout]</a>
