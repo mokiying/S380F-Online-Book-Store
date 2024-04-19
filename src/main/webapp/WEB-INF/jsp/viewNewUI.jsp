@@ -61,6 +61,7 @@
                         <br>
                         <span><c:out value="${comment.content}" /></span>
                     </td>
+
                     <td>
                         <security:authorize access="hasRole('ADMIN')">
                             <a class="btn btn-danger" href="<c:url value='/book/comment/delete/${comment.id}'/>">Delete</a>

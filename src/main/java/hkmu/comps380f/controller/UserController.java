@@ -254,7 +254,7 @@ public class UserController {
     public String viewOrder(Principal principal, ModelMap model){
         List<Order> orders = cService.getOrders(principal.getName());
         model.addAttribute("orders",orders);
-        return "order";
+        return "orderNewUI";
     }
     @GetMapping(value = {"/orders/view/{orderId}"})
     public String viewOrderDetail(ModelMap model, @PathVariable("orderId") UUID orderId) throws OrderNotFound {

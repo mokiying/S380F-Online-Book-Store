@@ -16,7 +16,7 @@
         </c:when>
         <c:otherwise>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-bordered mt-4">
                     <tbody>
                     <c:forEach items="${bookDB}" var="entry">
                         <tr>
@@ -33,7 +33,7 @@
                             </td>
                             <security:authorize access="hasAnyRole('USER', 'ADMIN')">
                             <td>
-                                <a href="<c:url value='/book/addToCart/${entry.id}' />" class="btn btn-primary">[Add to Cart(pls edit the url in listNewUI.jsp line 50)]</a>
+                                <a href="<c:url value='/user/cart/add/${entry.id}' />" class="btn btn-primary">Add to Cart</a>
                             </td>
                             </security:authorize>
                         </tr>
