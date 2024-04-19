@@ -6,7 +6,7 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../navbar.jsp" %>
 <h2>Book #${book.id}: <c:out value="${book.name}" /></h2>
 <c:choose>
     <c:when test="${!empty imageData}">

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../navbar.jsp" %>
 <h2>User</h2>
 <c:choose>
     <c:when test="${fn:length(userDB) == 0}">

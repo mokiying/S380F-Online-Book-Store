@@ -31,12 +31,12 @@ public class UserController {
 
     public String list(ModelMap model) {
         model.addAttribute("userDB", uService.getUsers());
-        return "userListNewUI";
+        return "NewUI/userListNewUI";
     }
 
     @GetMapping("/create")
     public ModelAndView create() {
-        return new ModelAndView("addUser", "userForm", new UserController.Form());
+        return new ModelAndView("NewUI/addUserNewUI", "userForm", new UserController.Form());
     }
     public static class Form {
         private String username;
@@ -116,7 +116,7 @@ public class UserController {
         model.addAttribute("user", bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
-        return "userDetailNewUI";
+        return "NewUI/userDetailNewUI";
     }
     @GetMapping("/edit/{username}")
     public String edit(@PathVariable("username") String username,
@@ -134,7 +134,7 @@ public class UserController {
         model.addAttribute("comments", comments);
         // form
         model.addAttribute("userForm", new Form());
-        return "editUserNewUI";
+        return "NewUI/editUserNewUI";
     }
     @PostMapping("/edit/{username}")
     public View edit(@PathVariable("username") String username, Form form) throws IOException,UserNotFound {
@@ -179,7 +179,7 @@ public class UserController {
         model.addAttribute("user",bookUser);
         model.addAttribute("comments", bookUser.getComments());
         model.addAttribute("roles", bookUser.getRoles());
-        return "userDetailNewUI";
+        return "NewUI/userDetailNewUI";
     }
     public static class BookItemQuantityForm {
         private int quantity;
@@ -204,7 +204,7 @@ public class UserController {
         }
         model.addAttribute("cartItems",items);
         model.addAttribute("cartForm",new BookItemQuantityForm());
-        return "cartNewUI";
+        return "NewUI/cartNewUI";
     }
 
     @GetMapping(value={"/cart/add/{bookId}"})
@@ -254,7 +254,7 @@ public class UserController {
     public String viewOrder(Principal principal, ModelMap model){
         List<Order> orders = cService.getOrders(principal.getName());
         model.addAttribute("orders",orders);
-        return "orderNewUI";
+        return "NewUI/orderNewUI";
     }
     @GetMapping(value = {"/orders/view/{orderId}"})
     public String viewOrderDetail(ModelMap model, @PathVariable("orderId") UUID orderId) throws OrderNotFound {
@@ -269,7 +269,7 @@ public class UserController {
         System.out.println("items:"+items.toString());
         model.addAttribute("orderId",orderId);
         model.addAttribute("orderItems",items);
-        return "orderDetailNewUI";
+        return "NewUI/orderDetailNewUI";
     }
     @ExceptionHandler(
             {
@@ -282,6 +282,6 @@ public class UserController {
                     CartNull.class
             })
     public ModelAndView error(Exception e) {
-        return new ModelAndView("errorNewUI", "message", e.getMessage());
+        return new ModelAndView("NewUI/errorNewUI", "message", e.getMessage());
     }
 }

@@ -4,10 +4,10 @@
     <title>Online Book Store</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <%@ include file="navbarHead.jsp" %>
+    <%@ include file="../navbarHead.jsp" %>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../navbar.jsp" %>
 <div class="container mt-5">
     <h2>Book</h2>
     <c:choose>

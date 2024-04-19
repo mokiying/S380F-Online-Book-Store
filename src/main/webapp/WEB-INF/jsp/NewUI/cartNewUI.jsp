@@ -6,7 +6,7 @@
     <style> body {padding:5rem;} </style>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../navbar.jsp" %>
 <div class="container">
     <h2>Shopping Cart</h2>
     <c:choose>

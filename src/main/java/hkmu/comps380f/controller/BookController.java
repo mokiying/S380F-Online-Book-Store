@@ -34,12 +34,12 @@ public class BookController {
     @GetMapping(value = {"", "/list"})
     public String list(ModelMap model) {
         model.addAttribute("bookDB", bService.getBooks());
-        return "listNewUI";
+        return "NewUI/listNewUI";
     }
 
     @GetMapping("/create")
     public ModelAndView create() {
-        return new ModelAndView("add", "bookForm", new Form());
+        return new ModelAndView("NewUI/addNewUI", "bookForm", new Form());
     }
     public static class Form {
         private String name;
@@ -132,7 +132,7 @@ public class BookController {
         // comments
         List<Comment> comments = book.getComments();
         model.addAttribute("comments", comments);
-        return "viewNewUI";
+        return "NewUI/viewNewUI";
     }
     @GetMapping("/edit/{bookId}")
     public String edit(@PathVariable("bookId") long bookId,
@@ -157,7 +157,7 @@ public class BookController {
         model.addAttribute("comments", comments);
         // form
         model.addAttribute("bookForm", new Form());
-        return "edit";
+        return "NewUI/editNewUI";
     }
     @PostMapping("/edit/{bookId}")
     public View edit(@PathVariable("bookId") long bookId, Form form) throws IOException,BookNotFound, AttachmentNotFound {
@@ -183,7 +183,7 @@ public class BookController {
         Book book = bService.getBook(bookId);
         model.addAttribute("bookId", bookId);
         model.addAttribute("book", book);
-        return new ModelAndView("addComment", "commentForm", new CommentForm());
+        return new ModelAndView("NewUI/addCommentNewUI", "commentForm", new CommentForm());
     }
     public static class CommentForm {
         private long bookId;
@@ -219,7 +219,7 @@ public class BookController {
     }
     @ExceptionHandler({BookNotFound.class, AttachmentNotFound.class, CommentNotFound.class})
     public ModelAndView error(Exception e) {
-        return new ModelAndView("errorNewUI", "message", e.getMessage());
+        return new ModelAndView("NewUI/errorNewUI", "message", e.getMessage());
     }
 }
 

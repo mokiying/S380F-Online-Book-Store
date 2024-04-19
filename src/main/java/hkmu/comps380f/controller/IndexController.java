@@ -16,12 +16,12 @@ public class IndexController {
 
     @GetMapping("/login")
     public String login() {
-        return "loginNewUI";
+        return "NewUI/loginNewUI";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "registerNewUI";
+        return "NewUI/registerNewUI";
     }
 
     @GetMapping("/logout")
